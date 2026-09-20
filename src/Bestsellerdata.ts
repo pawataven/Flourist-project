@@ -66,7 +66,6 @@ export const products: Product[] = [
     image: Picomo,
     title: "Picomo",
     description: "เมนูที่ได้รับแรงบันดาลใจจาก วัตถุดิบ Pistachio Coconut Mochi Matcha มัทฉะเกรดพรีเมียมจากเมืองยาเมะ ความหอมมันเข้มข้นของ Pistachio Cream และ น้ำมะพร้าวสดแท้ 100% จากบ้านแพ้ว ไม่ใส่น้ำตาล ปิดท้ายด้วยโมจิข้าวญี่ปุ่นผสมข้าวบาร์เลย์ อย่างลงตัว",
-    note: "*เครื่องดื่มมีส่วนผสมของภาพ",
     prices: [
       { size: "ราคา", price: "179 บาท" },
     ],

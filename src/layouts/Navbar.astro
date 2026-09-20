@@ -1,5 +1,6 @@
 ---
 import logo from "../assets/Asset 2-8.png";
+import logohover from "../assets/Asset_hover.png";
 
 interface MenuItem {
     label: string;
@@ -100,11 +101,19 @@ const actionItems: ActionItem[] = [
         class="hidden h-[92px] w-full items-center justify-between gap-6 bg-[rgb(18_34_27_/_1)] px-5 transition-colors duration-300 group-data-[scrolled]:bg-transparent sm:px-8 lg:flex"
     >
         <a href="/" aria-label="Flourist Matchahouse home" class="shrink-0">
-            <img
-                src={logo.src}
-                alt="Flourist Matchahouse"
-                class="h-[50px] w-auto object-contain"
-            />
+            <span class="relative block h-[50px] w-auto">
+                <img
+                    src={logo.src}
+                    alt="Flourist Matchahouse"
+                    class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
+                />
+                <img
+                    src={logohover.src}
+                    alt=""
+                    aria-hidden="true"
+                    class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
+                />
+            </span>
         </a>
 
         <ul class="flex items-center gap-10 text-[16px]">
@@ -225,11 +234,19 @@ const actionItems: ActionItem[] = [
             aria-label="Flourist Matchahouse home"
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         >
-            <img
-                src={logo.src}
-                alt="Flourist Matchahouse"
-                class="h-11 w-auto object-contain"
-            />
+            <span class="relative block h-11 w-auto">
+                <img
+                    src={logo.src}
+                    alt="Flourist Matchahouse"
+                    class="h-11 w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
+                />
+                <img
+                    src={logohover.src}
+                    alt=""
+                    aria-hidden="true"
+                    class="absolute inset-0 h-11 w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
+                />
+            </span>
         </a>
 
         <div class="flex items-center gap-4">

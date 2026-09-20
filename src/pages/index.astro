@@ -7,16 +7,8 @@ import { products } from "../Bestsellerdata";
 import { boxsets } from "../Boxsetdata";
 import banner from "../assets/banner.jpg";
 
-const pageSize = 4;
-const productPages = Array.from(
-  { length: Math.ceil(products.length / pageSize) },
-  (_, pageIndex) => products.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-);
-const boxsetPages = Array.from(
-  { length: Math.ceil(boxsets.length / pageSize) },
-  (_, pageIndex) => boxsets.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-);
 ---
+
 
 <Layout>
   <Navbar />
@@ -39,12 +31,12 @@ const boxsetPages = Array.from(
       <h2 class="mb-8 font-sans text-[20px] text-[#171513] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
 
       <div class="group relative">
-        <div data-product-carousel class="cursor-grab overflow-hidden select-none active:cursor-grabbing">
-          <div data-product-track class="flex gap-5 will-change-transform">
+        <div data-product-carousel class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing">
+          <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
           {
-            productPages.map((page) => (
-              <div data-product-page class="grid min-w-full grid-cols-4 gap-4">
-                {page.map((product) => <ProductCard product={product} />)}
+            products.map((product) => (
+              <div data-product-item class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] shrink-0">
+                <ProductCard product={product} />
               </div>
             ))
           }
@@ -55,7 +47,7 @@ const boxsetPages = Array.from(
           type="button"
           data-carousel-prev
           aria-label="Previous products"
-          class="pointer-events-auto absolute left-1 top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+          class="pointer-events-auto absolute left-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
         >
           &lsaquo;
         </button>
@@ -63,46 +55,52 @@ const boxsetPages = Array.from(
           type="button"
           data-carousel-next
           aria-label="Next products"
-          class="pointer-events-auto absolute right-1 top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+          class="pointer-events-auto absolute right-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
         >
           &rsaquo;
         </button>
       </div>
 
-      <div class="mt-8 flex justify-center gap-2" aria-label="Choose product page">
+      <div class="mt-8 flex justify-center gap-2" data-carousel-dots aria-label="Choose product page">
         {
-          productPages.map((_, index) => (
+          Array.from({ length: 4 }).map((_, index) => (
             <button
               type="button"
               data-carousel-dot={index}
               aria-label={`Go to product page ${index + 1}`}
-              class:list={["size-2.5 rounded-full bg-[#d1d1d1] transition-colors", index === 0 && "bg-[#333333]"]}
+              class:list={[
+                "size-2.5 rounded-full bg-[#d1d1d1] transition-colors",
+                index === 0 && "bg-[#333333]",
+                index >= 2 && "lg:hidden"
+              ]}
             ></button>
           ))
         }
       </div>
     </section>
 
-    <section>
-      <div class="p-20 bg-[#12221b]">
-       <div class="mx-auto max-w-7xl px-6 text-center text-white sm:px-8 text-2xl">
-        <h3>รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br>
-        และข่าวสารล่าสุดจากแบรนด์สุดเอ็กซ์คลูซีฟได้ที่นี่</h3>
-      </div>
+    <section class="bg-[#12221b]">
+      <div class="mx-auto max-w-5xl px-6 py-12 text-center text-white sm:py-16 md:py-20">
+        <h3 class="font-sans text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed md:leading-loose">
+          รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br class="hidden sm:inline" />
+          และข่าวสารล่าสุดจากแบรนด์สุดเอ็กซ์คลูซีฟได้ที่นี่
+        </h3>
       </div>
     </section>
 
-        <section id="best-sellers" class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:py-24">
+    <section id="sokutai-collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:py-24">
       <h2 class="mb-8 font-sans text-[20px] text-[#171513] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set </h2>
       <div class="group relative">
-        <div data-product-carousel class="flex cursor-grab gap-5 overflow-x-auto select-none overscroll-x-contain active:cursor-grabbing [scrollbar-width:none]">
+        <div class="flex gap-5 sm:gap-6 overflow-x-auto select-none [scrollbar-width:none]">
+          <div class="flex gap-5 sm:gap-6 w-full">
           {
-            boxsetPages.map((page) => (
-              <div data-product-page class="grid min-w-full grid-cols-4 gap-4">
-                {page.map((boxset) => <ProductBoxCard boxset={boxset} />)}
+            boxsets.map((boxset) => (
+              <div class="w-[400px] max-w-full shrink-0">
+                <ProductBoxCard boxset={boxset} />
               </div>
             ))
           }
+          </div>
         </div>
       </div>
     </section>
@@ -112,50 +110,69 @@ const boxsetPages = Array.from(
 <script>
   const carousel = document.querySelector<HTMLElement>("[data-product-carousel]");
   const track = document.querySelector<HTMLElement>("[data-product-track]");
-  const realPages = Array.from(track?.querySelectorAll<HTMLElement>("[data-product-page]") ?? []);
+  const realItems = Array.from(track?.querySelectorAll<HTMLElement>("[data-product-item]") ?? []);
   const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
   const previous = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
   const next = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
 
-  if (carousel && track && realPages.length > 1) {
-    /* ── Clone first & last pages for infinite illusion ── */
-    const firstClone = realPages[0].cloneNode(true) as HTMLElement;
-    const lastClone = realPages[realPages.length - 1].cloneNode(true) as HTMLElement;
-    firstClone.setAttribute("aria-hidden", "true");
-    lastClone.setAttribute("aria-hidden", "true");
-    track.appendChild(firstClone);
-    track.prepend(lastClone);
+  if (carousel && track && realItems.length > 1) {
+    const realCount = realItems.length;
+    const CLONE_COUNT = 4;
 
-    // Layout: [clone-last][page-0][page-1]...[page-n-1][clone-first]
-    // Slide indices: 0=clone-last, 1=page-0, ..., n=page-n-1, n+1=clone-first
-    const len = realPages.length;
+    for (let i = realCount - 1; i >= realCount - CLONE_COUNT; i--) {
+      const clone = realItems[i].cloneNode(true) as HTMLElement;
+      clone.setAttribute("aria-hidden", "true");
+      track.prepend(clone);
+    }
+    for (let i = 0; i < CLONE_COUNT; i++) {
+      const clone = realItems[i].cloneNode(true) as HTMLElement;
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    }
+
     let activePage = 0;
     let currentX = 0;
     let animationId: number | null = null;
 
-    const getPageWidth = () => realPages[0].offsetWidth + 20;
+    const getCardsPerPage = () => (window.innerWidth >= 1024 ? 4 : 2);
+
+    const getCardStep = () => {
+      const item = track.querySelector<HTMLElement>("[data-product-item]");
+      const gap = window.innerWidth >= 640 ? 20 : 16;
+      return (item?.offsetWidth ?? 0) + gap;
+    };
 
     const setTransform = (x: number) => {
       currentX = x;
       track.style.transform = `translateX(${x}px)`;
     };
 
-    const setActivePage = (index: number) => {
-      activePage = index;
+    const normalizePosition = () => {
+      const cardsPerPage = getCardsPerPage();
+      const step = getCardStep();
+      const realTargetX = -(CLONE_COUNT + activePage * cardsPerPage) * step;
+      setTransform(realTargetX);
+    };
+
+    const updateDots = () => {
+      const cardsPerPage = getCardsPerPage();
+      const totalPages = Math.ceil(realCount / cardsPerPage);
       dots.forEach((dot, i) => {
-        dot.classList.toggle("bg-[#333333]", i === index);
-        dot.classList.toggle("bg-[#d1d1d1]", i !== index);
+        if (i < totalPages) {
+          dot.style.display = "";
+          dot.classList.toggle("bg-[#333333]", i === activePage);
+          dot.classList.toggle("bg-[#d1d1d1]", i !== activePage);
+        } else {
+          dot.style.display = "none";
+        }
       });
     };
 
-    // Wrap currentX into the real-page range, returns the shift applied
     const wrapPosition = (): number => {
-      const pw = getPageWidth();
-      const range = len * pw;
-      // Only wrap when we've scrolled PAST the clone entirely
-      // This ensures after wrapping we land inside the real-page range
-      const leftEdge = 0;                  // fully past clone-last
-      const rightEdge = -(len + 1) * pw;   // fully past clone-first
+      const step = getCardStep();
+      const range = realCount * step;
+      const leftEdge = 0;
+      const rightEdge = -(CLONE_COUNT + realCount + (CLONE_COUNT - getCardsPerPage())) * step;
 
       if (currentX > leftEdge) {
         const shift = -range;
@@ -169,10 +186,9 @@ const boxsetPages = Array.from(
       return 0;
     };
 
-    // Start at real page 0 = slide 1
-    setTransform(-getPageWidth());
+    normalizePosition();
+    updateDots();
 
-    /* ── Smooth animation with easing ── */
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
     const animateTo = (targetX: number, duration = 450, onDone?: () => void) => {
@@ -198,8 +214,6 @@ const boxsetPages = Array.from(
           animationId = requestAnimationFrame(step);
         } else {
           animationId = null;
-          // Wrap after animation completes (in case we animated to a clone)
-          wrapPosition();
           onDone?.();
         }
       };
@@ -207,16 +221,19 @@ const boxsetPages = Array.from(
       animationId = requestAnimationFrame(step);
     };
 
-    const goToPage = (index: number) => {
-      const pw = getPageWidth();
-      // Slide index = real page index + 1
-      const slideIndex = index + 1;
-      const targetX = -slideIndex * pw;
+    const goToPage = (pageIndex: number) => {
+      const cardsPerPage = getCardsPerPage();
+      const step = getCardStep();
+      const totalPages = Math.ceil(realCount / cardsPerPage);
 
-      animateTo(targetX, 450);
+      const targetX = -(CLONE_COUNT + pageIndex * cardsPerPage) * step;
 
-      const wrappedIndex = ((index % len) + len) % len;
-      setActivePage(wrappedIndex);
+      activePage = ((pageIndex % totalPages) + totalPages) % totalPages;
+      updateDots();
+
+      animateTo(targetX, 450, () => {
+        normalizePosition();
+      });
     };
 
     previous?.addEventListener("click", () => goToPage(activePage - 1));
@@ -224,6 +241,12 @@ const boxsetPages = Array.from(
 
     dots.forEach((dot, index) => {
       dot.addEventListener("click", () => goToPage(index));
+    });
+
+    window.addEventListener("resize", () => {
+      if (isDragging) return;
+      normalizePosition();
+      updateDots();
     });
 
     /* ── Drag-to-swipe ── */
@@ -237,17 +260,8 @@ const boxsetPages = Array.from(
     let lastMoveTime = 0;
     let velocity = 0;
 
-    const DRAG_THRESHOLD = 30;
-    const VELOCITY_THRESHOLD = 0.3;
-
-    const findNearestPage = (): number => {
-      const pw = getPageWidth();
-      // Current slide index (fractional)
-      const slideIndex = -currentX / pw;
-      // Real page index = slide index - 1
-      const realIndex = Math.round(slideIndex - 1);
-      return ((realIndex % len) + len) % len;
-    };
+    const DRAG_THRESHOLD = 25;
+    const VELOCITY_THRESHOLD = 0.25;
 
     const stopDragging = () => {
       if (!isDragging) return;
@@ -286,12 +300,13 @@ const boxsetPages = Array.from(
       if (Math.abs(distance) > 3) hasDragged = true;
       setTransform(dragStartTranslate + distance);
 
-      // Live wrap: if dragged into clone territory, teleport seamlessly
       const shift = wrapPosition();
       if (shift !== 0) {
         dragStartTranslate += shift;
-        // Update startPage to reflect new position
-        startPage = findNearestPage();
+        const cardsPerPage = getCardsPerPage();
+        const step = getCardStep();
+        const currentCard = Math.round(-currentX / step - CLONE_COUNT);
+        startPage = Math.round(currentCard / cardsPerPage);
       }
     };
 
@@ -305,13 +320,15 @@ const boxsetPages = Array.from(
       hasDragged = false;
       dragStartX = clientX;
       dragStartTranslate = currentX;
-      startPage = activePage;
+      const cardsPerPage = getCardsPerPage();
+      const step = getCardStep();
+      const currentCard = Math.round(-currentX / step - CLONE_COUNT);
+      startPage = Math.round(currentCard / cardsPerPage);
       lastMoveX = clientX;
       lastMoveTime = performance.now();
       velocity = 0;
     };
 
-    // Mouse events
     carousel.addEventListener("mousedown", (event) => {
       if (event.button !== 0 || (event.target as HTMLElement).closest("button, a")) return;
       handleDragStart(event.clientX);
@@ -329,7 +346,6 @@ const boxsetPages = Array.from(
       hasDragged = false;
     }, true);
 
-    // Touch events
     carousel.addEventListener("touchstart", (event) => {
       if ((event.target as HTMLElement).closest("button, a")) return;
       handleDragStart(event.touches[0].clientX);
