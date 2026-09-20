@@ -1,0 +1,356 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../layouts/Navbar.astro";
+import { stores } from "../StoreData";
+---
+
+<Layout>
+  <Navbar />
+  <main class="pt-50 min-h-screen text-white">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+
+      <!-- Search Section -->
+      <div class="border-b border-white/10 py-5">
+        <label for="store-search" class="block text-sm font-medium text-white/70 mb-3">Search</label>
+        <div class="flex items-center gap-3 max-w-md w-full">
+          <input
+            id="store-search"
+            type="text"
+            placeholder="ค้นหาร้านค้า..."
+            class="flex-1 rounded-md border border-white/15 bg-[#121915] px-4 py-2.5 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-[#c5a259] focus:ring-1 focus:ring-[#c5a259]"
+          />
+          <button
+            id="btn-reset"
+            class="shrink-0 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-[#12221b] transition hover:bg-[#eee9e3]"
+          >reset</button>
+        </div>
+        <p id="result-count" class="mt-2 text-xs text-[#c5a259]">
+          Found {stores.length}. (Total {stores.length})
+        </p>
+      </div>
+
+      <!-- Main Content: List + Map -->
+      <div class="flex flex-col lg:flex-row gap-6 py-6">
+
+        <!-- Store List Panel (Top on mobile/tablet, Left on desktop) -->
+        <div id="store-list-panel" class="w-full lg:w-[40%] lg:min-w-[320px]">
+          <ul id="store-list" class="max-h-[396px] overflow-y-auto divide-y divide-white/10 border border-white/15 rounded-md bg-[#0e1411]">
+            {stores.map((store) => (
+              <li
+                class="store-item group flex items-center justify-between gap-3 cursor-pointer px-6 py-4 transition-colors hover:bg-[#18241e]"
+                data-store-id={store.id}
+                data-store-name={store.name}
+                data-store-district={store.district}
+                data-store-province={store.province}
+                data-store-lat={store.lat}
+                data-store-lng={store.lng}
+              >
+                <div class="min-w-0">
+                  <p class="store-name text-sm font-semibold text-white truncate transition-colors">{store.name}</p>
+                  <p class="mt-0.5 text-xs text-white/60">{store.district} · {store.province}</p>
+                </div>
+                <button
+                  class="info-btn shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-white/60 transition hover:border-[#c5a259] hover:text-[#c5a259]"
+                  title="ข้อมูลเพิ่มเติม"
+                  data-store-id={store.id}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Leaflet Map (Bottom on mobile/tablet, Right on desktop) -->
+        <div class="w-full lg:flex-1 flex flex-col">
+          <p class="text-sm font-medium text-white/80 mb-2">Map</p>
+          <div id="map-container" class="relative rounded-md overflow-hidden border border-white/15 h-[396px] shadow-lg">
+            <div id="leaflet-map" class="absolute inset-0 z-0"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style is:global>
+  /* Custom Ultra-Thin 2px Gold Scrollbar */
+  #store-list::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px !important;
+  }
+
+  #store-list::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+
+  #store-list::-webkit-scrollbar-thumb {
+    background-color: #c5a259 !important;
+    border-radius: 9999px !important;
+  }
+
+  #store-list::-webkit-scrollbar-thumb:hover {
+    background-color: #dfbf75 !important;
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: #121915 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+    border-radius: 8px !important;
+  }
+  .leaflet-container a.leaflet-popup-close-button {
+    color: #ffffff80 !important;
+  }
+  .leaflet-container a.leaflet-popup-close-button:hover {
+    color: #ffffff !important;
+  }
+</style>
+
+<script define:vars={{ storesJson: JSON.stringify(stores) }}>
+  // ──────── DATA ────────
+  const stores = JSON.parse(storesJson);
+  let map;
+  let markers = [];
+  let activePopup = null;
+  let activeStoreId = null;
+
+  // ──────── LOAD LEAFLET ────────
+  const leafletScript = document.createElement("script");
+  leafletScript.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  leafletScript.onload = initMap;
+  document.head.appendChild(leafletScript);
+
+  // ──────── CUSTOM MARKER ICON ────────
+  function createMarkerIcon() {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40">
+      <path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.27 21.73 0 14 0z" fill="#12221b" stroke="#0a1510" stroke-width="1"/>
+      <circle cx="14" cy="14" r="6" fill="white"/>
+    </svg>`;
+    return L.divIcon({
+      html: svg,
+      className: "",
+      iconSize: [28, 40],
+      iconAnchor: [14, 40],
+      popupAnchor: [0, -40],
+    });
+  }
+
+  // ──────── INIT MAP ────────
+  function initMap() {
+    map = L.map("leaflet-map", {
+      center: [13.7563, 100.5018],
+      zoom: 10,
+      zoomControl: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const markerIcon = createMarkerIcon();
+
+    // Create markers
+    stores.forEach((store) => {
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${store.lat},${store.lng}`;
+      const popupContent = `
+        <div style="min-width:180px;padding:2px;">
+          <p style="margin:0 0 4px;font-weight:600;font-size:14px;color:#c5a259;">${store.name}</p>
+          <p style="margin:0 0 10px;font-size:12px;color:#d1d5db;">${store.district} · ${store.province}</p>
+          <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#1a3328;border:1px solid #2b4c3e;color:white;border-radius:6px;font-size:12px;text-decoration:none;font-weight:500;">
+            📍 เปิดใน Google Maps
+          </a>
+        </div>
+      `;
+
+      const marker = L.marker([store.lat, store.lng], { icon: markerIcon }).addTo(map);
+      marker.bindPopup(popupContent);
+
+      marker.on("click", () => {
+        highlightStoreItem(store.id);
+      });
+
+      markers.push({ marker, store, visible: true });
+    });
+  }
+
+  // ──────── HIGHLIGHT STORE IN LIST ────────
+  function highlightStoreItem(storeId) {
+    activeStoreId = storeId;
+    document.querySelectorAll(".store-item").forEach((el) => {
+      const nameEl = el.querySelector(".store-name");
+      if (parseInt(el.dataset.storeId) === storeId) {
+        el.classList.add("bg-[#1c2e25]", "border-l-4", "border-[#c5a259]");
+        el.classList.remove("hover:bg-[#18241e]");
+        if (nameEl) {
+          nameEl.classList.add("text-[#c5a259]");
+          nameEl.classList.remove("text-white");
+        }
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        el.classList.remove("bg-[#1c2e25]", "border-l-4", "border-[#c5a259]");
+        el.classList.add("hover:bg-[#18241e]");
+        if (nameEl) {
+          nameEl.classList.remove("text-[#c5a259]");
+          nameEl.classList.add("text-white");
+        }
+      }
+    });
+  }
+
+  // ──────── SEARCH / FILTER ────────
+  const searchInput = document.getElementById("store-search");
+  const btnReset = document.getElementById("btn-reset");
+  const resultCount = document.getElementById("result-count");
+  const storeItems = document.querySelectorAll(".store-item");
+
+  function doSearch() {
+    const q = searchInput.value.trim().toLowerCase();
+    let found = 0;
+
+    storeItems.forEach((el) => {
+      const name = el.dataset.storeName.toLowerCase();
+      const district = el.dataset.storeDistrict.toLowerCase();
+      const province = el.dataset.storeProvince.toLowerCase();
+      const match = !q || name.includes(q) || district.includes(q) || province.includes(q);
+
+      el.style.display = match ? "" : "none";
+      if (match) found++;
+    });
+
+    // Update markers visibility
+    markers.forEach((entry) => {
+      const name = entry.store.name.toLowerCase();
+      const district = entry.store.district.toLowerCase();
+      const province = entry.store.province.toLowerCase();
+      const match = !q || name.includes(q) || district.includes(q) || province.includes(q);
+
+      if (match) {
+        if (!map.hasLayer(entry.marker)) entry.marker.addTo(map);
+        entry.visible = true;
+      } else {
+        map.removeLayer(entry.marker);
+        entry.visible = false;
+      }
+    });
+
+    resultCount.textContent = `Found ${found}. (Total ${stores.length})`;
+
+    // Fit map to visible markers
+    if (map) {
+      if (!q) {
+        map.setView([13.7563, 100.5018], 10);
+      } else {
+        const visibleMarkers = markers.filter((e) => e.visible);
+        if (visibleMarkers.length > 0) {
+          const group = L.featureGroup(visibleMarkers.map((e) => e.marker));
+          if (visibleMarkers.length === 1) {
+            map.setView(visibleMarkers[0].marker.getLatLng(), 15);
+          } else {
+            map.fitBounds(group.getBounds().pad(0.1));
+          }
+        }
+      }
+    }
+  }
+
+  function doReset() {
+    searchInput.value = "";
+    storeItems.forEach((el) => (el.style.display = ""));
+    markers.forEach((entry) => {
+      if (!map.hasLayer(entry.marker)) entry.marker.addTo(map);
+      entry.visible = true;
+    });
+    resultCount.textContent = `Found ${stores.length}. (Total ${stores.length})`;
+    if (map) {
+      map.setView([13.7563, 100.5018], 10);
+    }
+    map.closePopup();
+    document.querySelectorAll(".store-item").forEach((el) => {
+      el.classList.remove("bg-[#1c2e25]", "border-l-4", "border-[#c5a259]");
+      el.classList.add("hover:bg-[#18241e]");
+      const nameEl = el.querySelector(".store-name");
+      if (nameEl) {
+        nameEl.classList.remove("text-[#c5a259]");
+        nameEl.classList.add("text-white");
+      }
+    });
+  }
+
+  // Real-time search on input (typing, pasting, clearing)
+  searchInput.addEventListener("input", doSearch);
+  btnReset.addEventListener("click", doReset);
+
+  // ──────── STORE LIST CLICK ────────
+  storeItems.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      // Don't trigger if clicking info button
+      if (e.target.closest(".info-btn")) return;
+
+      const storeId = parseInt(el.dataset.storeId);
+      const lat = parseFloat(el.dataset.storeLat);
+      const lng = parseFloat(el.dataset.storeLng);
+
+      if (map) {
+        map.setView([lat, lng], 15);
+
+        const entry = markers.find((m) => m.store.id === storeId);
+        if (entry) {
+          entry.marker.openPopup();
+        }
+      }
+
+      highlightStoreItem(storeId);
+    });
+  });
+
+  // ──────── INFO BUTTON TOOLTIP ────────
+  document.querySelectorAll(".info-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const storeId = parseInt(btn.dataset.storeId);
+      const store = stores.find((s) => s.id === storeId);
+      if (!store) return;
+
+      // Remove existing tooltip
+      document.querySelectorAll(".info-tooltip").forEach((t) => t.remove());
+
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${store.lat},${store.lng}`;
+      const tooltip = document.createElement("div");
+      tooltip.className = "info-tooltip absolute right-0 top-full mt-1 z-50 rounded-lg bg-[#12221b] px-4 py-3 text-xs text-white shadow-lg";
+      tooltip.style.minWidth = "220px";
+      tooltip.innerHTML = `
+        <p class="font-semibold mb-1">${store.name}</p>
+        <p class="text-white/70">${store.district} · ${store.province}</p>
+        <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer"
+           class="mt-2 inline-flex items-center gap-1 rounded bg-white/20 px-3 py-1.5 text-white hover:bg-white/30 transition">
+          📍 เปิดใน Google Maps
+        </a>
+      `;
+
+      btn.parentElement.style.position = "relative";
+      btn.parentElement.appendChild(tooltip);
+
+      // Close on outside click
+      const closeTooltip = (ev) => {
+        if (!tooltip.contains(ev.target) && ev.target !== btn) {
+          tooltip.remove();
+          document.removeEventListener("click", closeTooltip);
+        }
+      };
+      setTimeout(() => document.addEventListener("click", closeTooltip), 0);
+    });
+  });
+
+  // Handle window resize for Leaflet map tiles
+  window.addEventListener("resize", () => {
+    if (map) map.invalidateSize();
+  });
+</script>

@@ -30,7 +30,49 @@
   --font-display: "TAN Mon Cheri", serif;
 }
 
+:root {
+  background-color: #080a09;
+}
+
+html,
 body {
+  background-color: #080a09;
+  color: #ffffff;
   font-family: "Mitr", sans-serif;
   font-weight: 300;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Custom Thin Gold Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c5a259 rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Ultra-Thin 2px Gold Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  width: 2px !important;
+  height: 2px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 9999px;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c5a259;
+  border-radius: 9999px;
+  background-color: #c5a259 !important;
+  border-radius: 9999px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #dfbf75;
+  background-color: #dfbf75 !important;
 }

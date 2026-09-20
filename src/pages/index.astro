@@ -9,104 +9,6 @@ import banner from "../assets/banner.jpg";
 
 ---
 
-
-<Layout>
-  <Navbar />
-  <main>
-    <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black text-white">
-      <img src={banner.src} alt="Tea producers in a Japanese tea field" class="absolute inset-0 size-full object-cover" />
-      <div class="absolute inset-0 bg-black/50"></div>
-
-      <div class="relative z-10 mx-auto mt-16 px-6 text-center">
-        <h1 class="font-sans text-3xl leading-tight sm:text-4xl md:text-[28px]">
-          From Japan’s Finest Terroir to Your Daily Ritual.
-        </h1>
-        <a href="#best-sellers" class="mt-7 inline-flex rounded-md bg-white px-5 py-3 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]">
-          Explore Matcha
-        </a>
-      </div>
-    </section>
-
-    <section id="best-sellers" class="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:py-24">
-      <h2 class="mb-8 font-sans text-[20px] text-[#171513] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
-
-      <div class="group relative">
-        <div data-product-carousel class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing">
-          <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
-          {
-            products.map((product) => (
-              <div data-product-item class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] shrink-0">
-                <ProductCard product={product} />
-              </div>
-            ))
-          }
-          </div>
-        </div>
-
-        <button
-          type="button"
-          data-carousel-prev
-          aria-label="Previous products"
-          class="pointer-events-auto absolute left-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
-        >
-          &lsaquo;
-        </button>
-        <button
-          type="button"
-          data-carousel-next
-          aria-label="Next products"
-          class="pointer-events-auto absolute right-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
-        >
-          &rsaquo;
-        </button>
-      </div>
-
-      <div class="mt-8 flex justify-center gap-2" data-carousel-dots aria-label="Choose product page">
-        {
-          Array.from({ length: 4 }).map((_, index) => (
-            <button
-              type="button"
-              data-carousel-dot={index}
-              aria-label={`Go to product page ${index + 1}`}
-              class:list={[
-                "size-2.5 rounded-full bg-[#d1d1d1] transition-colors",
-                index === 0 && "bg-[#333333]",
-                index >= 2 && "lg:hidden"
-              ]}
-            ></button>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="bg-[#12221b]">
-      <div class="mx-auto max-w-5xl px-6 py-12 text-center text-white sm:py-16 md:py-20">
-        <h3 class="font-sans text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed md:leading-loose">
-          รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br class="hidden sm:inline" />
-          และข่าวสารล่าสุดจากแบรนด์สุดเอ็กซ์คลูซีฟได้ที่นี่
-        </h3>
-      </div>
-    </section>
-
-    <section id="sokutai-collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:py-24">
-      <h2 class="mb-8 font-sans text-[20px] text-[#171513] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set </h2>
-      <div class="group relative">
-        <div class="flex gap-5 sm:gap-6 overflow-x-auto select-none [scrollbar-width:none]">
-          <div class="flex gap-5 sm:gap-6 w-full">
-          {
-            boxsets.map((boxset) => (
-              <div class="w-[400px] max-w-full shrink-0">
-                <ProductBoxCard boxset={boxset} />
-              </div>
-            ))
-          }
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-</Layout>
-
 <script>
   const carousel = document.querySelector<HTMLElement>("[data-product-carousel]");
   const track = document.querySelector<HTMLElement>("[data-product-track]");
@@ -359,3 +261,110 @@ import banner from "../assets/banner.jpg";
     window.addEventListener("touchend", stopDragging);
   }
 </script>
+
+
+<Layout>
+  <Navbar />
+  <main>
+    <section class="relative flex min-h-screen items-center overflow-hidden bg-[#080a09] text-white">
+      <img
+        src={banner.src}
+        alt="Tea producers in a Japanese tea field"
+        class="absolute inset-y-0 right-0 h-full w-full object-cover object-[75%_center] lg:w-[70%] lg:object-right"
+      />
+      <!-- Luxury #080a09 gradient fade from left to right — smooth multi-stop -->
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#080a09_0%,#080a09_25%,rgba(8,10,9,0.92)_35%,rgba(8,10,9,0.75)_45%,rgba(8,10,9,0.55)_55%,rgba(8,10,9,0.3)_65%,rgba(8,10,9,0.12)_78%,transparent_92%)]"></div>
+      <!-- Subtle top and bottom blend -->
+      <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(8,10,9,0.5)_0%,rgba(8,10,9,0.15)_25%,transparent_45%,transparent_60%,rgba(8,10,9,0.2)_80%,rgba(8,10,9,0.7)_100%)]"></div>
+
+      <div class="relative z-10 w-full px-6 sm:px-10 lg:px-16 mt-16 text-left">
+        <h1 class="max-w-4xl font-display text-[#c5a259] text-3xl leading-tight uppercase sm:text-4xl md:text-[36px] lg:text-[42px] [-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
+          From Japan’s Finest Terroir to Your Daily Ritual.
+        </h1>
+        <div class="mt-7">
+          <a href="#best-sellers" class="inline-flex rounded-md bg-white px-6 py-3 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]">
+            Explore Matcha
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="best-sellers" class="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:py-24">
+      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
+
+      <div class="group relative">
+        <div data-product-carousel class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing">
+          <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
+          {
+            products.map((product) => (
+              <div data-product-item class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] shrink-0">
+                <ProductCard product={product} />
+              </div>
+            ))
+          }
+          </div>
+        </div>
+
+        <button
+          type="button"
+          data-carousel-prev
+          aria-label="Previous products"
+          class="pointer-events-auto absolute left-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+        >
+          &lsaquo;
+        </button>
+        <button
+          type="button"
+          data-carousel-next
+          aria-label="Next products"
+          class="pointer-events-auto absolute right-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+        >
+          &rsaquo;
+        </button>
+      </div>
+
+      <div class="mt-8 flex justify-center gap-2" data-carousel-dots aria-label="Choose product page">
+        {
+          Array.from({ length: 4 }).map((_, index) => (
+            <button
+              type="button"
+              data-carousel-dot={index}
+              aria-label={`Go to product page ${index + 1}`}
+              class:list={[
+                "size-2.5 rounded-full bg-[#d1d1d1] transition-colors",
+                index === 0 && "bg-[#333333]",
+                index >= 2 && "lg:hidden"
+              ]}
+            ></button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="bg-[#12221b]">
+      <div class="mx-auto max-w-5xl px-6 py-12 text-center text-white sm:py-16 md:py-20">
+        <h3 class="font-sans text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed md:leading-loose">
+          รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br class="hidden sm:inline" />
+          และข่าวสารล่าสุดจากแบรนด์สุดเอ็กซ์คลูซีฟได้ที่นี่
+        </h3>
+      </div>
+    </section>
+
+    <section id="sokutai-collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:py-24">
+      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set </h2>
+      <div class="group relative">
+        <div class="flex gap-5 sm:gap-6 overflow-x-auto select-none [scrollbar-width:none]">
+          <div class="flex gap-5 sm:gap-6 w-full">
+          {
+            boxsets.map((boxset) => (
+              <div class="w-[400px] max-w-full shrink-0">
+                <ProductBoxCard boxset={boxset} />
+              </div>
+            ))
+          }
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
