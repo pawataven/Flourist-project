@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Mitr";
+  src: url("../../fonts/Mitr-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shippori Mincho";
+  src: url("../../fonts/ShipporiMincho-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TAN Mon Cheri";
+  src: url("../../fonts/TAN-MON CHERI-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Mitr", sans-serif;
+  --font-serif: "Shippori Mincho", serif;
+  --font-display: "TAN Mon Cheri", serif;
+}
+
+body {
+  font-family: "Mitr", sans-serif;
+  font-weight: 300;
+}
