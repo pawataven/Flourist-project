@@ -8,243 +8,294 @@ import pic2 from "../assets/About/p2.jpg";
 
 <Layout>
   <Navbar />
-  
-  <main class="relative min-h-screen bg-[#080a09] text-white pt-[92px] overflow-hidden">
-    <!-- Ambient Background Glows -->
-    <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#12221b]/40 blur-[140px] rounded-full"></div>
-    <div class="pointer-events-none absolute top-[40%] -right-40 w-[600px] h-[600px] bg-[#c5a259]/10 blur-[160px] rounded-full"></div>
-    <div class="pointer-events-none absolute bottom-[20%] -left-40 w-[600px] h-[600px] bg-[#12221b]/50 blur-[150px] rounded-full"></div>
 
-    <!-- ──────── HERO / INTRO SECTION ──────── -->
-    <section class="relative px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
-      <div class="mx-auto max-w-5xl text-center">
+  <main class="relative min-h-screen bg-[#080a09] text-white pt-[92px] selection:bg-[#c5a259] selection:text-[#080a09]">
 
-        <h1 class="font-display text-4xl sm:text-5xl lg:text-4xl uppercase tracking-wider text-[#c5a259] [-webkit-text-stroke:1px_#c5a259] leading-tight">
-          Our Story & Philosophy
+    <!-- ─────────────────────────────────────────────
+         HERO SECTION: High-End Japanese Luxury Atmosphere
+         ───────────────────────────────────────────── -->
+    <section class="relative overflow-hidden border-b border-[#c5a259]/20">
+      <!-- Velvety ambient glow (deep tea room candlelight mood) -->
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(197,162,89,0.12),transparent_70%)]"></div>
+      <div class="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] bg-[#12221b]/40 blur-[130px] rounded-full"></div>
+
+      <div class="relative mx-auto max-w-7xl px-6 pt-20 pb-16 sm:px-8 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24">
+        <!-- Eyebrow Ribbon -->
+        <div class="flex items-center gap-3 text-[#c5a259]/90 mb-5">
+          <span class="h-px w-10 bg-gradient-to-r from-transparent to-[#c5a259]"></span>
+          <span class="font-serif text-[11px] tracking-[0.35em] uppercase text-[#c5a259]">
+            The House of Specialty Matcha &amp; Craft
+          </span>
+          <span class="h-px w-10 bg-gradient-to-l from-transparent to-[#c5a259]"></span>
+        </div>
+
+        <!-- Grand Title: TAN Mon Cheri with Gold Stroke -->
+        <h1 class="max-w-4xl font-display text-[#c5a259] text-3xl leading-tight uppercase sm:text-4xl md:text-[40px] lg:text-[48px] [-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill] drop-shadow-sm">
+          Our Story &amp; Philosophy
         </h1>
+        <p class="mt-3 font-sans text-sm sm:text-base text-white/70 tracking-wide font-light">
+          เรื่องราวและความพิถีพิถันของ FLOURIST Matchahouse
+        </p>
 
-        <!-- Lead Narrative Box (without text-justify) -->
-        <div class="relative mt-12 overflow-hidden rounded-2xl border border-[#c5a259]/25 bg-gradient-to-b from-[#12221b]/60 to-[#0d1712]/40 p-8 sm:p-12 lg:p-14 shadow-2xl backdrop-blur-md">
-          <div class="absolute -top-10 -left-10 text-7xl text-[#c5a259]/10 font-serif select-none pointer-events-none">“</div>
-          <div class="absolute -bottom-14 -right-10 text-7xl text-[#c5a259]/10 font-serif select-none pointer-events-none">”</div>
-          
+        <!-- Lead Narrative Box: Elevated Japanese Tea Room Sanctuary Frame -->
+        <div class="relative mt-12 overflow-hidden rounded-xl border border-[#c5a259]/30 bg-gradient-to-b from-[#12221b]/90 via-[#0e1914]/80 to-[#080a09]/95 p-8 sm:p-12 lg:p-14 shadow-2xl backdrop-blur-sm">
+          <!-- Subtle Corner Accents -->
+          <div class="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-[#c5a259]/60"></div>
+          <div class="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-[#c5a259]/60"></div>
+          <div class="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-[#c5a259]/60"></div>
+          <div class="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-[#c5a259]/60"></div>
+
+
           <p
             lang="th"
-            class="relative z-10 font-sans text-base sm:text-lg leading-relaxed sm:leading-loose text-white/90 font-light text-justify [text-align-last:left] [text-justify:inter-word] max-w-4xl mx-auto break-words"
+            class="relative z-10 font-sans text-[15px] sm:text-base md:text-[17px] leading-relaxed sm:leading-[2.2] text-white/95 font-light text-justify [text-align-last:left] [text-justify:inter-word] break-words max-w-5xl mx-auto"
           >
-            <span class="text-[#c5a259] font-medium font-sans">Flourist Matchahouse</span> เริ่มต้น<wbr>เส้นทาง<wbr>ธุรกิจ<wbr>จาก<wbr>ความ<wbr>ชื่นชอบ<wbr>ใน<wbr>ขนมหวาน<wbr>โฮมเมด โดยเฉพาะ<wbr>ไดฟูกุ ก่อนจะ<wbr>ขยาย<wbr>มิติ<wbr>ของ<wbr>แบรนด์<wbr>เข้าสู่<wbr>วัฒนธรรม<wbr>ชาเขียว<wbr>อย่าง<wbr>เต็ม<wbr>รูปแบบ ด้วย<wbr>การ<wbr>คัดสรร<wbr>ผงมัทฉะ<wbr>คุณภาพ<wbr>สูง<wbr>จาก<wbr>หลาก<wbr>หลาย<wbr>แหล่ง<wbr>ปลูก<wbr>ใน<wbr>ประเทศ<wbr>ญี่ปุ่น เพื่อ<wbr>สร้าง<wbr>สุนทรียภาพ<wbr>ใน<wbr>การ<wbr>จับคู่<wbr>รสชาติ<wbr>ระหว่าง<wbr>มัทฉะ<wbr>และ<wbr>ขนมหวาน จาก<wbr>จุด<wbr>เริ่มต้น<wbr>สาขา<wbr>แรก<wbr>สู่<wbr>การ<wbr>ขยาย<wbr>สาขา<wbr>ใน<wbr>เขต<wbr>เมือง แบรนด์<wbr>ยังคง<wbr>ยึดมั่น<wbr>ใน<wbr>ความ<wbr>พิถีพิถัน ละเมียดละไม และ<wbr>การ<wbr>ส่งมอบ<wbr>ประสบการณ์<wbr>มัทฉะ<wbr>ระดับ<wbr>สเปเชียลตี<wbr>ให้แก่<wbr>ผู้บริโภค
+            <span class="text-[#c5a259] font-medium font-sans">FLOURIST Matchahouse</span> เริ่มต้น<wbr>เส้นทาง<wbr>ธุรกิจ<wbr>จาก<wbr>ความ<wbr>ชื่นชอบ<wbr>ใน<wbr>ขนมหวาน<wbr>โฮมเมด โดยเฉพาะ<wbr>ไดฟูกุ ก่อนจะ<wbr>ขยาย<wbr>มิติ<wbr>ของ<wbr>แบรนด์<wbr>เข้าสู่<wbr>วัฒนธรรม<wbr>ชาเขียว<wbr>อย่าง<wbr>เต็ม<wbr>รูปแบบ ด้วย<wbr>การ<wbr>คัดสรร<wbr>ผงมัทฉะ<wbr>คุณภาพ<wbr>สูง<wbr>จาก<wbr>หลาก<wbr>หลาย<wbr>แหล่ง<wbr>ปลูก<wbr>ใน<wbr>ประเทศ<wbr>ญี่ปุ่น เพื่อ<wbr>สร้าง<wbr>สุนทรียภาพ<wbr>ใน<wbr>การ<wbr>จับคู่<wbr>รสชาติ<wbr>ระหว่าง<wbr>มัทฉะ<wbr>และ<wbr>ขนมหวาน จาก<wbr>จุด<wbr>เริ่มต้น<wbr>สาขา<wbr>แรก<wbr>สู่<wbr>การ<wbr>ขยาย<wbr>สาขา<wbr>ใน<wbr>เขต<wbr>เมือง แบรนด์<wbr>ยังคง<wbr>ยึดมั่น<wbr>ใน<wbr>ความ<wbr>พิถีพิถัน ละเมียดละไม และ<wbr>การ<wbr>ส่งมอบ<wbr>ประสบการณ์<wbr>มัทฉะ<wbr>ระดับ<wbr>สเปเชียลตี<wbr>ให้แก่<wbr>ผู้บริโภค
           </p>
 
-          <div class="mt-8 flex items-center justify-center gap-3 text-[#c5a259]/50">
-            <div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#c5a259]/60"></div>
-            <span class="text-xs uppercase tracking-widest text-[#c5a259]">Specialty Matcha & Homemade Craft</span>
-            <div class="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#c5a259]/60"></div>
+          <!-- Bottom Micro Tagline -->
+          <div class="mt-8 flex items-center justify-center gap-4 text-xs font-sans text-[#c5a259]/70 tracking-widest uppercase">
+            <span>Specialty Matcha</span>
+            <span class="inline-block h-1 w-1 rounded-full bg-[#c5a259]/50"></span>
+            <span>Homemade Daifuku</span>
+            <span class="inline-block h-1 w-1 rounded-full bg-[#c5a259]/50"></span>
+            <span>Sensory Pairing</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ──────── SECTION 1: BRAND ORIGIN & JOURNEY (IMAGE 1) ──────── -->
-    <section class="relative px-6 py-16 sm:px-10 lg:px-16 border-t border-white/5">
-      <div class="mx-auto max-w-7xl">
+    <!-- ─────────────────────────────────────────────
+         SECTION 1: BRAND ORIGIN & JOURNEY
+         Gallery-Grade Framing & Architectural Milestones
+         ───────────────────────────────────────────── -->
+    <section class="relative py-20 sm:py-24 lg:py-28 border-b border-white/5">
+      <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        
+        <!-- Header with Eyebrow -->
+        <div class="mb-12">
+          <span class="font-serif text-[11px] tracking-[0.3em] uppercase text-[#c5a259]/80 block mb-2">
+            Chapter I &mdash; The Journey
+          </span>
+          <h2 class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+            1. จุดเริ่มต้นและการเติบโต - Brand Origin &amp; Journey
+          </h2>
+          <div class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"></div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          <!-- Image 1 Column -->
+          <!-- Image 1 Column: Museum Gallery Double Border Framing -->
           <div class="lg:col-span-6 order-2 lg:order-1">
-            <div class="relative group">
-              <!-- Decorative Frame Offset -->
-              <div class="absolute -inset-2 rounded-2xl border border-[#c5a259]/30 translate-x-2 translate-y-2 transition-transform duration-500 group-hover:translate-x-3 group-hover:translate-y-3 pointer-events-none"></div>
-              
-              <div class="relative overflow-hidden rounded-xl border border-white/15 bg-[#121915] shadow-2xl">
+            <div class="group relative rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-3 shadow-2xl transition-all duration-700 hover:border-[#c5a259]/70">
+              <div class="relative overflow-hidden rounded-lg bg-[#080a09]">
                 <Image
                   src={pic1}
                   alt="FLOURIST Matchahouse Brand Journey & Craft"
                   quality={100}
-                  class="w-full h-auto max-h-[580px] object-cover object-center transition duration-700 group-hover:scale-105"
+                  class="w-full h-auto max-h-[580px] object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-[#080a09]/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/80 bg-[#080a09]/70 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10">
-                  <span class="text-[#c5a259] font-medium font-serif">FLOURIST ORIGIN</span>
-                  <span class="text-white/60">Crafted with Devotion</span>
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080a09]/75 via-transparent to-transparent"></div>
+                <!-- Fine Inset Caption -->
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/80 bg-[#080a09]/80 backdrop-blur-md px-4 py-2.5 rounded-md border border-white/10">
+                  <span class="font-serif text-[#c5a259] tracking-wider text-[11px] uppercase">FLOURIST ORIGIN</span>
+                  <span class="font-sans text-white/60 text-[11px]">Crafted with Devotion</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Narrative Column -->
-          <div class="lg:col-span-6 order-1 lg:order-2 space-y-8">
-            <div>
-              <span class="text-xs font-semibold uppercase tracking-widest text-[#c5a259]">Chapter 01</span>
-              <h2 class="mt-2 font-display text-3xl sm:text-4xl text-white uppercase tracking-wide">
-                1. จุดเริ่มต้นและการเติบโต
-              </h2>
-              <p class="mt-1 font-serif text-sm text-[#c5a259]/80 tracking-wider">
-                Brand Origin & Journey
-              </p>
-            </div>
-
+          <!-- Narrative Column: Refined Gold Index Milestones -->
+          <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+            
             <!-- Milestone 1 -->
-            <div class="relative pl-7 border-l-2 border-[#c5a259]/40 space-y-1.5 transition hover:border-[#c5a259]">
-              <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-[#c5a259] bg-[#080a09]"></div>
-              <h3 class="text-lg font-semibold text-[#c5a259]">
-                จุดเริ่มต้นจากขนมหวาน:
-              </h3>
-              <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left">
+            <div class="group relative rounded-xl border border-white/10 bg-gradient-to-r from-[#12221b]/50 to-[#12221b]/20 p-6 sm:p-7 transition-all duration-500 hover:border-[#c5a259]/50 hover:bg-[#12221b]/65">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-serif text-sm text-[#c5a259] tracking-widest font-semibold">01.</span>
+                <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259]">
+                  จุดเริ่มต้นจากขนมหวาน
+                </h3>
+              </div>
+              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light pl-6 border-l border-[#c5a259]/20">
                 FLOURIST ไม่ได้เริ่มจากการเป็นร้านชาเขียวเพียวๆ ตั้งแต่แรก แต่เริ่มต้นจากการทำ "ไดฟูกุ (Signature Daifuku)" และเบเกอรีโฮมเมด
               </p>
             </div>
 
             <!-- Milestone 2 -->
-            <div class="relative pl-7 border-l-2 border-[#c5a259]/40 space-y-1.5 transition hover:border-[#c5a259]">
-              <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-[#c5a259] bg-[#080a09]"></div>
-              <h3 class="text-lg font-semibold text-[#c5a259]">
-                ก้าวสู่ Matcha Specialty:
-              </h3>
-              <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left">
+            <div class="group relative rounded-xl border border-white/10 bg-gradient-to-r from-[#12221b]/50 to-[#12221b]/20 p-6 sm:p-7 transition-all duration-500 hover:border-[#c5a259]/50 hover:bg-[#12221b]/65">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-serif text-sm text-[#c5a259] tracking-widest font-semibold">02.</span>
+                <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259]">
+                  ก้าวสู่ Matcha Specialty
+                </h3>
+              </div>
+              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light pl-6 border-l border-[#c5a259]/20">
                 ด้วยความหลงใหลในวัตถุดิบและความลงตัวเมื่อทานขนมคู่กับมัทฉะ จึงได้พัฒนาและคัดสรรผงมัทฉะเกรดพรีเมียมจากญี่ปุ่นอย่างจริงจัง จนเติบโตกลายมาเป็น Matcha Specialty House เต็มตัว
               </p>
             </div>
 
             <!-- Milestone 3 -->
-            <div class="relative pl-7 border-l-2 border-[#c5a259]/40 space-y-1.5 transition hover:border-[#c5a259]">
-              <div class="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-2 border-[#c5a259] bg-[#080a09]"></div>
-              <h3 class="text-lg font-semibold text-[#c5a259]">
-                สาขาแรกตั้งต้น:
-              </h3>
-              <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left">
-                ปักหลักสาขาแรกที่ย่าน สามโคก ปทุมธานี ด้วยบรรยากาศสไตล์คาเฟ่โฮมเมด ล้อมรอบด้วยต้นไม้และดอกไม้ ก่อนจะขยายตัวและปักหมุด Pop-up Store เข้าสู่ใจกลางเมืองและขยายสาขารูปแบบ Grab & Go / Flagship กระจายตามมุมเมือง
+            <div class="group relative rounded-xl border border-white/10 bg-gradient-to-r from-[#12221b]/50 to-[#12221b]/20 p-6 sm:p-7 transition-all duration-500 hover:border-[#c5a259]/50 hover:bg-[#12221b]/65">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-serif text-sm text-[#c5a259] tracking-widest font-semibold">03.</span>
+                <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259]">
+                  สาขาแรกตั้งต้น
+                </h3>
+              </div>
+              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light pl-6 border-l border-[#c5a259]/20">
+                ปักหลักสาขาแรกที่ย่าน สามโคก ปทุมธานี ด้วยบรรยากาศสไตล์คาเฟ่โฮมเมด ล้อมรอบด้วยต้นไม้และดอกไม้ ก่อนจะขยายตัวและปักหมุด Pop-up Store เข้าสู่ใจกลางเมืองและขยายสาขารูปแบบ Grab &amp; Go / Flagship กระจายตามมุมเมือง
               </p>
             </div>
 
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- ──────── SECTION 2: BRAND NAME MEANING ──────── -->
-    <section class="relative px-6 py-20 sm:px-10 lg:px-16 bg-gradient-to-b from-[#080a09] via-[#0d1612] to-[#080a09] border-t border-b border-white/5">
-      <div class="mx-auto max-w-5xl text-center">
-        <span class="text-xs font-semibold uppercase tracking-widest text-[#c5a259]">Chapter 02</span>
-        <h2 class="mt-2 font-display text-3xl sm:text-4xl text-white uppercase tracking-wide">
-          2. ที่มาของชื่อแบรนด์
-        </h2>
-        <p class="mt-1 font-serif text-sm text-[#c5a259]/80 tracking-wider">
-          Brand Name Meaning
-        </p>
+    <!-- ─────────────────────────────────────────────
+         SECTION 2: BRAND NAME MEANING
+         Deep Emerald Sanctuary Band with Gold Typographic Exhibit
+         ───────────────────────────────────────────── -->
+    <section class="relative bg-gradient-to-b from-[#0a1410] via-[#12221b] to-[#0a1410] py-20 sm:py-28 lg:py-32 border-y border-[#c5a259]/25 shadow-2xl">
+      <!-- Ambient Backlight -->
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(197,162,89,0.08),transparent_70%)]"></div>
 
-        <!-- Big Typography Equation -->
-        <div class="mt-10 mb-6 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-2xl sm:text-4xl lg:text-5xl font-display uppercase tracking-widest text-white">
-          <span class="text-[#c5a259] drop-shadow-[0_0_25px_rgba(197,162,89,0.3)]">FLOURIST</span>
-          <span class="text-white/30">=</span>
-          <span class="text-white/90">FLOUR</span>
-          <span class="text-[#c5a259] font-serif font-light text-2xl sm:text-3xl">+</span>
-          <span class="text-white/90">FLORIST</span>
+      <div class="relative mx-auto max-w-7xl px-6 sm:px-8 text-center">
+        <!-- Eyebrow -->
+        <span class="font-serif text-[11px] tracking-[0.3em] uppercase text-[#c5a259]/80 block mb-2">
+          Chapter II &mdash; Nomenclature
+        </span>
+        <h2 class="mb-3 font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+          2. ที่มาของชื่อแบรนด์ - Brand Name Meaning
+        </h2>
+        <div class="mx-auto h-px w-20 bg-gradient-to-r from-transparent via-[#c5a259] to-transparent"></div>
+
+        <!-- Grand Typographic Equation: TAN Mon Cheri Showcase -->
+        <div class="my-12 py-8 border-y border-[#c5a259]/20 flex flex-wrap items-center justify-center gap-4 sm:gap-8 font-display text-2xl sm:text-4xl md:text-[42px] uppercase tracking-wider">
+          <span class="text-[#c5a259] [-webkit-text-stroke:1.5px_#c5a259] drop-shadow-[0_2px_15px_rgba(197,162,89,0.25)]">FLOURIST</span>
+          <span class="text-white/40">=</span>
+          <span class="text-white [-webkit-text-stroke:1.5px_white]">FLOUR</span>
+          <span class="text-[#c5a259] font-serif text-2xl sm:text-3xl">+</span>
+          <span class="text-white [-webkit-text-stroke:1.5px_white]">FLORIST</span>
         </div>
 
-        <p class="font-sans text-base sm:text-lg text-white/85 mb-10 font-light">
-          FLOURIST = Flour (แป้ง) + Florist (คนขายดอกไม้ / ความเบ่งบาน):
+        <p class="font-sans text-sm sm:text-base text-white/85 mb-12 font-normal">
+          FLOURIST = Flour (แป้ง) + Florist (คนขายดอกไม้ / ความเบ่งบาน)
         </p>
 
-        <!-- 2 Meaning Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-left">
+        <!-- 2 Meaning Cards: Prestigious Exhibition Panels -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
           
           <!-- Card 1: Flour -->
-          <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121915]/60 p-8 sm:p-10 transition duration-500 hover:border-[#c5a259]/50 hover:bg-[#121915] hover:shadow-[0_10px_35px_-10px_rgba(197,162,89,0.2)]">
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-display text-3xl text-[#c5a259] tracking-wider">FLOUR</span>
-              <span class="text-xs tracking-widest uppercase text-white/50 border border-white/15 px-2.5 py-1 rounded-full">แป้ง</span>
+          <div class="group relative rounded-xl bg-[#080a09]/95 p-8 sm:p-10 border border-[#c5a259]/30 transition-all duration-500 hover:border-[#c5a259] hover:shadow-[0_10px_35px_-10px_rgba(197,162,89,0.2)]">
+            <div class="flex items-center justify-between pb-5 mb-5 border-b border-white/10">
+              <span class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]">
+                FLOUR
+              </span>
+              <span class="font-serif text-xs tracking-[0.25em] text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]/40">
+                แป้ง
+              </span>
             </div>
-            <h3 class="font-serif text-xl text-white font-medium mb-3">
+            <h3 class="font-sans text-[18px] sm:text-[20px] font-medium text-white mb-2">
               Flour (แป้ง)
             </h3>
-            <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left">
+            <p class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
               สะท้อนถึงรากเหง้าของแบรนด์ที่เริ่มต้นจากการทำขนมหวาน เบเกอรี และไดฟูกุ
             </p>
-            <div class="mt-6 h-[1px] w-16 bg-[#c5a259]/40 transition-all duration-300 group-hover:w-full"></div>
+            <div class="mt-6 h-0.5 w-12 bg-[#c5a259]/40 transition-all duration-500 group-hover:w-full"></div>
           </div>
 
           <!-- Card 2: Florist -->
-          <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121915]/60 p-8 sm:p-10 transition duration-500 hover:border-[#c5a259]/50 hover:bg-[#121915] hover:shadow-[0_10px_35px_-10px_rgba(197,162,89,0.2)]">
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-display text-3xl text-[#c5a259] tracking-wider">FLORIST</span>
-              <span class="text-xs tracking-widest uppercase text-white/50 border border-white/15 px-2.5 py-1 rounded-full">ดอกไม้</span>
+          <div class="group relative rounded-xl bg-[#080a09]/95 p-8 sm:p-10 border border-[#c5a259]/30 transition-all duration-500 hover:border-[#c5a259] hover:shadow-[0_10px_35px_-10px_rgba(197,162,89,0.2)]">
+            <div class="flex items-center justify-between pb-5 mb-5 border-b border-white/10">
+              <span class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]">
+                FLORIST
+              </span>
+              <span class="font-serif text-xs tracking-[0.25em] text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]/40">
+                ดอกไม้
+              </span>
             </div>
-            <h3 class="font-serif text-xl text-white font-medium mb-3">
+            <h3 class="font-sans text-[18px] sm:text-[20px] font-medium text-white mb-2">
               Florist (ดอกไม้)
             </h3>
-            <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left">
+            <p class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
               สะท้อนถึงความละเมียดละไม บรรยากาศร้านที่ร่มรื่น และการปรุงแต่งรสชาติที่พิถีพิถันเสมือนการประดิดประดอยดอกไม้
             </p>
-            <div class="mt-6 h-[1px] w-16 bg-[#c5a259]/40 transition-all duration-300 group-hover:w-full"></div>
+            <div class="mt-6 h-0.5 w-12 bg-[#c5a259]/40 transition-all duration-500 group-hover:w-full"></div>
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ──────── SECTION 3: CORE VALUES & PHILOSOPHY (IMAGE 2) ──────── -->
-    <section class="relative px-6 py-16 sm:px-10 lg:px-16">
-      <div class="mx-auto max-w-7xl">
+    <!-- ─────────────────────────────────────────────
+         SECTION 3: CORE VALUES & PHILOSOPHY
+         Prestigious Pillars & Gallery Presentation
+         ───────────────────────────────────────────── -->
+    <section class="relative py-20 sm:py-24 lg:py-28 border-b border-white/5">
+      <div class="mx-auto max-w-7xl px-6 sm:px-8">
+        
+        <!-- Header with Eyebrow -->
+        <div class="mb-12">
+          <span class="font-serif text-[11px] tracking-[0.3em] uppercase text-[#c5a259]/80 block mb-2">
+            Chapter III &mdash; The Philosophy
+          </span>
+          <h2 class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+            3. ปรัชญาและคุณค่าของแบรนด์ - Core Values
+          </h2>
+          <div class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"></div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          <!-- Philosophy Narrative Column -->
+          <!-- Narrative Column: Luxury Pillars -->
           <div class="lg:col-span-6 space-y-6">
-            <div>
-              <span class="text-xs font-semibold uppercase tracking-widest text-[#c5a259]">Chapter 03</span>
-              <h2 class="mt-2 font-display text-3xl sm:text-4xl text-white uppercase tracking-wide">
-                3. ปรัชญาและคุณค่าของแบรนด์
-              </h2>
-              <p class="mt-1 font-serif text-sm text-[#c5a259]/80 tracking-wider">
-                Core Values
-              </p>
-            </div>
-
-            <!-- Pillar 1 -->
-            <div class="rounded-xl border border-white/10 bg-[#121915]/50 p-6 sm:p-7 transition hover:border-[#c5a259]/40">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#c5a259]/20 text-xs font-semibold text-[#c5a259]">01</span>
-                <h3 class="font-serif text-xl text-[#c5a259] font-medium">
-                  Craftsmanship & Pairing:
+            
+            <!-- Value 1 -->
+            <div class="group relative rounded-xl border border-white/10 bg-gradient-to-r from-[#12221b]/50 to-[#12221b]/20 p-7 sm:p-8 transition-all duration-500 hover:border-[#c5a259]/50 hover:bg-[#12221b]/65">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="font-serif text-sm font-semibold text-[#c5a259]">01.</span>
+                <div class="h-px w-6 bg-[#c5a259]/40"></div>
+                <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259]">
+                  Craftsmanship &amp; Pairing
                 </h3>
               </div>
-              <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left mt-2">
+              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
                 ความเชื่อที่ว่ามัทฉะที่ดีต้องมาพร้อมกับขนมที่ดี การรังสรรค์เมนูจึงเน้นการจับคู่รสชาติ (Pairing) ระหว่างมัทฉะสายพันธุ์ต่างๆ กับเบเกอรีสูตรพิเศษของทางร้าน
               </p>
             </div>
 
-            <!-- Pillar 2 -->
-            <div class="rounded-xl border border-white/10 bg-[#121915]/50 p-6 sm:p-7 transition hover:border-[#c5a259]/40">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#c5a259]/20 text-xs font-semibold text-[#c5a259]">02</span>
-                <h3 class="font-serif text-xl text-[#c5a259] font-medium">
-                  Accessibility to Specialty Matcha:
+            <!-- Value 2 -->
+            <div class="group relative rounded-xl border border-white/10 bg-gradient-to-r from-[#12221b]/50 to-[#12221b]/20 p-7 sm:p-8 transition-all duration-500 hover:border-[#c5a259]/50 hover:bg-[#12221b]/65">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="font-serif text-sm font-semibold text-[#c5a259]">02.</span>
+                <div class="h-px w-6 bg-[#c5a259]/40"></div>
+                <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259]">
+                  Accessibility to Specialty Matcha
                 </h3>
               </div>
-              <p class="font-sans text-sm sm:text-[15px] text-white/80 leading-relaxed font-light text-left mt-2">
+              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
                 การทำให้มัทฉะเกรดพิธีการ (Ceremonial Grade) และผงชาเฉพาะสายพันธุ์ (Single Cultivar) เข้าถึงง่ายสำหรับคนทั่วไป ไม่ว่าจะเป็นสายชงใส (Clear) หรือสายลาเต้ (Latte)
               </p>
             </div>
 
           </div>
 
-          <!-- Image 2 Column -->
+          <!-- Image 2 Column: Museum Gallery Double Border Framing -->
           <div class="lg:col-span-6">
-            <div class="relative group">
-              <!-- Decorative Frame Offset -->
-              <div class="absolute -inset-2 rounded-2xl border border-[#c5a259]/30 -translate-x-2 translate-y-2 transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3 pointer-events-none"></div>
-              
-              <div class="relative overflow-hidden rounded-xl border border-white/15 bg-[#121915] shadow-2xl">
+            <div class="group relative rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-3 shadow-2xl transition-all duration-700 hover:border-[#c5a259]/70">
+              <div class="relative overflow-hidden rounded-lg bg-[#080a09]">
                 <Image
                   src={pic2}
-                  alt="FLOURIST Matchahouse 2"
+                  alt="FLOURIST Matchahouse Specialty Matcha"
                   quality={100}
-                  class="w-full h-auto max-h-[580px] object-cover object-center transition duration-700 group-hover:scale-105"
+                  class="w-full h-auto max-h-[580px] object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-[#080a09]/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/80 bg-[#080a09]/70 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10">
-                  <span class="text-[#c5a259] font-medium font-serif">SPECIALTY MATCHA</span>
-                  <span class="text-white/60">From Terroir to Ritual</span>
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080a09]/75 via-transparent to-transparent"></div>
+                <!-- Fine Inset Caption -->
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/80 bg-[#080a09]/80 backdrop-blur-md px-4 py-2.5 rounded-md border border-white/10">
+                  <span class="font-serif text-[#c5a259] tracking-wider text-[11px] uppercase">SPECIALTY MATCHA</span>
+                  <span class="font-sans text-white/60 text-[11px]">Ceremonial &amp; Single Cultivar</span>
                 </div>
               </div>
             </div>
@@ -254,26 +305,38 @@ import pic2 from "../assets/About/p2.jpg";
       </div>
     </section>
 
-    <!-- ──────── CALL TO ACTION ──────── -->
-    <section class="relative px-6 py-20 sm:px-10 lg:px-16 border-t border-white/10">
-      <div class="mx-auto max-w-4xl text-center space-y-6">
-        <p class="font-display text-2xl sm:text-3xl lg:text-4xl text-[#c5a259] uppercase tracking-wider">
-          From Japan’s Finest Terroir to Your Daily Ritual.
-        </p>
-        <p class="font-sans text-sm sm:text-base text-white/70 max-w-2xl mx-auto leading-relaxed">
+    <!-- ─────────────────────────────────────────────
+         CALL TO ACTION: Majestic Luxury Invitation
+         ───────────────────────────────────────────── -->
+    <section class="relative py-24 sm:py-32 overflow-hidden">
+      <!-- Ambient Glow Behind CTA -->
+      <div class="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#c5a259]/10 blur-[150px] rounded-full"></div>
+
+      <div class="relative mx-auto max-w-4xl px-6 sm:px-8 text-center space-y-7">
+        <div class="inline-flex items-center gap-3 text-xs font-serif tracking-[0.35em] text-[#c5a259] uppercase">
+          <span class="h-px w-8 bg-[#c5a259]/60"></span>
+          <span>Experience The Ritual</span>
+          <span class="h-px w-8 bg-[#c5a259]/60"></span>
+        </div>
+
+        <h2 class="font-display text-[#c5a259] text-3xl leading-tight uppercase sm:text-4xl md:text-[38px] lg:text-[44px] [-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill] drop-shadow-sm">
+          From Japan’s Finest Terroir<br class="hidden sm:block" /> to Your Daily Ritual.
+        </h2>
+
+        <p class="font-sans text-sm sm:text-base text-white/80 max-w-2xl mx-auto leading-relaxed font-light">
           ร่วมสัมผัสประสบการณ์มัทฉะระดับสเปเชียลตี และขนมหวานที่รังสรรค์ด้วยความรักได้ที่ FLOURIST Matchahouse ทุกสาขา
         </p>
-        
+
         <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
           <a
             href="/#best-sellers"
-            class="inline-flex rounded-md bg-white px-7 py-3 font-sans text-xs font-bold text-[#12221b] transition hover:bg-[#eee9e3] uppercase tracking-wider shadow-lg"
+            class="inline-flex rounded-md bg-[#eee9e3] px-7 py-3.5 font-sans text-[12px] font-bold text-[#12221b] transition-all duration-300 hover:bg-white hover:shadow-[0_4px_20px_rgba(255,255,255,0.2)] uppercase tracking-wider"
           >
-            Explore Menu
+            Explore Matcha
           </a>
           <a
             href="/map"
-            class="inline-flex rounded-md border border-[#c5a259] bg-[#c5a259]/10 px-7 py-3 font-sans text-xs font-bold text-[#c5a259] transition hover:bg-[#c5a259] hover:text-[#080a09] uppercase tracking-wider"
+            class="inline-flex rounded-md border border-[#c5a259] bg-[#c5a259]/10 px-7 py-3.5 font-sans text-[12px] font-bold text-[#c5a259] transition-all duration-300 hover:bg-[#c5a259] hover:text-[#080a09] uppercase tracking-wider"
           >
             Find Our Stores
           </a>
