@@ -1,0 +1,393 @@
+---
+import type { Product } from "../Bestsellerdata";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+---
+
+<div class="group relative">
+  <div
+    data-product-carousel
+    class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing"
+  >
+    <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
+      {
+        products.map((product) => (
+          <div
+            data-product-item
+            class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] shrink-0"
+          >
+            <ProductCard product={product} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button
+    type="button"
+    data-carousel-prev
+    aria-label="Previous products"
+    class="pointer-events-auto absolute left-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+  >
+    &lsaquo;
+  </button>
+  <button
+    type="button"
+    data-carousel-next
+    aria-label="Next products"
+    class="pointer-events-auto absolute right-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+  >
+    &rsaquo;
+  </button>
+</div>
+
+<!-- Pagination Dots -->
+<div
+  class="mt-8 flex justify-center gap-2"
+  data-carousel-dots
+  aria-label="Choose product page"
+>
+  {
+    Array.from({ length: 4 }).map((_, index) => (
+      <button
+        type="button"
+        data-carousel-dot={index}
+        aria-label={`Go to product page ${index + 1}`}
+        class:list={[
+          "size-2.5 rounded-full bg-[#d1d1d1] transition-colors",
+          index === 0 && "bg-[#333333]",
+          index >= 2 && "lg:hidden"
+        ]}
+      />
+    ))
+  }
+</div>
+
+<script>
+  interface CarouselMetrics {
+    cardStep: number;
+    cardsPerPage: number;
+    totalPages: number;
+    pageStep: number;
+    cycleWidth: number;
+  }
+
+  interface PointerDragState {
+    active: boolean;
+    isHorizontal: boolean | undefined;
+    startX: number;
+    startY: number;
+    startPage: number;
+    startCurrentX: number;
+    lastX: number;
+    lastTime: number;
+    velocity: number;
+    lastDx: number;
+    hasMoved: boolean;
+  }
+
+  const carousel = document.querySelector<HTMLElement>("[data-product-carousel]");
+  const track = document.querySelector<HTMLElement>("[data-product-track]");
+  const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
+  const previous = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+  const next = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
+
+  if (carousel && track) {
+    const originalItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
+    const realCount = originalItems.length;
+
+    if (realCount > 1) {
+      // Create 3-set infinite track ([Set 0][Set 1 (Home)][Set 2])
+      for (let i = realCount - 1; i >= 0; i--) {
+        const cloneBefore = originalItems[i].cloneNode(true) as HTMLElement;
+        cloneBefore.setAttribute("aria-hidden", "true");
+        track.prepend(cloneBefore);
+      }
+      for (let i = 0; i < realCount; i++) {
+        const cloneAfter = originalItems[i].cloneNode(true) as HTMLElement;
+        cloneAfter.setAttribute("aria-hidden", "true");
+        track.appendChild(cloneAfter);
+      }
+
+      const metrics: CarouselMetrics = {
+        cardStep: 0,
+        cardsPerPage: 2,
+        totalPages: 4,
+        pageStep: 0,
+        cycleWidth: 0,
+      };
+
+      let currentX = 0;
+      let targetX = 0;
+      let rafId: number | null = null;
+
+      const measure = () => {
+        metrics.cardsPerPage = window.innerWidth >= 1024 ? 4 : 2;
+        metrics.totalPages = Math.ceil(realCount / metrics.cardsPerPage);
+
+        const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
+        const gap = window.innerWidth >= 640 ? 20 : 16;
+        metrics.cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+        metrics.pageStep = metrics.cardsPerPage * metrics.cardStep;
+        metrics.cycleWidth = realCount * metrics.cardStep;
+      };
+
+      measure();
+      currentX = -metrics.cycleWidth;
+      targetX = -metrics.cycleWidth;
+      track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+
+      // Continuous modulo boundary normalizer
+      const normalizeBounds = () => {
+        while (currentX < -2 * metrics.cycleWidth) {
+          currentX += metrics.cycleWidth;
+          targetX += metrics.cycleWidth;
+        }
+        while (currentX > -metrics.cycleWidth) {
+          currentX -= metrics.cycleWidth;
+          targetX -= metrics.cycleWidth;
+        }
+      };
+
+      const updateDots = () => {
+        const normPos = ((-currentX - metrics.cycleWidth) % metrics.cycleWidth + metrics.cycleWidth) % metrics.cycleWidth;
+        const activeIndex = Math.min(
+          metrics.totalPages - 1,
+          Math.max(0, Math.round(normPos / metrics.pageStep) % metrics.totalPages)
+        );
+
+        dots.forEach((dot, i) => {
+          if (i < metrics.totalPages) {
+            dot.style.display = "";
+            if (i === activeIndex) {
+              dot.classList.add("bg-[#333333]");
+              dot.classList.remove("bg-[#d1d1d1]");
+            } else {
+              dot.classList.remove("bg-[#333333]");
+              dot.classList.add("bg-[#d1d1d1]");
+            }
+          } else {
+            dot.style.display = "none";
+          }
+        });
+      };
+
+      // Fluid Spring/Lerp Physics Loop
+      const tick = () => {
+        const dist = targetX - currentX;
+        if (Math.abs(dist) > 0.3) {
+          currentX += dist * 0.18;
+          normalizeBounds();
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+          rafId = requestAnimationFrame(tick);
+        } else {
+          currentX = targetX;
+          normalizeBounds();
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+          rafId = null;
+        }
+      };
+
+      const startAnimation = () => {
+        if (rafId === null) {
+          rafId = requestAnimationFrame(tick);
+        }
+      };
+
+      // Rapid clicks advance targetX smoothly without delay
+      const goNext = () => {
+        const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
+        targetX = -(metrics.cycleWidth + (currentTargetPage + 1) * metrics.pageStep);
+        startAnimation();
+      };
+
+      const goPrev = () => {
+        const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
+        targetX = -(metrics.cycleWidth + (currentTargetPage - 1) * metrics.pageStep);
+        startAnimation();
+      };
+
+      next?.addEventListener("click", goNext);
+      previous?.addEventListener("click", goPrev);
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
+          const currentPageMod = ((currentTargetPage % metrics.totalPages) + metrics.totalPages) % metrics.totalPages;
+          let diff = i - currentPageMod;
+          if (diff > metrics.totalPages / 2) diff -= metrics.totalPages;
+          if (diff < -metrics.totalPages / 2) diff += metrics.totalPages;
+          targetX = -(metrics.cycleWidth + (currentTargetPage + diff) * metrics.pageStep);
+          startAnimation();
+        });
+      });
+
+      window.addEventListener("resize", () => {
+        measure();
+        const nearestPage = Math.round((-currentX - metrics.cycleWidth) / metrics.pageStep);
+        currentX = -(metrics.cycleWidth + nearestPage * metrics.pageStep);
+        targetX = currentX;
+        normalizeBounds();
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+        updateDots();
+      });
+
+      // Encapsulated Drag Gesture Engine (Exact 1 Dot per Swipe)
+      const gestureState: PointerDragState = {
+        active: false,
+        isHorizontal: undefined,
+        startX: 0,
+        startY: 0,
+        startPage: 0,
+        startCurrentX: 0,
+        lastX: 0,
+        lastTime: 0,
+        velocity: 0,
+        lastDx: 0,
+        hasMoved: false,
+      };
+
+      const handlePointerStart = (clientX: number, clientY: number) => {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+
+        gestureState.active = true;
+        gestureState.hasMoved = false;
+        gestureState.isHorizontal = undefined;
+        gestureState.startX = clientX;
+        gestureState.startY = clientY;
+        gestureState.lastX = clientX;
+        gestureState.lastTime = performance.now();
+        gestureState.startCurrentX = currentX;
+        gestureState.startPage = Math.round((-currentX - metrics.cycleWidth) / metrics.pageStep);
+        gestureState.velocity = 0;
+        gestureState.lastDx = 0;
+      };
+
+      const handlePointerMove = (clientX: number, clientY: number, preventDefault?: () => void) => {
+        if (!gestureState.active) return;
+
+        const dx = clientX - gestureState.startX;
+        const dy = clientY - gestureState.startY;
+
+        if (gestureState.isHorizontal === undefined) {
+          const absX = Math.abs(dx);
+          const absY = Math.abs(dy);
+          if (absX > 5 || absY > 5) {
+            gestureState.isHorizontal = absX > absY;
+          }
+        }
+
+        if (gestureState.isHorizontal === false) {
+          gestureState.active = false;
+          return;
+        }
+
+        if (gestureState.isHorizontal === true) {
+          preventDefault?.();
+          gestureState.hasMoved = true;
+          gestureState.lastDx = dx;
+
+          const now = performance.now();
+          const dt = now - gestureState.lastTime;
+          if (dt > 0) {
+            const instantV = (clientX - gestureState.lastX) / dt;
+            gestureState.velocity = 0.7 * gestureState.velocity + 0.3 * instantV;
+          }
+          gestureState.lastX = clientX;
+          gestureState.lastTime = now;
+
+          currentX = gestureState.startCurrentX + dx;
+          targetX = currentX;
+
+          while (currentX < -2 * metrics.cycleWidth) {
+            currentX += metrics.cycleWidth;
+            targetX += metrics.cycleWidth;
+            gestureState.startCurrentX += metrics.cycleWidth;
+          }
+          while (currentX > -metrics.cycleWidth) {
+            currentX -= metrics.cycleWidth;
+            targetX -= metrics.cycleWidth;
+            gestureState.startCurrentX -= metrics.cycleWidth;
+          }
+
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+        }
+      };
+
+      const handlePointerEnd = () => {
+        if (!gestureState.active) return;
+        gestureState.active = false;
+
+        if (!gestureState.hasMoved) return;
+
+        const threshold = metrics.pageStep * 0.15;
+        let pageDiff = 0;
+
+        if (gestureState.velocity < -0.25 || gestureState.lastDx < -threshold) {
+          pageDiff = 1;
+        } else if (gestureState.velocity > 0.25 || gestureState.lastDx > threshold) {
+          pageDiff = -1;
+        }
+
+        targetX = -(metrics.cycleWidth + (gestureState.startPage + pageDiff) * metrics.pageStep);
+        startAnimation();
+      };
+
+      // Touch Listeners
+      carousel.addEventListener(
+        "touchstart",
+        (e) => handlePointerStart(e.touches[0].clientX, e.touches[0].clientY),
+        { passive: false }
+      );
+
+      carousel.addEventListener(
+        "touchmove",
+        (e) => handlePointerMove(e.touches[0].clientX, e.touches[0].clientY, () => e.cancelable && e.preventDefault()),
+        { passive: false }
+      );
+
+      carousel.addEventListener("touchend", handlePointerEnd, { passive: true });
+      carousel.addEventListener("touchcancel", handlePointerEnd, { passive: true });
+
+      // Mouse Listeners
+      carousel.addEventListener("mousedown", (e) => {
+        if (e.button !== 0 || (e.target as HTMLElement).closest("button, a")) return;
+        handlePointerStart(e.pageX, e.pageY);
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!gestureState.active) return;
+        handlePointerMove(e.pageX, e.pageY, () => e.preventDefault());
+      });
+
+      window.addEventListener("mouseup", handlePointerEnd);
+
+      carousel.addEventListener(
+        "click",
+        (e) => {
+          if (gestureState.hasMoved) {
+            e.preventDefault();
+            e.stopPropagation();
+            gestureState.hasMoved = false;
+          }
+        },
+        true
+      );
+
+      updateDots();
+    }
+  }
+</script>
+
