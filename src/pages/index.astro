@@ -266,22 +266,31 @@ import banner from "../assets/banner.jpg";
 <Layout>
   <Navbar />
   <main>
-    <section class="relative flex min-h-screen items-center overflow-hidden bg-[#080a09] text-white">
+    <section class="relative flex min-h-[92svh] sm:min-h-screen flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white">
+      <!-- Banner Image: Optimized for both mobile framing (people centered) and desktop right-side framing -->
       <img
         src={banner.src}
         alt="Tea producers in a Japanese tea field"
-        class="absolute inset-y-0 right-0 h-full w-full object-cover object-[75%_center] lg:w-[70%] lg:object-right"
+        class="absolute top-0 inset-x-0 h-[58%] sm:h-[65%] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[70%] object-cover object-[52%_20%] lg:object-right"
       />
-      <!-- Luxury #080a09 gradient fade from left to right — smooth multi-stop -->
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,#080a09_0%,#080a09_25%,rgba(8,10,9,0.92)_35%,rgba(8,10,9,0.75)_45%,rgba(8,10,9,0.55)_55%,rgba(8,10,9,0.3)_65%,rgba(8,10,9,0.12)_78%,transparent_92%)]"></div>
-      <!-- Subtle top and bottom blend -->
-      <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(8,10,9,0.5)_0%,rgba(8,10,9,0.15)_25%,transparent_45%,transparent_60%,rgba(8,10,9,0.2)_80%,rgba(8,10,9,0.7)_100%)]"></div>
 
-      <div class="relative z-10 w-full px-6 sm:px-10 lg:px-16 mt-16 text-left">
-        <h1 class="max-w-4xl font-display text-[#c5a259] text-3xl leading-tight uppercase sm:text-4xl md:text-[36px] lg:text-[42px] [-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
+      <!-- Mobile Top Navbar blend overlay -->
+      <div class="lg:hidden absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-[5]"></div>
+
+      <!-- Mobile Vertical Gradient: Smooth fade from photo into #080a09 content base -->
+      <div class="lg:hidden absolute inset-0 bg-gradient-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-[5]"></div>
+
+      <!-- Desktop Luxury #080a09 horizontal gradient fade from left to right — smooth multi-stop -->
+      <div class="hidden lg:block absolute inset-0 bg-[linear-gradient(to_right,#080a09_0%,#080a09_25%,rgba(8,10,9,0.92)_35%,rgba(8,10,9,0.75)_45%,rgba(8,10,9,0.55)_55%,rgba(8,10,9,0.3)_65%,rgba(8,10,9,0.12)_78%,transparent_92%)] pointer-events-none z-[5]"></div>
+      <!-- Desktop Subtle top and bottom blend -->
+      <div class="hidden lg:block absolute inset-0 bg-[linear-gradient(to_bottom,rgba(8,10,9,0.5)_0%,rgba(8,10,9,0.15)_25%,transparent_45%,transparent_60%,rgba(8,10,9,0.2)_80%,rgba(8,10,9,0.7)_100%)] pointer-events-none z-[5]"></div>
+
+      <!-- Headline & Call to action -->
+      <div class="relative z-10 w-full px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 lg:pb-0 lg:mt-16 text-left">
+        <h1 class="max-w-4xl font-display text-[#c5a259] text-2xl sm:text-4xl md:text-[36px] lg:text-[42px] leading-tight uppercase [-webkit-text-stroke:1.5px_#c5a259] sm:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
           From Japan’s Finest Terroir to Your Daily Ritual.
         </h1>
-        <div class="mt-7">
+        <div class="mt-5 sm:mt-7">
           <a href="#best-sellers" class="inline-flex rounded-md bg-white px-6 py-3 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]">
             Explore Matcha
           </a>
