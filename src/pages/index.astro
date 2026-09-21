@@ -12,253 +12,361 @@ import banner from "../assets/banner.jpg";
 <script>
   const carousel = document.querySelector<HTMLElement>("[data-product-carousel]");
   const track = document.querySelector<HTMLElement>("[data-product-track]");
-  const realItems = Array.from(track?.querySelectorAll<HTMLElement>("[data-product-item]") ?? []);
   const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
   const previous = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
   const next = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
 
-  if (carousel && track && realItems.length > 1) {
-    const realCount = realItems.length;
-    const CLONE_COUNT = 4;
+  if (carousel && track) {
+    const originalItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
+    const realCount = originalItems.length;
 
-    for (let i = realCount - 1; i >= realCount - CLONE_COUNT; i--) {
-      const clone = realItems[i].cloneNode(true) as HTMLElement;
-      clone.setAttribute("aria-hidden", "true");
-      track.prepend(clone);
-    }
-    for (let i = 0; i < CLONE_COUNT; i++) {
-      const clone = realItems[i].cloneNode(true) as HTMLElement;
-      clone.setAttribute("aria-hidden", "true");
-      track.appendChild(clone);
-    }
+    if (realCount > 1) {
+      // Create a 3-set infinite track ([Set 0: 8 items][Set 1: 8 items (Home)][Set 2: 8 items])
+      // This allows infinite continuous scrolling in both directions with zero boundaries
+      for (let i = realCount - 1; i >= 0; i--) {
+        const cloneBefore = originalItems[i].cloneNode(true) as HTMLElement;
+        cloneBefore.setAttribute("aria-hidden", "true");
+        track.prepend(cloneBefore);
+      }
+      for (let i = 0; i < realCount; i++) {
+        const cloneAfter = originalItems[i].cloneNode(true) as HTMLElement;
+        cloneAfter.setAttribute("aria-hidden", "true");
+        track.appendChild(cloneAfter);
+      }
 
-    let activePage = 0;
-    let currentX = 0;
-    let animationId: number | null = null;
+      let cardStep = 0;
+      let cardsPerPage = 2;
+      let totalPages = 4;
+      let pageStep = 0;
+      let cycleWidth = 0;
 
-    const getCardsPerPage = () => (window.innerWidth >= 1024 ? 4 : 2);
+      let currentX = 0;
+      let targetX = 0;
+      let rafId: number | null = null;
 
-    const getCardStep = () => {
-      const item = track.querySelector<HTMLElement>("[data-product-item]");
-      const gap = window.innerWidth >= 640 ? 20 : 16;
-      return (item?.offsetWidth ?? 0) + gap;
-    };
+      const measure = () => {
+        cardsPerPage = window.innerWidth >= 1024 ? 4 : 2;
+        totalPages = Math.ceil(realCount / cardsPerPage);
 
-    const setTransform = (x: number) => {
-      currentX = x;
-      track.style.transform = `translateX(${x}px)`;
-    };
+        const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
+        const gap = window.innerWidth >= 640 ? 20 : 16;
+        cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+        pageStep = cardsPerPage * cardStep;
+        cycleWidth = realCount * cardStep;
+      };
 
-    const normalizePosition = () => {
-      const cardsPerPage = getCardsPerPage();
-      const step = getCardStep();
-      const realTargetX = -(CLONE_COUNT + activePage * cardsPerPage) * step;
-      setTransform(realTargetX);
-    };
+      measure();
+      currentX = -cycleWidth;
+      targetX = -cycleWidth;
+      track.style.transform = `translate3d(${currentX}px, 0, 0)`;
 
-    const updateDots = () => {
-      const cardsPerPage = getCardsPerPage();
-      const totalPages = Math.ceil(realCount / cardsPerPage);
-      dots.forEach((dot, i) => {
-        if (i < totalPages) {
-          dot.style.display = "";
-          dot.classList.toggle("bg-[#333333]", i === activePage);
-          dot.classList.toggle("bg-[#d1d1d1]", i !== activePage);
-        } else {
-          dot.style.display = "none";
+      const normalizeBounds = () => {
+        while (currentX < -2 * cycleWidth) {
+          currentX += cycleWidth;
+          targetX += cycleWidth;
         }
-      });
-    };
-
-    const wrapPosition = (): number => {
-      const step = getCardStep();
-      const range = realCount * step;
-      const leftEdge = 0;
-      const rightEdge = -(CLONE_COUNT + realCount + (CLONE_COUNT - getCardsPerPage())) * step;
-
-      if (currentX > leftEdge) {
-        const shift = -range;
-        setTransform(currentX + shift);
-        return shift;
-      } else if (currentX < rightEdge) {
-        const shift = range;
-        setTransform(currentX + shift);
-        return shift;
-      }
-      return 0;
-    };
-
-    normalizePosition();
-    updateDots();
-
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    const animateTo = (targetX: number, duration = 450, onDone?: () => void) => {
-      if (animationId !== null) cancelAnimationFrame(animationId);
-
-      const startX = currentX;
-      const distance = targetX - startX;
-
-      if (Math.abs(distance) < 0.5) {
-        setTransform(targetX);
-        onDone?.();
-        return;
-      }
-
-      const startTime = performance.now();
-
-      const step = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        setTransform(startX + distance * easeOutCubic(progress));
-
-        if (progress < 1) {
-          animationId = requestAnimationFrame(step);
-        } else {
-          animationId = null;
-          onDone?.();
+        while (currentX > -cycleWidth) {
+          currentX -= cycleWidth;
+          targetX -= cycleWidth;
         }
       };
 
-      animationId = requestAnimationFrame(step);
-    };
+      const updateDots = () => {
+        const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
+        const activeIndex = Math.min(totalPages - 1, Math.max(0, Math.round(normPos / pageStep) % totalPages));
 
-    const goToPage = (pageIndex: number) => {
-      const cardsPerPage = getCardsPerPage();
-      const step = getCardStep();
-      const totalPages = Math.ceil(realCount / cardsPerPage);
+        dots.forEach((dot, i) => {
+          if (i < totalPages) {
+            dot.style.display = "";
+            if (i === activeIndex) {
+              dot.classList.add("bg-[#333333]");
+              dot.classList.remove("bg-[#d1d1d1]");
+            } else {
+              dot.classList.remove("bg-[#333333]");
+              dot.classList.add("bg-[#d1d1d1]");
+            }
+          } else {
+            dot.style.display = "none";
+          }
+        });
+      };
 
-      const targetX = -(CLONE_COUNT + pageIndex * cardsPerPage) * step;
+      // Fluid Spring/Lerp Physics Loop (60/120fps hardware compositor)
+      const tick = () => {
+        const dist = targetX - currentX;
+        if (Math.abs(dist) > 0.3) {
+          currentX += dist * 0.18; // snappy, instantaneous response with soft landing
+          normalizeBounds();
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+          rafId = requestAnimationFrame(tick);
+        } else {
+          currentX = targetX;
+          normalizeBounds();
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+          rafId = null;
+        }
+      };
 
-      activePage = ((pageIndex % totalPages) + totalPages) % totalPages;
-      updateDots();
+      const startAnimation = () => {
+        if (rafId === null) {
+          rafId = requestAnimationFrame(tick);
+        }
+      };
 
-      animateTo(targetX, 450, () => {
-        normalizePosition();
+      // Rapid-click support with ZERO delay:
+      // Each click instantly advances targetX by pageStep without waiting for any animation
+      const goNext = () => {
+        const currentTargetPage = Math.round((-targetX - cycleWidth) / pageStep);
+        targetX = -(cycleWidth + (currentTargetPage + 1) * pageStep);
+        startAnimation();
+      };
+
+      const goPrev = () => {
+        const currentTargetPage = Math.round((-targetX - cycleWidth) / pageStep);
+        targetX = -(cycleWidth + (currentTargetPage - 1) * pageStep);
+        startAnimation();
+      };
+
+      next?.addEventListener("click", goNext);
+      previous?.addEventListener("click", goPrev);
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          const currentTargetPage = Math.round((-targetX - cycleWidth) / pageStep);
+          const currentPageMod = ((currentTargetPage % totalPages) + totalPages) % totalPages;
+          let diff = i - currentPageMod;
+          if (diff > totalPages / 2) diff -= totalPages;
+          if (diff < -totalPages / 2) diff += totalPages;
+          targetX = -(cycleWidth + (currentTargetPage + diff) * pageStep);
+          startAnimation();
+        });
       });
-    };
 
-    previous?.addEventListener("click", () => goToPage(activePage - 1));
-    next?.addEventListener("click", () => goToPage(activePage + 1));
+      window.addEventListener("resize", () => {
+        measure();
+        const nearestPage = Math.round((-currentX - cycleWidth) / pageStep);
+        currentX = -(cycleWidth + nearestPage * pageStep);
+        targetX = currentX;
+        normalizeBounds();
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+        updateDots();
+      });
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => goToPage(index));
-    });
+      /* ── Touch & Pointer Gesture Handling (Exact 1 Dot per Swipe) ── */
+      let isTouching = false;
+      let isHorizontalSwipe: boolean | undefined = undefined;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartPage = 0;
+      let dragStartCurrentX = 0;
+      let lastTouchX = 0;
+      let lastTouchTime = 0;
+      let touchVelocity = 0;
+      let touchLastDx = 0;
+      let hasMoved = false;
 
-    window.addEventListener("resize", () => {
-      if (isDragging) return;
-      normalizePosition();
+      const onTouchStart = (e: TouchEvent) => {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+
+        isTouching = true;
+        hasMoved = false;
+        isHorizontalSwipe = undefined;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        lastTouchX = touchStartX;
+        lastTouchTime = performance.now();
+        dragStartCurrentX = currentX;
+        touchStartPage = Math.round((-currentX - cycleWidth) / pageStep);
+        touchVelocity = 0;
+        touchLastDx = 0;
+      };
+
+      const onTouchMove = (e: TouchEvent) => {
+        if (!isTouching) return;
+
+        const currentClientX = e.touches[0].clientX;
+        const currentClientY = e.touches[0].clientY;
+        const dx = currentClientX - touchStartX;
+        const dy = currentClientY - touchStartY;
+
+        // Detect swipe angle on first 5px
+        if (isHorizontalSwipe === undefined) {
+          const absX = Math.abs(dx);
+          const absY = Math.abs(dy);
+          if (absX > 5 || absY > 5) {
+            isHorizontalSwipe = absX > absY;
+          }
+        }
+
+        // Vertical scroll -> release touch to browser
+        if (isHorizontalSwipe === false) {
+          isTouching = false;
+          return;
+        }
+
+        // Horizontal swipe -> lock vertical page and track finger 1:1
+        if (isHorizontalSwipe === true) {
+          if (e.cancelable) e.preventDefault();
+          hasMoved = true;
+          touchLastDx = dx;
+
+          const now = performance.now();
+          const dt = now - lastTouchTime;
+          if (dt > 0) {
+            const instantV = (currentClientX - lastTouchX) / dt;
+            touchVelocity = 0.7 * touchVelocity + 0.3 * instantV;
+          }
+          lastTouchX = currentClientX;
+          lastTouchTime = now;
+
+          currentX = dragStartCurrentX + dx;
+          targetX = currentX;
+
+          // Continuous wrap during drag
+          while (currentX < -2 * cycleWidth) {
+            currentX += cycleWidth;
+            targetX += cycleWidth;
+            dragStartCurrentX += cycleWidth;
+          }
+          while (currentX > -cycleWidth) {
+            currentX -= cycleWidth;
+            targetX -= cycleWidth;
+            dragStartCurrentX -= cycleWidth;
+          }
+
+          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          updateDots();
+        }
+      };
+
+      const onTouchEnd = () => {
+        if (!isTouching) return;
+        isTouching = false;
+
+        if (!hasMoved) return;
+
+        // Strictly move at most 1 page (1 dot) per swipe
+        const threshold = pageStep * 0.15;
+        let pageDiff = 0;
+
+        if (touchVelocity < -0.25 || touchLastDx < -threshold) {
+          pageDiff = 1;
+        } else if (touchVelocity > 0.25 || touchLastDx > threshold) {
+          pageDiff = -1;
+        }
+
+        targetX = -(cycleWidth + (touchStartPage + pageDiff) * pageStep);
+        startAnimation();
+      };
+
+      carousel.addEventListener("touchstart", onTouchStart, { passive: false });
+      carousel.addEventListener("touchmove", onTouchMove, { passive: false });
+      carousel.addEventListener("touchend", onTouchEnd, { passive: true });
+      carousel.addEventListener("touchcancel", onTouchEnd, { passive: true });
+
+      /* ── Desktop Mouse Drag Support (Exact 1 Dot per Drag) ── */
+      let isMouseDown = false;
+      let mouseStartX = 0;
+      let mouseStartCurrentX = 0;
+      let mouseStartPage = 0;
+      let mouseLastDx = 0;
+      let lastMouseX = 0;
+      let lastMouseTime = 0;
+      let mouseVelocity = 0;
+
+      carousel.addEventListener("mousedown", (e) => {
+        if (e.button !== 0 || (e.target as HTMLElement).closest("button, a")) return;
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+
+        isMouseDown = true;
+        hasMoved = false;
+        mouseStartX = e.pageX;
+        lastMouseX = mouseStartX;
+        lastMouseTime = performance.now();
+        mouseStartCurrentX = currentX;
+        mouseStartPage = Math.round((-currentX - cycleWidth) / pageStep);
+        mouseVelocity = 0;
+        mouseLastDx = 0;
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isMouseDown) return;
+        e.preventDefault();
+
+        const dx = e.pageX - mouseStartX;
+        if (Math.abs(dx) > 3) hasMoved = true;
+        mouseLastDx = dx;
+
+        const now = performance.now();
+        const dt = now - lastMouseTime;
+        if (dt > 0) {
+          const instantV = (e.pageX - lastMouseX) / dt;
+          mouseVelocity = 0.7 * mouseVelocity + 0.3 * instantV;
+        }
+        lastMouseX = e.pageX;
+        lastMouseTime = now;
+
+        currentX = mouseStartCurrentX + dx;
+        targetX = currentX;
+
+        while (currentX < -2 * cycleWidth) {
+          currentX += cycleWidth;
+          targetX += cycleWidth;
+          mouseStartCurrentX += cycleWidth;
+        }
+        while (currentX > -cycleWidth) {
+          currentX -= cycleWidth;
+          targetX -= cycleWidth;
+          mouseStartCurrentX -= cycleWidth;
+        }
+
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+        updateDots();
+      });
+
+      const onMouseUp = () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        if (!hasMoved) return;
+
+        // Strictly move at most 1 page (1 dot) per drag
+        const threshold = pageStep * 0.15;
+        let pageDiff = 0;
+
+        if (mouseVelocity < -0.25 || mouseLastDx < -threshold) {
+          pageDiff = 1;
+        } else if (mouseVelocity > 0.25 || mouseLastDx > threshold) {
+          pageDiff = -1;
+        }
+
+        targetX = -(cycleWidth + (mouseStartPage + pageDiff) * pageStep);
+        startAnimation();
+      };
+
+      window.addEventListener("mouseup", onMouseUp);
+
+      carousel.addEventListener(
+        "click",
+        (e) => {
+          if (hasMoved) {
+            e.preventDefault();
+            e.stopPropagation();
+            hasMoved = false;
+          }
+        },
+        true
+      );
+
       updateDots();
-    });
-
-    /* ── Drag-to-swipe ── */
-    let isDragging = false;
-    let hasDragged = false;
-    let dragStartX = 0;
-    let dragStartTranslate = 0;
-    let startPage = 0;
-
-    let lastMoveX = 0;
-    let lastMoveTime = 0;
-    let velocity = 0;
-
-    const DRAG_THRESHOLD = 25;
-    const VELOCITY_THRESHOLD = 0.25;
-
-    const stopDragging = () => {
-      if (!isDragging) return;
-      isDragging = false;
-
-      if (!hasDragged) return;
-
-      const dragDistance = currentX - dragStartTranslate;
-      let targetPage = startPage;
-
-      if (Math.abs(velocity) > VELOCITY_THRESHOLD) {
-        targetPage = velocity > 0 ? startPage + 1 : startPage - 1;
-      } else if (Math.abs(dragDistance) > DRAG_THRESHOLD) {
-        targetPage = dragDistance < 0 ? startPage + 1 : startPage - 1;
-      }
-
-      goToPage(targetPage);
-    };
-
-    const handleDragMove = (clientX: number) => {
-      if (!isDragging) return;
-
-      const now = performance.now();
-      const dt = now - lastMoveTime;
-      const dx = clientX - lastMoveX;
-
-      if (dt > 0) {
-        const instantVelocity = -dx / dt;
-        velocity = 0.7 * velocity + 0.3 * instantVelocity;
-      }
-
-      lastMoveX = clientX;
-      lastMoveTime = now;
-
-      const distance = clientX - dragStartX;
-      if (Math.abs(distance) > 3) hasDragged = true;
-      setTransform(dragStartTranslate + distance);
-
-      const shift = wrapPosition();
-      if (shift !== 0) {
-        dragStartTranslate += shift;
-        const cardsPerPage = getCardsPerPage();
-        const step = getCardStep();
-        const currentCard = Math.round(-currentX / step - CLONE_COUNT);
-        startPage = Math.round(currentCard / cardsPerPage);
-      }
-    };
-
-    const handleDragStart = (clientX: number) => {
-      if (animationId !== null) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-
-      isDragging = true;
-      hasDragged = false;
-      dragStartX = clientX;
-      dragStartTranslate = currentX;
-      const cardsPerPage = getCardsPerPage();
-      const step = getCardStep();
-      const currentCard = Math.round(-currentX / step - CLONE_COUNT);
-      startPage = Math.round(currentCard / cardsPerPage);
-      lastMoveX = clientX;
-      lastMoveTime = performance.now();
-      velocity = 0;
-    };
-
-    carousel.addEventListener("mousedown", (event) => {
-      if (event.button !== 0 || (event.target as HTMLElement).closest("button, a")) return;
-      handleDragStart(event.clientX);
-      event.preventDefault();
-    });
-
-    window.addEventListener("mousemove", (event) => handleDragMove(event.clientX));
-    window.addEventListener("mouseup", stopDragging);
-    window.addEventListener("blur", stopDragging);
-
-    carousel.addEventListener("click", (event) => {
-      if (!hasDragged) return;
-      event.preventDefault();
-      event.stopPropagation();
-      hasDragged = false;
-    }, true);
-
-    carousel.addEventListener("touchstart", (event) => {
-      if ((event.target as HTMLElement).closest("button, a")) return;
-      handleDragStart(event.touches[0].clientX);
-    }, { passive: true });
-
-    window.addEventListener("touchmove", (event) => {
-      if (!isDragging) return;
-      handleDragMove(event.touches[0].clientX);
-    }, { passive: true });
-
-    window.addEventListener("touchend", stopDragging);
+    }
   }
 </script>
 
