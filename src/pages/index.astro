@@ -6,20 +6,54 @@ import ProductBoxCard from "../components/ProductBoxCard.astro";
 import { products } from "../Bestsellerdata";
 import { boxsets } from "../Boxsetdata";
 import banner from "../assets/banner.jpg";
-import { Image } from "astro:assets";
+import bannerMobile from "../assets/banner_mobile.jpg";
+import { getImage } from "astro:assets";
+
+const [mobileBanner, desktopBanner] = await Promise.all([
+  getImage({
+    src: bannerMobile,
+    format: "webp",
+    quality: 80,
+    width: 960,
+    widths: [480, 640, 960, 1280, 1440],
+  }),
+  getImage({
+    src: banner,
+    format: "webp",
+    quality: 80,
+    width: 1920,
+    widths: [1024, 1280, 1600, 1920],
+  }),
+]);
 ---
 
 <Layout>
   <Navbar />
   <main>
     <section class="relative flex min-h-[92svh] sm:min-h-screen flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white">
-      <!-- Banner Image: Optimized with Astro Image component for responsive srcset & WebP/AVIF generation -->
-      <Image
-        src={banner}
-        alt="Tea producers in a Japanese tea field"
-        quality={100}
-        class="absolute top-0 inset-x-0 h-[58%] sm:h-[65%] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[70%] object-cover object-[52%_20%] lg:object-right"
-      />
+      <!-- Select one banner source for the current viewport. -->
+      <picture>
+        <source
+          media="(min-width: 1024px)"
+          type="image/webp"
+          srcset={desktopBanner.srcSet.attribute}
+          sizes="100vw"
+          width={desktopBanner.attributes.width}
+          height={desktopBanner.attributes.height}
+        />
+        <img
+          src={mobileBanner.src}
+          srcset={mobileBanner.srcSet.attribute}
+          sizes="100vw"
+          width={mobileBanner.attributes.width}
+          height={mobileBanner.attributes.height}
+          alt="Tea producers in a Japanese tea field"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute top-0 inset-x-0 w-full h-[65%] object-cover object-[50%_20%] lg:inset-0 lg:size-full lg:object-right"
+        />
+      </picture>
 
       <!-- Mobile Top Navbar blend overlay -->
       <div class="lg:hidden absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-[5]"></div>
@@ -27,15 +61,11 @@ import { Image } from "astro:assets";
       <!-- Mobile Vertical Gradient: Smooth fade from photo into #080a09 content base -->
       <div class="lg:hidden absolute inset-0 bg-gradient-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-[5]"></div>
 
-      <!-- Desktop Luxury #080a09 horizontal gradient fade from left to right — smooth multi-stop -->
-      <div class="hidden lg:block absolute inset-0 bg-[linear-gradient(to_right,#080a09_0%,#080a09_25%,rgba(8,10,9,0.92)_35%,rgba(8,10,9,0.75)_45%,rgba(8,10,9,0.55)_55%,rgba(8,10,9,0.3)_65%,rgba(8,10,9,0.12)_78%,transparent_92%)] pointer-events-none z-[5]"></div>
-      <!-- Desktop Subtle top and bottom blend -->
-      <div class="hidden lg:block absolute inset-0 bg-[linear-gradient(to_bottom,rgba(8,10,9,0.5)_0%,rgba(8,10,9,0.15)_25%,transparent_45%,transparent_60%,rgba(8,10,9,0.2)_80%,rgba(8,10,9,0.7)_100%)] pointer-events-none z-[5]"></div>
-
       <!-- Headline & Call to action -->
-      <div class="relative z-10 w-full px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 lg:pb-0 lg:mt-16 text-left">
-        <h1 class="max-w-4xl font-display text-[#c5a259] text-2xl sm:text-4xl md:text-[36px] lg:text-[42px] leading-tight uppercase [-webkit-text-stroke:1.5px_#c5a259] sm:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
-          From Japan’s Finest Terroir to Your Daily Ritual.
+      <div class="relative z-10 w-full px-5 sm:px-10 lg:px-16 pb-24 sm:pb-16 lg:pb-0 lg:mt-16 text-left">
+        <h1 class="flex flex-col gap-2 sm:gap-3.5 lg:gap-5 max-w-4xl font-display text-[#c5a259] text-[clamp(13px,3.8vw,44px)] leading-none uppercase tracking-wide sm:tracking-wider [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.5px_#c5a259] lg:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
+          <span class="whitespace-nowrap">From Japan’s Finest Terroir</span>
+          <span class="whitespace-nowrap">to Your Daily Ritual.</span>
         </h1>
         <div class="mt-5 sm:mt-7">
           <a href="#best-sellers" class="inline-flex rounded-md bg-white px-6 py-3 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]">
@@ -46,7 +76,7 @@ import { Image } from "astro:assets";
     </section>
 
     <!-- Best Sellers Section with dedicated ProductCarousel component -->
-    <section id="best-sellers" class="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:py-24">
+    <section id="best-sellers" class="mx-auto max-w-7xl px-6  sm:px-8 lg:py-24">
       <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
       <ProductCarousel products={products} />
     </section>
@@ -60,20 +90,14 @@ import { Image } from "astro:assets";
       </div>
     </section>
 
-    <section id="sokutai-collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:py-24">
+    <section id="sokutai-collection" class="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:py-24">
       <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set </h2>
-      <div class="group relative">
-        <div class="flex gap-5 sm:gap-6 overflow-x-auto select-none [scrollbar-width:none]">
-          <div class="flex gap-5 sm:gap-6 w-full">
-          {
-            boxsets.map((boxset) => (
-              <div class="w-[400px] max-w-full shrink-0">
-                <ProductBoxCard boxset={boxset} />
-              </div>
-            ))
-          }
-          </div>
-        </div>
+      <div class="space-y-12">
+        {
+          boxsets.map((boxset) => (
+            <ProductBoxCard boxset={boxset} />
+          ))
+        }
       </div>
     </section>
   </main>

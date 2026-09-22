@@ -1,5 +1,6 @@
 ---
 import type { Product } from "../Bestsellerdata";
+import { Image } from "astro:assets";
 
 interface Props {
   product: Product;
@@ -12,9 +13,14 @@ const { product } = Astro.props;
   <div class="relative aspect-square w-full overflow-hidden rounded-xl bg-[#ead0ae]">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.55),transparent_34%),linear-gradient(145deg,#f4d8b1,#d8a874)]"></div>
     {product.image && (
-      <img
-        src={product.image.src}
+      <Image
+        src={product.image}
         alt={product.title}
+        format="webp"
+        quality={80}
+        width={480}
+        widths={[200, 320, 480, 640, 960]}
+        sizes="(min-width: 1280px) 289px, (min-width: 1024px) calc(25vw - 31px), (min-width: 640px) calc(50vw - 42px), calc(50vw - 32px)"
         loading="lazy"
         draggable="false"
         class="absolute inset-0 size-full object-cover"
