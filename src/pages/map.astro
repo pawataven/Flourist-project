@@ -7,7 +7,7 @@ import { stores } from "../StoreData";
 <Layout>
   <Navbar />
   <main class="pt-50 min-h-screen text-white">
-    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+    <div class="page-container mx-auto max-w-7xl">
 
       <!-- Search Section -->
       <div class="border-b border-white/10 py-5">
@@ -17,11 +17,11 @@ import { stores } from "../StoreData";
             id="store-search"
             type="text"
             placeholder="ค้นหาร้านค้า..."
-            class="flex-1 rounded-md border border-white/15 bg-[#121915] px-4 py-2.5 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-[#c5a259] focus:ring-1 focus:ring-[#c5a259]"
+            class="min-w-0 flex-1 rounded-md border border-white/15 bg-[#121915] px-4 py-2.5 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-[#c5a259] focus:ring-1 focus:ring-[#c5a259]"
           />
           <button
             id="btn-reset"
-            class="shrink-0 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-[#12221b] transition hover:bg-[#eee9e3]"
+            class="shrink-0 rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-[#12221b] transition hover:bg-[#eee9e3]"
           >reset</button>
         </div>
         <p id="result-count" class="mt-2 text-xs text-[#c5a259]">

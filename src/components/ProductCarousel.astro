@@ -70,14 +70,6 @@ const { products } = Astro.props;
 </div>
 
 <script>
-  interface CarouselMetrics {
-    cardStep: number;
-    cardsPerPage: number;
-    totalPages: number;
-    pageStep: number;
-    cycleWidth: number;
-  }
-
   interface PointerDragState {
     active: boolean;
     isHorizontal: boolean | undefined;
@@ -115,57 +107,55 @@ const { products } = Astro.props;
         track.appendChild(cloneAfter);
       }
 
-      const metrics: CarouselMetrics = {
-        cardStep: 0,
-        cardsPerPage: 2,
-        totalPages: 4,
-        pageStep: 0,
-        cycleWidth: 0,
-      };
-
+      let cardStep = 0;
+      let cardsPerPage = 2;
+      let totalPages = 4;
+      let pageStep = 0;
+      let cycleWidth = 0;
       let currentX = 0;
       let targetX = 0;
       let rafId: number | null = null;
 
       const measure = () => {
-        metrics.cardsPerPage = window.innerWidth >= 1024 ? 4 : 2;
-        metrics.totalPages = Math.ceil(realCount / metrics.cardsPerPage);
+        cardsPerPage = window.innerWidth >= 1024 ? 4 : 2;
+        totalPages = Math.ceil(realCount / cardsPerPage);
 
         const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
         const gap = window.innerWidth >= 640 ? 20 : 16;
-        metrics.cardStep = (firstItem?.offsetWidth ?? 0) + gap;
-        metrics.pageStep = metrics.cardsPerPage * metrics.cardStep;
-        metrics.cycleWidth = realCount * metrics.cardStep;
+        cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+        pageStep = cardsPerPage * cardStep;
+        cycleWidth = realCount * cardStep;
       };
 
       measure();
-      currentX = -metrics.cycleWidth;
-      targetX = -metrics.cycleWidth;
+      currentX = -cycleWidth;
+      targetX = -cycleWidth;
       track.style.transform = `translate3d(${currentX}px, 0, 0)`;
 
-      // Continuous modulo boundary normalizer
+      // Continuous modulo boundary normalizer: keep currentX and targetX inside [-2 * cycleWidth, -cycleWidth)
       const normalizeBounds = () => {
-        while (currentX < -2 * metrics.cycleWidth) {
-          currentX += metrics.cycleWidth;
-          targetX += metrics.cycleWidth;
+        while (currentX <= -2 * cycleWidth) {
+          currentX += cycleWidth;
+          targetX += cycleWidth;
         }
-        while (currentX > -metrics.cycleWidth) {
-          currentX -= metrics.cycleWidth;
-          targetX -= metrics.cycleWidth;
+        while (currentX > -cycleWidth) {
+          currentX -= cycleWidth;
+          targetX -= cycleWidth;
         }
       };
 
       const updateDots = () => {
-        const normPos = ((-currentX - metrics.cycleWidth) % metrics.cycleWidth + metrics.cycleWidth) % metrics.cycleWidth;
-        const activeIndex = Math.min(
-          metrics.totalPages - 1,
-          Math.max(0, Math.round(normPos / metrics.pageStep) % metrics.totalPages)
+        if (!dots.length || pageStep === 0) return;
+        const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
+        const activePage = Math.min(
+          totalPages - 1,
+          Math.max(0, Math.round(normPos / pageStep) % totalPages)
         );
 
         dots.forEach((dot, i) => {
-          if (i < metrics.totalPages) {
+          if (i < totalPages) {
             dot.style.display = "";
-            if (i === activeIndex) {
+            if (i === activePage) {
               dot.classList.add("bg-[#333333]");
               dot.classList.remove("bg-[#d1d1d1]");
             } else {
@@ -202,16 +192,16 @@ const { products } = Astro.props;
         }
       };
 
-      // Rapid clicks advance targetX smoothly without delay
+      // Advance by exactly 1 page (columns per screen)
       const goNext = () => {
-        const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
-        targetX = -(metrics.cycleWidth + (currentTargetPage + 1) * metrics.pageStep);
+        const currentPage = Math.round((-targetX - cycleWidth) / pageStep);
+        targetX = -(cycleWidth + (currentPage + 1) * pageStep);
         startAnimation();
       };
 
       const goPrev = () => {
-        const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
-        targetX = -(metrics.cycleWidth + (currentTargetPage - 1) * metrics.pageStep);
+        const currentPage = Math.round((-targetX - cycleWidth) / pageStep);
+        targetX = -(cycleWidth + (currentPage - 1) * pageStep);
         startAnimation();
       };
 
@@ -220,27 +210,30 @@ const { products } = Astro.props;
 
       dots.forEach((dot, i) => {
         dot.addEventListener("click", () => {
-          const currentTargetPage = Math.round((-targetX - metrics.cycleWidth) / metrics.pageStep);
-          const currentPageMod = ((currentTargetPage % metrics.totalPages) + metrics.totalPages) % metrics.totalPages;
-          let diff = i - currentPageMod;
-          if (diff > metrics.totalPages / 2) diff -= metrics.totalPages;
-          if (diff < -metrics.totalPages / 2) diff += metrics.totalPages;
-          targetX = -(metrics.cycleWidth + (currentTargetPage + diff) * metrics.pageStep);
+          const normPos = ((-targetX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
+          const currentTargetPage = Math.round(normPos / pageStep) % totalPages;
+          let diff = i - currentTargetPage;
+          if (diff > totalPages / 2) diff -= totalPages;
+          if (diff < -totalPages / 2) diff += totalPages;
+
+          const continuousTargetPage = Math.round((-targetX - cycleWidth) / pageStep);
+          targetX = -(cycleWidth + (continuousTargetPage + diff) * pageStep);
           startAnimation();
         });
       });
 
       window.addEventListener("resize", () => {
         measure();
-        const nearestPage = Math.round((-currentX - metrics.cycleWidth) / metrics.pageStep);
-        currentX = -(metrics.cycleWidth + nearestPage * metrics.pageStep);
+        const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
+        const nearestPage = Math.round(normPos / pageStep) % totalPages;
+        currentX = -(cycleWidth + nearestPage * pageStep);
         targetX = currentX;
         normalizeBounds();
         track.style.transform = `translate3d(${currentX}px, 0, 0)`;
         updateDots();
       });
 
-      // Encapsulated Drag Gesture Engine (Exact 1 Dot per Swipe)
+      // Encapsulated Drag Gesture Engine (Exact 1 Page/Column set per Swipe)
       const gestureState: PointerDragState = {
         active: false,
         isHorizontal: undefined,
@@ -261,6 +254,9 @@ const { products } = Astro.props;
           rafId = null;
         }
 
+        normalizeBounds();
+        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+
         gestureState.active = true;
         gestureState.hasMoved = false;
         gestureState.isHorizontal = undefined;
@@ -269,7 +265,7 @@ const { products } = Astro.props;
         gestureState.lastX = clientX;
         gestureState.lastTime = performance.now();
         gestureState.startCurrentX = currentX;
-        gestureState.startPage = Math.round((-currentX - metrics.cycleWidth) / metrics.pageStep);
+        gestureState.startPage = Math.round((-currentX - cycleWidth) / pageStep);
         gestureState.velocity = 0;
         gestureState.lastDx = 0;
       };
@@ -310,17 +306,6 @@ const { products } = Astro.props;
           currentX = gestureState.startCurrentX + dx;
           targetX = currentX;
 
-          while (currentX < -2 * metrics.cycleWidth) {
-            currentX += metrics.cycleWidth;
-            targetX += metrics.cycleWidth;
-            gestureState.startCurrentX += metrics.cycleWidth;
-          }
-          while (currentX > -metrics.cycleWidth) {
-            currentX -= metrics.cycleWidth;
-            targetX -= metrics.cycleWidth;
-            gestureState.startCurrentX -= metrics.cycleWidth;
-          }
-
           track.style.transform = `translate3d(${currentX}px, 0, 0)`;
           updateDots();
         }
@@ -332,16 +317,17 @@ const { products } = Astro.props;
 
         if (!gestureState.hasMoved) return;
 
-        const threshold = metrics.pageStep * 0.15;
+        const threshold = pageStep * 0.18;
         let pageDiff = 0;
 
-        if (gestureState.velocity < -0.25 || gestureState.lastDx < -threshold) {
+        if (gestureState.velocity < -0.22 || gestureState.lastDx < -threshold) {
           pageDiff = 1;
-        } else if (gestureState.velocity > 0.25 || gestureState.lastDx > threshold) {
+        } else if (gestureState.velocity > 0.22 || gestureState.lastDx > threshold) {
           pageDiff = -1;
         }
 
-        targetX = -(metrics.cycleWidth + (gestureState.startPage + pageDiff) * metrics.pageStep);
+        const targetPage = gestureState.startPage + pageDiff;
+        targetX = -(cycleWidth + targetPage * pageStep);
         startAnimation();
       };
 
@@ -386,8 +372,8 @@ const { products } = Astro.props;
         true
       );
 
-      updateDots();
     }
   }
 </script>
+
 
