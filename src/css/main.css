@@ -54,6 +54,11 @@ body {
   overflow-x: clip;
 }
 
+/* Default page bottom spacing for every page (pb-24) */
+main {
+  padding-bottom: 6rem;
+}
+
 /* Custom Thin Gold Scrollbar */
 * {
   scrollbar-width: thin;
