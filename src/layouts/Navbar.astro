@@ -49,6 +49,9 @@ const actionItems: ActionItem[] = [
         menu?.toggleAttribute("data-open", !isOpen);
         bars?.classList.toggle("hidden", !isOpen);
         close?.classList.toggle("hidden", isOpen);
+        if (!isOpen) {
+            siteHeader?.removeAttribute("data-hidden");
+        }
     });
 
     menu?.querySelectorAll("a").forEach((link) => {
@@ -63,17 +66,52 @@ const actionItems: ActionItem[] = [
     });
 
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
+    let lastScrollY = window.scrollY;
+    let ticking = false;
 
     const updateHeader = () => {
-        siteHeader?.toggleAttribute("data-scrolled", window.scrollY > 16);
+        const currentScrollY = window.scrollY;
+        const isMenuOpen = menu?.hasAttribute("data-open");
+
+        siteHeader?.toggleAttribute("data-scrolled", currentScrollY > 16);
+
+        if (isMenuOpen || currentScrollY <= 60) {
+            siteHeader?.removeAttribute("data-hidden");
+            lastScrollY = currentScrollY;
+            ticking = false;
+            return;
+        }
+
+        const diff = currentScrollY - lastScrollY;
+
+        if (diff > 8) {
+            // Scrolling down -> hide navbar
+            siteHeader?.setAttribute("data-hidden", "");
+        } else if (diff < -4) {
+            // Scrolling up slightly -> reveal navbar smoothly
+            siteHeader?.removeAttribute("data-hidden");
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
     };
 
     updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
+
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateHeader);
+                ticking = true;
+            }
+        },
+        { passive: true }
+    );
 </script>
 
 <header
-    class="site-header group fixed inset-x-0 top-0 z-50 border-b border-transparent text-white transition-colors duration-300 data-[scrolled]:border-[#eee9e3] data-[scrolled]:bg-[#faf8f5] data-[scrolled]:text-[#2d2926]"
+    class="site-header group fixed inset-x-0 top-0 z-50 border-b border-transparent text-white transition-all duration-300 ease-in-out data-[scrolled]:border-[#eee9e3] data-[scrolled]:bg-[#faf8f5] data-[scrolled]:text-[#2d2926] data-[hidden]:-translate-y-full"
 >
     <div
         class="flex h-9 items-center justify-between bg-[#fff] px-5 text-[11px] tracking-tight text-white sm:px-7 sm:text-xs"
