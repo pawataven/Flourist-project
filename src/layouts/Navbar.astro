@@ -131,7 +131,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 scrollLocked = false;
                 if (savedBodyStyle === null) document.body.removeAttribute("style");
                 else document.body.setAttribute("style", savedBodyStyle);
-                window.scrollTo({ top: lockedScrollY, behavior: "instant" });
+                window.scrollTo(0, lockedScrollY);
                 previousY = lockedScrollY;
             };
 
