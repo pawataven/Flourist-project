@@ -2,282 +2,295 @@
 import logo from "../assets/Asset 2-8.png";
 import logohover from "../assets/Asset_hover.png";
 
-interface MenuItem {
-    label: string;
-    href: string;
-}
-
-interface ActionItem {
-    label: string;
-    path: string;
-}
-
-const menuItems: MenuItem[] = [
-    { label: "Menu", href: "/" },
-    { label: "Events", href: "#" },
-    { label: "Maps", href: "/map" },
-    { label: "About", href: "/about" },
+const menuItems = [
+    { label: "Menu", href: "/", detail: "Find your daily ritual" },
+    { label: "Events", href: "#", detail: "Coming soon" },
+    { label: "Maps", href: "/map", detail: "Visit our matchahouse" },
+    { label: "About", href: "/about", detail: "The story of Flourist" },
 ];
-
-
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
+<flourist-navigation>
+    <header class="site-header group fixed inset-x-0 top-0 z-50 text-white">
+        <div class="announcement">
+            <span class="announcement-mark" aria-hidden="true">✦</span>
+            <p>Orders over $150 receive free shipping.<span class="announcement-extra"> All Subscriptions ship free in the USA.</span></p>
+            <span class="announcement-mark" aria-hidden="true">✦</span>
+        </div>
+        <nav aria-label="Main navigation" class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent xl:flex">
+            <a href="/" aria-label="Flourist Matchahouse home" class="shrink-0">
+                <span class="relative block h-[50px] w-auto">
+                    <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0" />
+                    <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100" />
+                </span>
+            </a>
+            <ul class="flex items-center gap-10 text-[16px]">
+                {menuItems.map(({ label, href }) => (
+                    <li>
+                        {href === "#" ? <span class="cursor-default opacity-60">{label}</span> : <a href={href} aria-current={href === currentPath ? "page" : undefined} class="transition-opacity hover:opacity-60">{label}</a>}
+                    </li>
+                ))}
+            </ul>
+            <button type="button" class="rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black">Delivery & Pickup</button>
+        </nav>
+        <nav aria-label="Mobile navigation" class="compact-nav">
+            <button type="button" class="menu-toggle nav-control" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" aria-haspopup="dialog">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M3 8h18M3 16h12" /></svg>
+                <span class="control-label">Menu</span>
+            </button>
+            <a href="/" aria-label="Flourist Matchahouse home" class="compact-logo">
+                <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" />
+                <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="logo-dark" />
+            </a>
+            <a href="/map" aria-label="Find our stores" class="nav-control store-control">
+                <span class="control-label">Visit us</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>
+            </a>
+        </nav>
+    </header>
+    <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
+        <div class="menu-sheet">
+            <div class="sheet-header">
+                <a href="/" aria-label="Flourist Matchahouse home" class="sheet-logo"><img src={logohover.src} width={logohover.width} height={logohover.height} alt="Flourist Matchahouse" /></a>
+                <button type="button" class="close-menu nav-control" aria-label="Close menu" autofocus>
+                    <span class="control-label">Close</span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="sheet-content">
+                <div class="menu-intro"><span class="eyebrow" id="menu-title">Explore Flourist</span><span class="intro-line" aria-hidden="true"></span><span class="intro-mark" aria-hidden="true">茶</span></div>
+                <nav aria-label="Explore Flourist">
+                    <ul class="menu-links">
+                        {menuItems.map(({ label, href, detail }, index) => (
+                            <li>
+                                {href === "#" ? (
+                                    <span class="menu-link unavailable" aria-disabled="true">
+                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
+                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
+                                        <span class="soon-mark" aria-hidden="true">Soon</span>
+                                    </span>
+                                ) : (
+                                    <a href={href} class="menu-link" aria-current={href === currentPath ? "page" : undefined}>
+                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
+                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
+                                        <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                                    </a>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <div class="menu-footer">
+                    <p class="ritual-copy">A little pause.<br /><em>A finer daily ritual.</em></p>
+                    <a href="/#best-sellers" class="explore-link"><span>Explore Matcha</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+                    <div class="footer-note"><span>Flourist Matchahouse</span><span aria-hidden="true">✦</span><span>Made for slow moments</span></div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+</flourist-navigation>
+
 <script>
-    const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
-    const menu = document.querySelector<HTMLElement>("#mobile-menu");
-    const bars = document.querySelector<SVGElement>(".menu-bars");
-    const close = document.querySelector<SVGElement>(".menu-close");
+    class FlouristNavigation extends HTMLElement {
+        private cleanup?: () => void;
 
-    toggle?.addEventListener("click", () => {
-        const isOpen = toggle.getAttribute("aria-expanded") === "true";
-        toggle.setAttribute("aria-expanded", String(!isOpen));
-        toggle.setAttribute("aria-label", isOpen ? "Open menu" : "Close menu");
-        menu?.setAttribute("aria-hidden", String(isOpen));
-        menu?.toggleAttribute("data-open", !isOpen);
-        bars?.classList.toggle("hidden", !isOpen);
-        close?.classList.toggle("hidden", isOpen);
-        if (!isOpen) {
-            siteHeader?.removeAttribute("data-hidden");
+        connectedCallback() {
+            this.cleanup?.();
+            const header = this.querySelector<HTMLElement>(".site-header");
+            const toggle = this.querySelector<HTMLButtonElement>(".menu-toggle");
+            const dialog = this.querySelector<HTMLDialogElement>(".menu-dialog");
+            const close = this.querySelector<HTMLButtonElement>(".close-menu");
+            if (!header || !toggle || !dialog || !close) return;
+
+            const controller = new AbortController();
+            const { signal } = controller;
+            const desktop = window.matchMedia("(min-width: 1280px)");
+            let previousY = window.scrollY;
+            let frame = 0;
+            let lockedScrollY = 0;
+            let savedBodyStyle: string | null = null;
+            let scrollLocked = false;
+
+            const updateHeader = () => {
+                frame = 0;
+                if (dialog.open) return;
+                const y = Math.max(0, window.scrollY);
+                header.toggleAttribute("data-scrolled", y > 16);
+                // Keep touch navigation available; only desktop hides on scroll.
+                if (!desktop.matches || y <= 60 || header.contains(document.activeElement)) {
+                    header.removeAttribute("data-hidden");
+                } else if (Math.abs(y - previousY) > 8) {
+                    header.toggleAttribute("data-hidden", y > previousY);
+                }
+                previousY = y;
+            };
+
+            const unlockScroll = () => {
+                if (!scrollLocked) return;
+                scrollLocked = false;
+                if (savedBodyStyle === null) document.body.removeAttribute("style");
+                else document.body.setAttribute("style", savedBodyStyle);
+                window.scrollTo({ top: lockedScrollY, behavior: "instant" });
+                previousY = lockedScrollY;
+            };
+
+            const closeMenu = () => {
+                if (!dialog.open) return;
+                dialog.close();
+                toggle.setAttribute("aria-expanded", "false");
+                unlockScroll();
+                updateHeader();
+            };
+
+            toggle.addEventListener("click", () => {
+                if (dialog.open || desktop.matches) return;
+                lockedScrollY = window.scrollY;
+                savedBodyStyle = document.body.getAttribute("style");
+                dialog.showModal();
+                scrollLocked = true;
+                Object.assign(document.body.style, {
+                    position: "fixed", top: `-${lockedScrollY}px`, width: "100%", overflow: "hidden",
+                });
+                toggle.setAttribute("aria-expanded", "true");
+                header.removeAttribute("data-hidden");
+            }, { signal });
+            close.addEventListener("click", closeMenu, { signal });
+            dialog.addEventListener("cancel", (event) => {
+                event.preventDefault();
+                closeMenu();
+            }, { signal });
+            dialog.addEventListener("close", () => {
+                // A queued close event must not unlock a newly reopened menu.
+                if (!dialog.open) {
+                    toggle.setAttribute("aria-expanded", "false");
+                    unlockScroll();
+                }
+            }, { signal });
+            let backdropPressed = false;
+            dialog.addEventListener("pointerdown", (event) => {
+                backdropPressed = event.target === dialog;
+            }, { signal });
+            dialog.addEventListener("click", (event) => {
+                if (backdropPressed && event.target === dialog) closeMenu();
+                backdropPressed = false;
+                if (event.target instanceof Element && event.target.closest("a[href]")) closeMenu();
+            }, { signal });
+            desktop.addEventListener("change", () => {
+                if (desktop.matches) closeMenu();
+                updateHeader();
+            }, { signal });
+            header.addEventListener("focusin", () => header.removeAttribute("data-hidden"), { signal });
+            window.addEventListener("scroll", () => {
+                if (!frame) frame = window.requestAnimationFrame(updateHeader);
+            }, { passive: true, signal });
+            window.addEventListener("pagehide", closeMenu, { signal });
+            document.addEventListener("astro:before-swap", closeMenu, { signal });
+            updateHeader();
+
+            this.cleanup = () => {
+                closeMenu();
+                unlockScroll();
+                controller.abort();
+                window.cancelAnimationFrame(frame);
+            };
         }
-    });
 
-    menu?.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-            toggle?.setAttribute("aria-expanded", "false");
-            toggle?.setAttribute("aria-label", "Open menu");
-            menu.setAttribute("aria-hidden", "true");
-            menu.removeAttribute("data-open");
-            bars?.classList.remove("hidden");
-            close?.classList.add("hidden");
-        });
-    });
-
-    const siteHeader = document.querySelector<HTMLElement>(".site-header");
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    const updateHeader = () => {
-        const currentScrollY = window.scrollY;
-        const isMenuOpen = menu?.hasAttribute("data-open");
-
-        siteHeader?.toggleAttribute("data-scrolled", currentScrollY > 16);
-
-        if (isMenuOpen || currentScrollY <= 60) {
-            siteHeader?.removeAttribute("data-hidden");
-            lastScrollY = currentScrollY;
-            ticking = false;
-            return;
+        disconnectedCallback() {
+            this.cleanup?.();
         }
+    }
 
-        const diff = currentScrollY - lastScrollY;
-
-        if (diff > 8) {
-            // Scrolling down -> hide navbar
-            siteHeader?.setAttribute("data-hidden", "");
-        } else if (diff < -4) {
-            // Scrolling up slightly -> reveal navbar smoothly
-            siteHeader?.removeAttribute("data-hidden");
-        }
-
-        lastScrollY = currentScrollY;
-        ticking = false;
-    };
-
-    updateHeader();
-
-    window.addEventListener(
-        "scroll",
-        () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateHeader);
-                ticking = true;
-            }
-        },
-        { passive: true }
-    );
+    if (!customElements.get("flourist-navigation")) {
+        customElements.define("flourist-navigation", FlouristNavigation);
+    }
 </script>
 
-<header
-    class="site-header group fixed inset-x-0 top-0 z-50 border-b border-transparent text-white transition-all duration-300 ease-in-out data-[scrolled]:border-[#eee9e3] data-[scrolled]:bg-[#faf8f5] data-[scrolled]:text-[#2d2926] data-[hidden]:-translate-y-full"
->
-    <div
-        class="flex h-9 items-center justify-between bg-[#fff] px-5 text-[11px] tracking-tight text-white sm:px-7 sm:text-xs"
-    >
-        <button
-            type="button"
-            aria-label="Previous announcement"
-            class="text-lg text-black leading-none transition-opacity hover:opacity-60"
-            >‹</button
-        >
-        <p class="text-center font-sans text-black">
-            Orders over $150 receive free shipping. All Subscriptions ship free
-            in the USA.
-        </p>
-        <button
-            type="button"
-            aria-label="Next announcement"
-            class="text-lg text-black leading-none transition-opacity hover:opacity-60"
-            >›</button
-        >
-    </div>
-
-    <nav
-        aria-label="Main navigation"
-        class="hidden h-[92px] w-full items-center justify-between gap-6 bg-[rgb(18_34_27_/_1)] px-6 sm:px-10 lg:px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent lg:flex"
-    >
-        <a href="/" aria-label="Flourist Matchahouse home" class="shrink-0">
-            <span class="relative block h-[50px] w-auto">
-                <img
-                    src={logo.src}
-                    alt="Flourist Matchahouse"
-                    class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
-                />
-                <img
-                    src={logohover.src}
-                    alt=""
-                    aria-hidden="true"
-                    class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
-                />
-            </span>
-        </a>
-
-        <ul class="flex items-center gap-10 text-[16px]">
-            {
-                menuItems.map(({ label, href }) => (
-                    <li>
-                        <a
-                            href={href}
-                            class="transition-opacity hover:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-                        >
-                            {label}
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-
-        <div class="flex items-center gap-3 sm:gap-5">
-            <button
-                type="button"
-                class="hidden rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:inline-flex"
-            >
-                Delivery & Pickup
-            </button>
-        </div>
-    </nav>
-
-    <nav
-        aria-label="Mobile navigation"
-        class="relative flex h-[72px] items-center justify-between bg-[rgb(18_34_27_/_0.7)] px-5 transition-colors duration-300 group-data-[scrolled]:bg-transparent lg:hidden"
-    >
-        <div class="flex items-center gap-5">
-            <button
-                type="button"
-                aria-label="Open menu"
-                aria-controls="mobile-menu"
-                aria-expanded="false"
-                class="menu-toggle inline-flex size-8 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-                <span class="sr-only">Open menu</span>
-                <span class="inline-flex" aria-hidden="true">
-                    <svg
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.25"
-                        class="menu-bars size-5"
-                    >
-                        <path stroke-linecap="round" d="M4 8h16M4 16h16"></path>
-                    </svg>
-                    <svg
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.25"
-                        class="menu-close hidden size-5"
-                    >
-                        <path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"
-                        ></path>
-                    </svg>
-                </span>
-            </button>
-
-            <button
-                type="button"
-                aria-label="Search"
-                class="inline-flex size-8 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-                <svg
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.25"
-                    class="size-5"
-                >
-                </svg>
-            </button>
-        </div>
-
-        <a
-            href="/"
-            aria-label="Flourist Matchahouse home"
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-            <span class="relative block h-11 w-auto">
-                <img
-                    src={logo.src}
-                    alt="Flourist Matchahouse"
-                    class="h-11 w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
-                />
-                <img
-                    src={logohover.src}
-                    alt=""
-                    aria-hidden="true"
-                    class="absolute inset-0 h-11 w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
-                />
-            </span>
-        </a>
-    </nav>
-
-    <div
-        id="mobile-menu"
-        class="max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-[450ms] ease-in-out data-[open]:max-h-[1000px] data-[open]:bg-[#faf8f5] data-[open]:text-[#171513] data-[open]:opacity-100 lg:hidden"
-        aria-hidden="true"
-    >
-        <ul
-            class="divide-y divide-dotted divide-[#8f8982] border-t border-dotted border-[#8f8982] px-5 text-[#171513]"
-        >
-            {
-                menuItems.map(({ label, href }) => (
-                    <li>
-                        <a
-                            href={href}
-                            class="flex items-center justify-between py-5 font-serif text-[32px] leading-none"
-                        >
-                            <span>{label}</span>
-                            <span
-                                class="text-[30px] font-light leading-none"
-                                aria-hidden="true"
-                            >
-                                +
-                            </span>
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-
-        <div
-            class="flex min-h-[calc(100vh-360px)] flex-col justify-end px-5 pb-10 pt-24 font-serif text-[#171513]"
-        >
-            <p class="mb-5 text-[17px]">Looking for wholesale information?</p>
-            <a href="#" class="pl-3 text-[15px]">Learn More</a>
-        </div>
-    </div>
-</header>
+<style>
+    flourist-navigation { display: contents; }
+    .site-header { transition: transform 300ms ease, background-color 300ms ease, color 300ms ease; }
+    .site-header[data-scrolled] { background: #faf8f5; color: #2d2926; }
+    .site-header[data-hidden]:not(:focus-within) { transform: translateY(-100%); }
+    .announcement { display: flex; min-height: 34px; align-items: center; justify-content: center; gap: 16px; padding: 7px 16px; background: #f4f0e8; color: #435047; font-size: 10px; line-height: 1.5; text-align: center; }
+    .announcement-mark { color: #947641; font-size: 10px; }
+    .announcement-extra { display: none; }
+    .compact-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 78px; gap: 12px; padding-inline: max(18px, env(safe-area-inset-left)) max(18px, env(safe-area-inset-right)); color: #f4f0e8; background: rgb(18 34 27 / 96%); border-bottom: 1px solid rgb(197 162 89 / 24%); transition: background 300ms ease, color 300ms ease; }
+    .site-header[data-scrolled] .compact-nav { background: #faf8f5; color: #12221b; border-color: #e2dbcd; }
+    .nav-control { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-width: 44px; min-height: 44px; cursor: pointer; }
+    .menu-toggle { justify-self: start; }
+    .store-control { justify-self: end; }
+    .control-label { display: none; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    .compact-logo { position: relative; display: block; width: clamp(130px, 37vw, 180px); }
+    .compact-logo img { display: block; width: 100%; height: 44px; object-fit: contain; transition: opacity 300ms ease; }
+    .compact-logo .logo-dark { position: absolute; inset: 0; opacity: 0; }
+    .site-header[data-scrolled] .compact-logo img:first-child { opacity: 0; }
+    .site-header[data-scrolled] .compact-logo .logo-dark { opacity: 1; }
+    a:focus-visible, button:focus-visible { outline: 2px solid #a68241; outline-offset: 5px; border-radius: 2px; }
+    .menu-dialog { position: fixed; inset: 0 0 0 auto; margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100vh; height: 100dvh; max-height: none; border: 0; background: #f6f3ec; color: #172d23; overflow: auto; overscroll-behavior: contain; }
+    .menu-dialog::backdrop { background: rgb(6 16 11 / 66%); backdrop-filter: blur(6px); }
+    .menu-dialog[open] { animation: sheet-enter 350ms cubic-bezier(.22, 1, .36, 1); }
+    .menu-dialog[open]::backdrop { animation: backdrop-enter 250ms ease; }
+    .menu-sheet { min-height: 100%; display: flex; flex-direction: column; padding: env(safe-area-inset-top) max(26px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(26px, env(safe-area-inset-left)); }
+    .sheet-header { display: flex; align-items: center; justify-content: space-between; min-height: 100px; gap: 24px; border-bottom: 1px solid #dcd5c6; }
+    .sheet-logo img { width: 148px; height: 48px; object-fit: contain; }
+    .close-menu { border: 1px solid #dcd5c6; border-radius: 50%; transition: background 200ms ease; }
+    .close-menu:hover { background: #eae5d9; }
+    .sheet-content { display: flex; flex: 1; flex-direction: column; }
+    .menu-intro { display: flex; align-items: center; gap: 18px; padding-block: 27px 12px; }
+    .eyebrow { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: #746449; }
+    .intro-line { flex: 1; height: 1px; background: #dcd5c6; }
+    .intro-mark { font-family: var(--font-serif); color: #947641; font-size: 18px; }
+    .menu-links { list-style: none; padding: 0; margin: 0; }
+    .menu-links li { border-bottom: 1px solid #ded8cd; }
+    .menu-link { display: flex; align-items: center; gap: 20px; padding-block: 18px; min-height: 91px; text-decoration: none; }
+    .link-number { align-self: flex-start; margin-top: 9px; font-size: 9px; letter-spacing: .1em; color: #8b724b; }
+    .link-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 8px; }
+    .link-title { font-family: var(--font-serif); font-size: clamp(29px, 7.5vw, 40px); font-weight: 700; line-height: 1.2; letter-spacing: -.045em; }
+    .link-detail { color: #6b7066; font-size: 10px; letter-spacing: .025em; }
+    .link-arrow { color: #8b724b; flex-shrink: 0; transition: transform 200ms ease; }
+    .menu-link[aria-current="page"] .link-title { color: #8a6b35; }
+    .menu-link:hover .link-arrow { transform: translateX(4px); }
+    .unavailable .link-title { color: #7c8176; }
+    .soon-mark { font-size: 8px; text-transform: uppercase; letter-spacing: .12em; border: 1px solid #d9d2c3; border-radius: 20px; padding: 5px 9px; color: #746449; }
+    .menu-footer { margin-top: auto; padding-top: 32px; }
+    .ritual-copy { font-family: Georgia, serif; font-size: 23px; line-height: 1.35; letter-spacing: -.025em; }
+    .ritual-copy em { color: #8a6b35; font-weight: 400; }
+    .explore-link { display: flex; align-items: center; justify-content: space-between; min-height: 54px; margin-top: 22px; padding: 14px 20px; background: #172d23; color: #f6f3ec; border: 1px solid #172d23; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; transition: background 200ms ease; }
+    .explore-link:hover { background: #284735; }
+    .explore-link svg { color: #c5a259; }
+    .footer-note { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 20px; font-size: 8px; color: #747466; letter-spacing: .035em; }
+    .footer-note > span:nth-child(2) { color: #a68241; }
+    @keyframes sheet-enter { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
+    @media (min-width: 640px) {
+        .announcement-extra { display: inline; }
+        .announcement { font-size: 11px; min-height: 36px; }
+        .compact-nav { height: 88px; padding-inline: 36px; }
+        .control-label { display: inline; }
+        .compact-logo { width: 192px; }
+        .compact-logo img { height: 50px; }
+        .menu-dialog { width: min(560px, 85vw); box-shadow: -20px 0 80px rgb(0 0 0 / 16%); }
+        .menu-sheet { padding-inline: 44px; padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+        .sheet-header { min-height: 112px; }
+        .close-menu { border: 0; border-radius: 0; padding-inline: 8px; }
+        .menu-intro { padding-top: 34px; }
+        .menu-link { padding-block: 21px; }
+        .link-title { font-size: 42px; }
+        .link-detail { font-size: 11px; }
+        .ritual-copy { font-size: 28px; }
+        .footer-note { font-size: 9px; }
+    }
+    @media (min-width: 1280px) { .compact-nav { display: none; } }
+    @media (max-height: 740px) {
+        .sheet-header { min-height: 80px; }
+        .menu-intro { padding-top: 18px; }
+        .menu-link { min-height: 74px; padding-block: 12px; }
+        .link-title { font-size: 30px; }
+        .menu-footer { padding-top: 22px; }
+        .ritual-copy { font-size: 21px; }
+        .explore-link { margin-top: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::backdrop { animation: none !important; transition: none !important; }
+    }
+</style>
