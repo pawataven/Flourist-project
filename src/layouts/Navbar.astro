@@ -104,50 +104,53 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
                 </button>
             </div>
+            <div class="delivery-progress" data-delivery-progress role="status">Step 1 of 3</div>
+            <p class="delivery-context" data-delivery-context hidden>กำลังเลือกสาขาสำหรับ <strong data-selected-provider></strong></p>
             <div class="delivery-step" data-delivery-step="provider">
-                <p class="delivery-copy">Choose where you would like to order.</p>
+                <p class="delivery-copy">เลือกแพลตฟอร์มที่ต้องการสั่ง</p>
                 <div class="delivery-links">
                     <button type="button" class="delivery-provider" data-provider="lineMan">
-                        <span class="delivery-provider-name">Order on LINE MAN</span>
+                        <span class="delivery-provider-name">สั่งผ่าน LINE MAN</span>
                         <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
                     </button>
                     <button type="button" class="delivery-provider" data-provider="grab">
-                        <span class="delivery-provider-name">Order on Grab</span>
+                        <span class="delivery-provider-name">สั่งผ่าน Grab</span>
                         <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
                     </button>
                 </div>
             </div>
             <div class="delivery-step" data-delivery-step="mode" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="provider">Back</button>
-                <p class="delivery-copy">Choose a branch.</p>
+                <button type="button" class="delivery-back" data-delivery-back="provider">← เปลี่ยนผู้ให้บริการ</button>
+                <p class="delivery-copy">เลือกวิธีค้นหาสาขาที่ต้องการสั่ง</p>
                 <div class="delivery-mode-links">
                     <button type="button" class="delivery-mode" data-delivery-mode="nearby">
-                        <span><strong>สาขาใกล้ฉัน</strong><small>Find the closest branch</small></span>
+                        <span><strong>สาขาใกล้ฉัน</strong><small>ใช้ตำแหน่งปัจจุบันเพื่อหาสาขาที่ใกล้ที่สุด</small></span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" /></svg>
                     </button>
                     <button type="button" class="delivery-mode" data-delivery-mode="manual">
-                        <span><strong>เลือกสาขาเอง</strong><small>Choose from all branches</small></span>
+                        <span><strong>เลือกสาขาเอง</strong><small>เลือกจากรายชื่อสาขาทั้งหมด</small></span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </div>
             </div>
             <div class="delivery-step" data-delivery-step="nearby" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="mode">Back</button>
-                <p class="delivery-copy">We will use your location to find the nearest branch.</p>
-                <p class="delivery-status" data-nearby-status role="status">กำลังค้นหาสาขาใกล้คุณ…</p>
+                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
+                <p class="delivery-copy">ระบบจะใช้ตำแหน่งปัจจุบันของคุณเพื่อเลือกสาขาที่ใกล้ที่สุด</p>
+                <p class="delivery-status" data-nearby-status role="status">กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…</p>
                 <div class="delivery-nearby-result" data-nearby-result hidden>
                     <span class="eyebrow">Nearest branch</span>
                     <strong data-nearby-name></strong>
                     <small data-nearby-distance></small>
-                    <a class="delivery-confirm" data-nearby-link target="_blank" rel="noopener noreferrer" href="#">ยืนยันและไปสั่ง</a>
+                    <a class="delivery-confirm" data-nearby-link target="_blank" rel="noopener noreferrer" href="#">ยืนยันสาขาและไปสั่ง</a>
                 </div>
                 <button type="button" class="delivery-secondary" data-delivery-back="mode">เลือกสาขาเอง</button>
             </div>
             <div class="delivery-step" data-delivery-step="manual" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="mode">Back</button>
+                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
                 <p class="delivery-copy">เลือกสาขาที่ต้องการสั่ง</p>
                 <label class="sr-only" for="delivery-branch-search">Search branches</label>
                 <input id="delivery-branch-search" class="delivery-search" type="search" placeholder="ค้นหาชื่อสาขาหรือเขต" autocomplete="off" />
+                <p class="delivery-count" data-branch-count></p>
                 <div class="delivery-branch-list" data-branch-list>
                     {stores.map((store) => (
                         <a
@@ -194,13 +197,17 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             const backButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-delivery-back]"));
             const branchLinks = Array.from(this.querySelectorAll<HTMLAnchorElement>(".delivery-branch"));
             const branchSearch = this.querySelector<HTMLInputElement>("#delivery-branch-search");
+            const branchCount = this.querySelector<HTMLElement>("[data-branch-count]");
             const branchEmpty = this.querySelector<HTMLElement>("[data-branch-empty]");
             const nearbyStatus = this.querySelector<HTMLElement>("[data-nearby-status]");
             const nearbyResult = this.querySelector<HTMLElement>("[data-nearby-result]");
             const nearbyName = this.querySelector<HTMLElement>("[data-nearby-name]");
             const nearbyDistance = this.querySelector<HTMLElement>("[data-nearby-distance]");
             const nearbyLink = this.querySelector<HTMLAnchorElement>("[data-nearby-link]");
-            if (!header || !toggle || !dialog || !close || !deliveryDialog || !deliveryClose || !deliveryTriggers.length || !branchSearch || !branchEmpty || !nearbyStatus || !nearbyResult || !nearbyName || !nearbyDistance || !nearbyLink) return;
+            const deliveryProgress = this.querySelector<HTMLElement>("[data-delivery-progress]");
+            const deliveryContext = this.querySelector<HTMLElement>("[data-delivery-context]");
+            const selectedProviderName = this.querySelector<HTMLElement>("[data-selected-provider]");
+            if (!header || !toggle || !dialog || !close || !deliveryDialog || !deliveryClose || !deliveryTriggers.length || !branchSearch || !branchCount || !branchEmpty || !nearbyStatus || !nearbyResult || !nearbyName || !nearbyDistance || !nearbyLink || !deliveryProgress || !deliveryContext || !selectedProviderName) return;
 
             const controller = new AbortController();
             const { signal } = controller;
@@ -270,6 +277,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 deliverySteps.forEach((entry) => {
                     entry.hidden = entry.dataset.deliveryStep !== step;
                 });
+                deliveryProgress.textContent = step === "provider" ? "Step 1 of 3" : step === "mode" ? "Step 2 of 3" : "Step 3 of 3";
             };
 
             const providerUrlKey = () => selectedProvider === "lineMan" ? "lineManUrl" : "grabUrl";
@@ -295,6 +303,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 branchEmpty.hidden = visibleCount > 0;
             };
 
+            branchCount.textContent = `มี ${branchLinks.length} สาขาให้เลือก`;
+
             const distanceInKm = (lat1: number, lng1: number, lat2: number, lng2: number) => {
                 const earthRadius = 6371;
                 const radians = (degrees: number) => degrees * Math.PI / 180;
@@ -311,7 +321,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
             const findNearbyBranch = () => {
                 nearbyResult.hidden = true;
-                nearbyStatus.textContent = "กำลังค้นหาสาขาใกล้คุณ…";
+                nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
                 if (!navigator.geolocation) {
                     showNearbyError("เบราว์เซอร์นี้ไม่รองรับการค้นหาตำแหน่ง กรุณาเลือกสาขาเอง");
                     return;
@@ -329,11 +339,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                     }
                     const href = selectedProvider ? nearest.link.dataset[providerUrlKey()] : "";
                     nearbyName.textContent = nearest.link.dataset.storeName || "";
-                    nearbyDistance.textContent = `${nearest.distance.toFixed(1)} km from your location`;
+                    nearbyDistance.textContent = `ห่างจากตำแหน่งปัจจุบันประมาณ ${nearest.distance.toFixed(1)} กม.`;
                     nearbyLink.href = href || "#";
                     nearbyLink.toggleAttribute("aria-disabled", !href);
                     nearbyLink.dataset.empty = href ? "false" : "true";
-                    nearbyStatus.textContent = "เราพบสาขาที่ใกล้ที่สุดแล้ว";
+                    nearbyStatus.textContent = "พบสาขาที่ใกล้ที่สุดแล้ว";
                     nearbyResult.hidden = false;
                 }, () => {
                     showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาอนุญาต location หรือเลือกสาขาเอง");
@@ -342,11 +352,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
             const resetDelivery = () => {
                 selectedProvider = null;
+                deliveryContext.hidden = true;
+                selectedProviderName.textContent = "";
                 branchSearch.value = "";
                 filterBranches();
                 updateBranchLinks();
                 nearbyResult.hidden = true;
-                nearbyStatus.textContent = "กำลังค้นหาสาขาใกล้คุณ…";
+                nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
                 showDeliveryStep("provider");
             };
 
@@ -368,8 +380,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             providerButtons.forEach((button) => {
                 button.addEventListener("click", () => {
                     selectedProvider = button.dataset.provider === "lineMan" ? "lineMan" : "grab";
+                    selectedProviderName.textContent = selectedProvider === "lineMan" ? "LINE MAN" : "Grab";
+                    deliveryContext.hidden = false;
                     updateBranchLinks();
                     showDeliveryStep("mode");
+                    window.setTimeout(() => modeButtons[0]?.focus(), 0);
                 }, { signal });
             });
             modeButtons.forEach((button) => {
@@ -387,7 +402,15 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             });
             backButtons.forEach((button) => {
                 button.addEventListener("click", () => {
-                    showDeliveryStep(button.dataset.deliveryBack || "provider");
+                    const destination = button.dataset.deliveryBack || "provider";
+                    if (destination === "provider") {
+                        selectedProvider = null;
+                        deliveryContext.hidden = true;
+                        selectedProviderName.textContent = "";
+                        updateBranchLinks();
+                    }
+                    showDeliveryStep(destination);
+                    if (destination === "provider") window.setTimeout(() => providerButtons[0]?.focus(), 0);
                 }, { signal });
             });
             branchSearch.addEventListener("input", filterBranches, { signal });
@@ -505,7 +528,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .menu-dialog::backdrop { background: rgb(6 16 11 / 66%); backdrop-filter: blur(6px); }
     .menu-dialog[open] { animation: sheet-enter 350ms cubic-bezier(.22, 1, .36, 1); }
     .menu-dialog[open]::backdrop { animation: backdrop-enter 250ms ease; }
-    .delivery-dialog { position: fixed; inset: 50% auto auto 50%; width: min(460px, calc(100% - 32px)); max-width: none; margin: 0; padding: 0; border: 1px solid #dcd5c6; border-radius: 2px; background: #f6f3ec; color: #172d23; transform: translate(-50%, -50%); box-shadow: 0 24px 80px rgb(6 16 11 / 25%); }
+    .delivery-dialog { position: fixed; inset: 50% auto auto 50%; width: min(460px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px); margin: 0; padding: 0; overflow: auto; border: 1px solid #dcd5c6; border-radius: 2px; background: #f6f3ec; color: #172d23; transform: translate(-50%, -50%); box-shadow: 0 24px 80px rgb(6 16 11 / 25%); }
     .delivery-dialog::backdrop { background: rgb(6 16 11 / 66%); backdrop-filter: blur(6px); }
     .delivery-dialog[open] { animation: delivery-enter 260ms cubic-bezier(.22, 1, .36, 1); }
     .delivery-dialog[open]::backdrop { animation: backdrop-enter 250ms ease; }
@@ -513,6 +536,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .delivery-dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid #dcd5c6; }
     .delivery-dialog-header h2 { max-width: 280px; margin: 8px 0 0; font-family: var(--font-serif); font-size: clamp(28px, 7vw, 40px); font-weight: 700; line-height: 1.05; letter-spacing: -.045em; }
     .close-delivery { flex-shrink: 0; border: 1px solid #dcd5c6; border-radius: 50%; color: #172d23; }
+    .delivery-progress { margin-top: 18px; color: #8b724b; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+    .delivery-context { margin: 8px 0 0; color: #6b7066; font-size: 11px; }
+    .delivery-context strong { color: #172d23; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
     .delivery-copy { margin: 22px 0 0; color: #6b7066; font-size: 12px; line-height: 1.6; }
     .delivery-step[hidden] { display: none; }
     .delivery-back { margin-top: 20px; padding: 0; border: 0; color: #8b724b; cursor: pointer; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
@@ -535,6 +561,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .delivery-secondary { margin-top: 18px; border: 0; background: transparent; color: #8b724b; cursor: pointer; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
     .delivery-search { width: 100%; margin-top: 18px; padding: 12px 14px; border: 1px solid #dcd5c6; outline: none; background: transparent; color: #172d23; font: inherit; font-size: 12px; }
     .delivery-search:focus { border-color: #a68241; box-shadow: 0 0 0 1px #a68241; }
+    .delivery-count { margin: 10px 0 0; color: #8b724b; font-size: 10px; letter-spacing: .05em; }
     .delivery-branch-list { display: grid; max-height: min(42vh, 360px); gap: 8px; margin-top: 14px; overflow-y: auto; padding-right: 4px; }
     .delivery-branch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; border-bottom: 1px solid #dcd5c6; color: #172d23; text-decoration: none; transition: background 200ms ease, padding 200ms ease; }
     .delivery-branch:hover { padding-inline: 18px 10px; background: #eae5d9; }
