@@ -1,6 +1,8 @@
 ---
 import logo from "../assets/Asset 2-8.png";
 import logohover from "../assets/Asset_hover.png";
+import grabLogo from "../assets/delivery/grab.png";
+import lineManLogo from "../assets/delivery/line-man.png";
 import { stores } from "../StoreData";
 
 const menuItems = [
@@ -11,172 +13,6 @@ const menuItems = [
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
-
-<flourist-navigation>
-    <header class="site-header group fixed inset-x-0 top-0 z-50 text-white">
-        <div class="announcement">
-            <span class="announcement-mark" aria-hidden="true">✦</span>
-            <p>Orders over $150 receive free shipping.<span class="announcement-extra"> All Subscriptions ship free in the USA.</span></p>
-            <span class="announcement-mark" aria-hidden="true">✦</span>
-        </div>
-        <nav aria-label="Main navigation" class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent xl:flex">
-            <a href="/" aria-label="Flourist Matchahouse home" class="shrink-0">
-                <span class="relative block h-[50px] w-auto">
-                    <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0" />
-                    <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100" />
-                </span>
-            </a>
-            <ul class="flex items-center gap-10 text-[16px]">
-                {menuItems.map(({ label, href }) => (
-                    <li>
-                        {href === "#" ? <span class="cursor-default opacity-60">{label}</span> : <a href={href} aria-current={href === currentPath ? "page" : undefined} class="transition-opacity hover:opacity-60">{label}</a>}
-                    </li>
-                ))}
-            </ul>
-            <button type="button" class="delivery-trigger rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
-                <span class="delivery-label-full">Order Delivery</span>
-                <span class="delivery-label-short">Order</span>
-            </button>
-        </nav>
-        <nav aria-label="Mobile navigation" class="compact-nav">
-            <button type="button" class="menu-toggle nav-control" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" aria-haspopup="dialog">
-                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M3 8h18M3 16h12" /></svg>
-                <span class="control-label">Menu</span>
-            </button>
-            <a href="/" aria-label="Flourist Matchahouse home" class="compact-logo">
-                <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" />
-                <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="logo-dark" />
-            </a>
-            <button type="button" class="delivery-trigger delivery-control" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
-                <span class="delivery-label-full">Order Delivery</span>
-                <span class="delivery-label-short">Order</span>
-            </button>
-        </nav>
-    </header>
-    <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
-        <div class="menu-sheet">
-            <div class="sheet-header">
-                <a href="/" aria-label="Flourist Matchahouse home" class="sheet-logo"><img src={logohover.src} width={logohover.width} height={logohover.height} alt="Flourist Matchahouse" /></a>
-                <button type="button" class="close-menu nav-control" aria-label="Close menu" autofocus>
-                    <span class="control-label">Close</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
-                </button>
-            </div>
-            <div class="sheet-content">
-                <div class="menu-intro"><span class="eyebrow" id="menu-title">Explore Flourist</span><span class="intro-line" aria-hidden="true"></span><span class="intro-mark" aria-hidden="true">茶</span></div>
-                <nav aria-label="Explore Flourist">
-                    <ul class="menu-links">
-                        {menuItems.map(({ label, href, detail }, index) => (
-                            <li>
-                                {href === "#" ? (
-                                    <span class="menu-link unavailable" aria-disabled="true">
-                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
-                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
-                                        <span class="soon-mark" aria-hidden="true">Soon</span>
-                                    </span>
-                                ) : (
-                                    <a href={href} class="menu-link" aria-current={href === currentPath ? "page" : undefined}>
-                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
-                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
-                                        <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
-                                    </a>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-                <div class="menu-footer">
-                    <p class="ritual-copy">A little pause.<br /><em>A finer daily ritual.</em></p>
-                    <a href="/#best-sellers" class="explore-link"><span>Explore Matcha</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
-                    <div class="footer-note"><span>Flourist Matchahouse</span><span aria-hidden="true">✦</span><span>Made for slow moments</span></div>
-                </div>
-            </div>
-        </div>
-    </dialog>
-    <dialog id="delivery-options" class="delivery-dialog" aria-labelledby="delivery-dialog-title">
-        <div class="delivery-sheet">
-            <div class="delivery-dialog-header">
-                <div>
-                    <span class="eyebrow">Order online</span>
-                    <h2 id="delivery-dialog-title">Order delivery</h2>
-                </div>
-                <button type="button" class="close-delivery nav-control" aria-label="Close delivery options">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
-                </button>
-            </div>
-            <div class="delivery-progress" data-delivery-progress role="status">Step 1 of 3</div>
-            <p class="delivery-context" data-delivery-context hidden>กำลังเลือกสาขาสำหรับ <strong data-selected-provider></strong></p>
-            <div class="delivery-step" data-delivery-step="provider">
-                <p class="delivery-copy">เลือกแพลตฟอร์มที่ต้องการสั่ง</p>
-                <div class="delivery-links">
-                    <button type="button" class="delivery-provider" data-provider="lineMan">
-                        <span class="delivery-provider-name">สั่งผ่าน LINE MAN</span>
-                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
-                    </button>
-                    <button type="button" class="delivery-provider" data-provider="grab">
-                        <span class="delivery-provider-name">สั่งผ่าน Grab</span>
-                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="delivery-step" data-delivery-step="mode" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="provider">← เปลี่ยนผู้ให้บริการ</button>
-                <p class="delivery-copy">เลือกวิธีค้นหาสาขาที่ต้องการสั่ง</p>
-                <div class="delivery-mode-links">
-                    <button type="button" class="delivery-mode" data-delivery-mode="nearby">
-                        <span><strong>สาขาใกล้ฉัน</strong><small>ใช้ตำแหน่งปัจจุบันเพื่อหาสาขาที่ใกล้ที่สุด</small></span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" /></svg>
-                    </button>
-                    <button type="button" class="delivery-mode" data-delivery-mode="manual">
-                        <span><strong>เลือกสาขาเอง</strong><small>เลือกจากรายชื่อสาขาทั้งหมด</small></span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="delivery-step" data-delivery-step="nearby" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
-                <p class="delivery-copy">ระบบจะใช้ตำแหน่งปัจจุบันของคุณเพื่อเลือกสาขาที่ใกล้ที่สุด</p>
-                <p class="delivery-status" data-nearby-status role="status">กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…</p>
-                <div class="delivery-nearby-result" data-nearby-result hidden>
-                    <span class="eyebrow">Nearest branch</span>
-                    <strong data-nearby-name></strong>
-                    <small data-nearby-distance></small>
-                    <a class="delivery-confirm" data-nearby-link target="_blank" rel="noopener noreferrer" href="#">ยืนยันสาขาและไปสั่ง</a>
-                </div>
-                <button type="button" class="delivery-secondary" data-delivery-back="mode">เลือกสาขาเอง</button>
-            </div>
-            <div class="delivery-step" data-delivery-step="manual" hidden>
-                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
-                <p class="delivery-copy">เลือกสาขาที่ต้องการสั่ง</p>
-                <label class="sr-only" for="delivery-branch-search">Search branches</label>
-                <input id="delivery-branch-search" class="delivery-search" type="search" placeholder="ค้นหาชื่อสาขาหรือเขต" autocomplete="off" />
-                <p class="delivery-count" data-branch-count></p>
-                <div class="delivery-branch-list" data-branch-list>
-                    {stores.map((store) => (
-                        <a
-                            class="delivery-branch"
-                            href="#"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            data-store-id={store.id}
-                            data-store-name={store.name}
-                            data-store-district={store.district}
-                            data-store-province={store.province}
-                            data-store-lat={store.lat}
-                            data-store-lng={store.lng}
-                            data-line-man-url={store.delivery.lineManUrl}
-                            data-grab-url={store.delivery.grabUrl}
-                        >
-                            <span><strong>{store.name}</strong><small>{store.district} · {store.province}</small></span>
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
-                        </a>
-                    ))}
-                </div>
-                <p class="delivery-empty" data-branch-empty hidden>ไม่พบสาขาที่ค้นหา</p>
-            </div>
-        </div>
-    </dialog>
-</flourist-navigation>
 
 <script>
     class FlouristNavigation extends HTMLElement {
@@ -207,6 +43,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             const deliveryProgress = this.querySelector<HTMLElement>("[data-delivery-progress]");
             const deliveryContext = this.querySelector<HTMLElement>("[data-delivery-context]");
             const selectedProviderName = this.querySelector<HTMLElement>("[data-selected-provider]");
+            const selectedProviderLogo = this.querySelector<HTMLImageElement>("[data-selected-provider-logo]");
             if (!header || !toggle || !dialog || !close || !deliveryDialog || !deliveryClose || !deliveryTriggers.length || !branchSearch || !branchCount || !branchEmpty || !nearbyStatus || !nearbyResult || !nearbyName || !nearbyDistance || !nearbyLink || !deliveryProgress || !deliveryContext || !selectedProviderName) return;
 
             const controller = new AbortController();
@@ -354,6 +191,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 selectedProvider = null;
                 deliveryContext.hidden = true;
                 selectedProviderName.textContent = "";
+                if (selectedProviderLogo) {
+                    selectedProviderLogo.hidden = true;
+                    selectedProviderLogo.src = "";
+                }
                 branchSearch.value = "";
                 filterBranches();
                 updateBranchLinks();
@@ -381,6 +222,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 button.addEventListener("click", () => {
                     selectedProvider = button.dataset.provider === "lineMan" ? "lineMan" : "grab";
                     selectedProviderName.textContent = selectedProvider === "lineMan" ? "LINE MAN" : "Grab";
+                    if (selectedProviderLogo) {
+                        selectedProviderLogo.src = button.dataset.providerLogo || "";
+                        selectedProviderLogo.hidden = false;
+                    }
                     deliveryContext.hidden = false;
                     updateBranchLinks();
                     showDeliveryStep("mode");
@@ -407,6 +252,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                         selectedProvider = null;
                         deliveryContext.hidden = true;
                         selectedProviderName.textContent = "";
+                        if (selectedProviderLogo) {
+                            selectedProviderLogo.hidden = true;
+                            selectedProviderLogo.src = "";
+                        }
                         updateBranchLinks();
                     }
                     showDeliveryStep(destination);
@@ -500,6 +349,178 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     }
 </script>
 
+<flourist-navigation>
+    <header class="site-header group fixed inset-x-0 top-0 z-50 text-white">
+        <div class="announcement">
+            <span class="announcement-mark" aria-hidden="true">✦</span>
+            <p>Orders over $150 receive free shipping.<span class="announcement-extra"> All Subscriptions ship free in the USA.</span></p>
+            <span class="announcement-mark" aria-hidden="true">✦</span>
+        </div>
+        <nav aria-label="Main navigation" class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent xl:flex">
+            <a href="/" aria-label="Flourist Matchahouse home" class="shrink-0">
+                <span class="relative block h-[50px] w-auto">
+                    <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0" />
+                    <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100" />
+                </span>
+            </a>
+            <ul class="flex items-center gap-10 text-[16px]">
+                {menuItems.map(({ label, href }) => (
+                    <li>
+                        {href === "#" ? <span class="cursor-default opacity-60">{label}</span> : <a href={href} aria-current={href === currentPath ? "page" : undefined} class="transition-opacity hover:opacity-60">{label}</a>}
+                    </li>
+                ))}
+            </ul>
+            <button type="button" class="delivery-trigger rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
+                <span class="delivery-label-full">Order Delivery</span>
+                <span class="delivery-label-short">Order</span>
+            </button>
+        </nav>
+        <nav aria-label="Mobile navigation" class="compact-nav">
+            <button type="button" class="menu-toggle nav-control" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" aria-haspopup="dialog">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M3 8h18M3 16h12" /></svg>
+                <span class="control-label">Menu</span>
+            </button>
+            <a href="/" aria-label="Flourist Matchahouse home" class="compact-logo">
+                <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" />
+                <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="logo-dark" />
+            </a>
+            <button type="button" class="delivery-trigger delivery-control" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
+                <span class="delivery-label-full">Order Delivery</span>
+                <span class="delivery-label-short">Order</span>
+            </button>
+        </nav>
+    </header>
+    <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
+        <div class="menu-sheet">
+            <div class="sheet-header">
+                <a href="/" aria-label="Flourist Matchahouse home" class="sheet-logo"><img src={logohover.src} width={logohover.width} height={logohover.height} alt="Flourist Matchahouse" /></a>
+                <button type="button" class="close-menu nav-control" aria-label="Close menu" autofocus>
+                    <span class="control-label">Close</span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="sheet-content">
+                <div class="menu-intro"><span class="eyebrow" id="menu-title">Explore Flourist</span><span class="intro-line" aria-hidden="true"></span><span class="intro-mark" aria-hidden="true">茶</span></div>
+                <nav aria-label="Explore Flourist">
+                    <ul class="menu-links">
+                        {menuItems.map(({ label, href, detail }, index) => (
+                            <li>
+                                {href === "#" ? (
+                                    <span class="menu-link unavailable" aria-disabled="true">
+                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
+                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
+                                        <span class="soon-mark" aria-hidden="true">Soon</span>
+                                    </span>
+                                ) : (
+                                    <a href={href} class="menu-link" aria-current={href === currentPath ? "page" : undefined}>
+                                        <span class="link-number" aria-hidden="true">0{index + 1}</span>
+                                        <span class="link-copy"><span class="link-title">{label}</span><span class="link-detail">{detail}</span></span>
+                                        <svg class="link-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                                    </a>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <div class="menu-footer">
+                    <p class="ritual-copy">A little pause.<br /><em>A finer daily ritual.</em></p>
+                    <a href="/#best-sellers" class="explore-link"><span>Explore Matcha</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+                    <div class="footer-note"><span>Flourist Matchahouse</span><span aria-hidden="true">✦</span><span>Made for slow moments</span></div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <dialog id="delivery-options" class="delivery-dialog" aria-labelledby="delivery-dialog-title">
+        <div class="delivery-sheet">
+            <div class="delivery-dialog-header">
+                <div>
+                    <span class="eyebrow">Order online</span>
+                    <h2 id="delivery-dialog-title">Order delivery</h2>
+                </div>
+                <button type="button" class="close-delivery nav-control" aria-label="Close delivery options">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="delivery-progress" data-delivery-progress role="status">Step 1 of 3</div>
+            <p class="delivery-context" data-delivery-context hidden>กำลังเลือกสาขาสำหรับ <span class="delivery-context-badge"><img data-selected-provider-logo class="delivery-context-logo" src="" alt="" hidden /><strong data-selected-provider></strong></span></p>
+            <div class="delivery-step" data-delivery-step="provider">
+                <p class="delivery-copy">เลือกแพลตฟอร์มที่ต้องการสั่ง</p>
+                <div class="delivery-links">
+                    <button type="button" class="delivery-provider" data-provider="lineMan" data-provider-logo={lineManLogo.src}>
+                        <span class="delivery-provider-main">
+                            <img src={lineManLogo.src} width="40" height="40" alt="LINE MAN Logo" class="delivery-provider-logo" />
+                            <span class="delivery-provider-name">สั่งผ่าน LINE MAN</span>
+                        </span>
+                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                    </button>
+                    <button type="button" class="delivery-provider" data-provider="grab" data-provider-logo={grabLogo.src}>
+                        <span class="delivery-provider-main">
+                            <img src={grabLogo.src} width="40" height="40" alt="Grab Logo" class="delivery-provider-logo" />
+                            <span class="delivery-provider-name">สั่งผ่าน Grab</span>
+                        </span>
+                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="delivery-step" data-delivery-step="mode" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="provider">← เปลี่ยนผู้ให้บริการ</button>
+                <p class="delivery-copy">เลือกวิธีค้นหาสาขาที่ต้องการสั่ง</p>
+                <div class="delivery-mode-links">
+                    <button type="button" class="delivery-mode" data-delivery-mode="nearby">
+                        <span><strong>สาขาใกล้ฉัน</strong><small>ใช้ตำแหน่งปัจจุบันเพื่อหาสาขาที่ใกล้ที่สุด</small></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" /></svg>
+                    </button>
+                    <button type="button" class="delivery-mode" data-delivery-mode="manual">
+                        <span><strong>เลือกสาขาเอง</strong><small>เลือกจากรายชื่อสาขาทั้งหมด</small></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="delivery-step" data-delivery-step="nearby" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
+                <p class="delivery-copy">ระบบจะใช้ตำแหน่งปัจจุบันของคุณเพื่อเลือกสาขาที่ใกล้ที่สุด</p>
+                <p class="delivery-status" data-nearby-status role="status">กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…</p>
+                <div class="delivery-nearby-result" data-nearby-result hidden>
+                    <span class="eyebrow">Nearest branch</span>
+                    <strong data-nearby-name></strong>
+                    <small data-nearby-distance></small>
+                    <a class="delivery-confirm" data-nearby-link target="_blank" rel="noopener noreferrer" href="#">ยืนยันสาขาและไปสั่ง</a>
+                </div>
+                <button type="button" class="delivery-secondary" data-delivery-back="mode">เลือกสาขาเอง</button>
+            </div>
+            <div class="delivery-step" data-delivery-step="manual" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="mode">← ย้อนกลับ</button>
+                <p class="delivery-copy">เลือกสาขาที่ต้องการสั่ง</p>
+                <label class="sr-only" for="delivery-branch-search">Search branches</label>
+                <input id="delivery-branch-search" class="delivery-search" type="search" placeholder="ค้นหาชื่อสาขาหรือเขต" autocomplete="off" />
+                <p class="delivery-count" data-branch-count></p>
+                <div class="delivery-branch-list" data-branch-list>
+                    {stores.map((store) => (
+                        <a
+                            class="delivery-branch"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-store-id={store.id}
+                            data-store-name={store.name}
+                            data-store-district={store.district}
+                            data-store-province={store.province}
+                            data-store-lat={store.lat}
+                            data-store-lng={store.lng}
+                            data-line-man-url={store.delivery.lineManUrl}
+                            data-grab-url={store.delivery.grabUrl}
+                        >
+                            <span><strong>{store.name}</strong><small>{store.district} · {store.province}</small></span>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                        </a>
+                    ))}
+                </div>
+                <p class="delivery-empty" data-branch-empty hidden>ไม่พบสาขาที่ค้นหา</p>
+            </div>
+        </div>
+    </dialog>
+</flourist-navigation>
+
 <style>
     flourist-navigation { display: contents; }
     .site-header { transition: transform 300ms ease, background-color 300ms ease, color 300ms ease; }
@@ -539,12 +560,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .delivery-progress { margin-top: 18px; color: #8b724b; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
     .delivery-context { margin: 8px 0 0; color: #6b7066; font-size: 11px; }
     .delivery-context strong { color: #172d23; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .delivery-context-badge { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; }
+    .delivery-context-logo { width: 16px; height: 16px; object-fit: contain; border-radius: 4px; vertical-align: -2px; }
     .delivery-copy { margin: 22px 0 0; color: #6b7066; font-size: 12px; line-height: 1.6; }
     .delivery-step[hidden] { display: none; }
     .delivery-back { margin-top: 20px; padding: 0; border: 0; color: #8b724b; cursor: pointer; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
     .delivery-links { display: grid; gap: 12px; padding-top: 24px; }
     .delivery-provider { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 18px; min-height: 64px; padding: 14px 16px; border: 1px solid #dcd5c6; background: transparent; color: #172d23; font: inherit; text-align: left; cursor: pointer; transition: background 200ms ease, border-color 200ms ease, transform 200ms ease; }
     .delivery-provider:hover { border-color: #a68241; background: #eae5d9; transform: translateX(3px); }
+    .delivery-provider-main { display: flex; align-items: center; gap: 14px; }
+    .delivery-provider-logo { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; flex-shrink: 0; box-shadow: 0 2px 6px rgb(0 0 0 / 10%); }
     .delivery-provider-name { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
     .delivery-provider-arrow { flex-shrink: 0; color: #8b724b; }
     .delivery-mode-links { display: grid; gap: 12px; margin-top: 20px; }
