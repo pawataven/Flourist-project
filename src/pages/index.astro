@@ -55,13 +55,9 @@ const [mobileBanner, desktopBanner] = await Promise.all([
         />
       </picture>
 
-      <!-- Mobile Top Navbar blend overlay -->
-      <div class="lg:hidden absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-[5]"></div>
+      <div class="lg:hidden absolute top-0 inset-x-0 h-28 bg-linear-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-5"></div>
+      <div class="lg:hidden absolute inset-0 bg-linear-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-5"></div>
 
-      <!-- Mobile Vertical Gradient: Smooth fade from photo into #080a09 content base -->
-      <div class="lg:hidden absolute inset-0 bg-gradient-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-[5]"></div>
-
-      <!-- Headline & Call to action -->
       <div class="page-container relative z-10 pb-24 sm:pb-16 lg:pb-0 lg:mt-16 text-left">
         <h1 class="min-w-0 flex flex-col gap-2 sm:gap-3.5 lg:gap-5 max-w-4xl font-display text-[#c5a259] text-[clamp(13px,3.8vw,44px)] leading-none uppercase tracking-wide sm:tracking-wider [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.5px_#c5a259] lg:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
           <span class="block whitespace-nowrap">From Japan’s Finest</span>
@@ -74,8 +70,7 @@ const [mobileBanner, desktopBanner] = await Promise.all([
         </div>
       </div>
     </section>
-
-    <!-- Best Sellers Section with dedicated ProductCarousel component -->
+    
     <section id="best-sellers" class="page-container mx-auto max-w-7xl lg:py-24">
       <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
       <ProductCarousel products={products} />

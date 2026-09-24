@@ -1,6 +1,7 @@
 ---
 import logo from "../assets/Asset 2-8.png";
 import logohover from "../assets/Asset_hover.png";
+import { stores } from "../StoreData";
 
 const menuItems = [
     { label: "Menu", href: "/", detail: "Find your daily ritual" },
@@ -32,7 +33,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                     </li>
                 ))}
             </ul>
-            <button type="button" class="rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black">Delivery & Pickup</button>
+            <button type="button" class="delivery-trigger rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
+                <span class="delivery-label-full">Order Delivery</span>
+                <span class="delivery-label-short">Order</span>
+            </button>
         </nav>
         <nav aria-label="Mobile navigation" class="compact-nav">
             <button type="button" class="menu-toggle nav-control" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" aria-haspopup="dialog">
@@ -43,10 +47,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 <img src={logo.src} width={logo.width} height={logo.height} alt="Flourist Matchahouse" />
                 <img src={logohover.src} width={logohover.width} height={logohover.height} alt="" aria-hidden="true" class="logo-dark" />
             </a>
-            <a href="/map" aria-label="Find our stores" class="nav-control store-control">
-                <span class="control-label">Visit us</span>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>
-            </a>
+            <button type="button" class="delivery-trigger delivery-control" aria-label="Order Delivery" aria-controls="delivery-options" aria-expanded="false">
+                <span class="delivery-label-full">Order Delivery</span>
+                <span class="delivery-label-short">Order</span>
+            </button>
         </nav>
     </header>
     <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title">
@@ -89,6 +93,86 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             </div>
         </div>
     </dialog>
+    <dialog id="delivery-options" class="delivery-dialog" aria-labelledby="delivery-dialog-title">
+        <div class="delivery-sheet">
+            <div class="delivery-dialog-header">
+                <div>
+                    <span class="eyebrow">Order online</span>
+                    <h2 id="delivery-dialog-title">Order delivery</h2>
+                </div>
+                <button type="button" class="close-delivery nav-control" aria-label="Close delivery options">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="delivery-step" data-delivery-step="provider">
+                <p class="delivery-copy">Choose where you would like to order.</p>
+                <div class="delivery-links">
+                    <button type="button" class="delivery-provider" data-provider="lineMan">
+                        <span class="delivery-provider-name">Order on LINE MAN</span>
+                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                    </button>
+                    <button type="button" class="delivery-provider" data-provider="grab">
+                        <span class="delivery-provider-name">Order on Grab</span>
+                        <svg class="delivery-provider-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="delivery-step" data-delivery-step="mode" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="provider">Back</button>
+                <p class="delivery-copy">Choose a branch.</p>
+                <div class="delivery-mode-links">
+                    <button type="button" class="delivery-mode" data-delivery-mode="nearby">
+                        <span><strong>สาขาใกล้ฉัน</strong><small>Find the closest branch</small></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" /></svg>
+                    </button>
+                    <button type="button" class="delivery-mode" data-delivery-mode="manual">
+                        <span><strong>เลือกสาขาเอง</strong><small>Choose from all branches</small></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="delivery-step" data-delivery-step="nearby" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="mode">Back</button>
+                <p class="delivery-copy">We will use your location to find the nearest branch.</p>
+                <p class="delivery-status" data-nearby-status role="status">กำลังค้นหาสาขาใกล้คุณ…</p>
+                <div class="delivery-nearby-result" data-nearby-result hidden>
+                    <span class="eyebrow">Nearest branch</span>
+                    <strong data-nearby-name></strong>
+                    <small data-nearby-distance></small>
+                    <a class="delivery-confirm" data-nearby-link target="_blank" rel="noopener noreferrer" href="#">ยืนยันและไปสั่ง</a>
+                </div>
+                <button type="button" class="delivery-secondary" data-delivery-back="mode">เลือกสาขาเอง</button>
+            </div>
+            <div class="delivery-step" data-delivery-step="manual" hidden>
+                <button type="button" class="delivery-back" data-delivery-back="mode">Back</button>
+                <p class="delivery-copy">เลือกสาขาที่ต้องการสั่ง</p>
+                <label class="sr-only" for="delivery-branch-search">Search branches</label>
+                <input id="delivery-branch-search" class="delivery-search" type="search" placeholder="ค้นหาชื่อสาขาหรือเขต" autocomplete="off" />
+                <div class="delivery-branch-list" data-branch-list>
+                    {stores.map((store) => (
+                        <a
+                            class="delivery-branch"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-store-id={store.id}
+                            data-store-name={store.name}
+                            data-store-district={store.district}
+                            data-store-province={store.province}
+                            data-store-lat={store.lat}
+                            data-store-lng={store.lng}
+                            data-line-man-url={store.delivery.lineManUrl}
+                            data-grab-url={store.delivery.grabUrl}
+                        >
+                            <span><strong>{store.name}</strong><small>{store.district} · {store.province}</small></span>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+                        </a>
+                    ))}
+                </div>
+                <p class="delivery-empty" data-branch-empty hidden>ไม่พบสาขาที่ค้นหา</p>
+            </div>
+        </div>
+    </dialog>
 </flourist-navigation>
 
 <script>
@@ -101,7 +185,22 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             const toggle = this.querySelector<HTMLButtonElement>(".menu-toggle");
             const dialog = this.querySelector<HTMLDialogElement>(".menu-dialog");
             const close = this.querySelector<HTMLButtonElement>(".close-menu");
-            if (!header || !toggle || !dialog || !close) return;
+            const deliveryDialog = this.querySelector<HTMLDialogElement>("#delivery-options");
+            const deliveryClose = this.querySelector<HTMLButtonElement>(".close-delivery");
+            const deliveryTriggers = Array.from(this.querySelectorAll<HTMLButtonElement>(".delivery-trigger"));
+            const deliverySteps = Array.from(this.querySelectorAll<HTMLElement>("[data-delivery-step]"));
+            const providerButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-provider]"));
+            const modeButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-delivery-mode]"));
+            const backButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-delivery-back]"));
+            const branchLinks = Array.from(this.querySelectorAll<HTMLAnchorElement>(".delivery-branch"));
+            const branchSearch = this.querySelector<HTMLInputElement>("#delivery-branch-search");
+            const branchEmpty = this.querySelector<HTMLElement>("[data-branch-empty]");
+            const nearbyStatus = this.querySelector<HTMLElement>("[data-nearby-status]");
+            const nearbyResult = this.querySelector<HTMLElement>("[data-nearby-result]");
+            const nearbyName = this.querySelector<HTMLElement>("[data-nearby-name]");
+            const nearbyDistance = this.querySelector<HTMLElement>("[data-nearby-distance]");
+            const nearbyLink = this.querySelector<HTMLAnchorElement>("[data-nearby-link]");
+            if (!header || !toggle || !dialog || !close || !deliveryDialog || !deliveryClose || !deliveryTriggers.length || !branchSearch || !branchEmpty || !nearbyStatus || !nearbyResult || !nearbyName || !nearbyDistance || !nearbyLink) return;
 
             const controller = new AbortController();
             const { signal } = controller;
@@ -111,10 +210,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             let lockedScrollY = 0;
             let savedBodyStyle: string | null = null;
             let scrollLocked = false;
+            let lastDeliveryTrigger: HTMLButtonElement | null = null;
+            let selectedProvider: "lineMan" | "grab" | null = null;
 
             const updateHeader = () => {
                 frame = 0;
-                if (dialog.open) return;
+                if (dialog.open || deliveryDialog.open) return;
                 const y = Math.max(0, window.scrollY);
                 header.toggleAttribute("data-scrolled", y > 16);
                 // Keep touch navigation available; only desktop hides on scroll.
@@ -143,6 +244,112 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 updateHeader();
             };
 
+            const openDelivery = (trigger: HTMLButtonElement) => {
+                if (dialog.open) closeMenu();
+                if (deliveryDialog.open) return;
+                lastDeliveryTrigger = trigger;
+                deliveryDialog.showModal();
+                deliveryTriggers.forEach((entry) => entry.setAttribute("aria-expanded", "true"));
+                if (!scrollLocked) {
+                    lockedScrollY = window.scrollY;
+                    savedBodyStyle = document.body.getAttribute("style");
+                    Object.assign(document.body.style, {
+                        position: "fixed", top: `-${lockedScrollY}px`, width: "100%", overflow: "hidden",
+                    });
+                    scrollLocked = true;
+                }
+                header.removeAttribute("data-hidden");
+            };
+
+            const closeDelivery = () => {
+                if (!deliveryDialog.open) return;
+                deliveryDialog.close();
+            };
+
+            const showDeliveryStep = (step: string) => {
+                deliverySteps.forEach((entry) => {
+                    entry.hidden = entry.dataset.deliveryStep !== step;
+                });
+            };
+
+            const providerUrlKey = () => selectedProvider === "lineMan" ? "lineManUrl" : "grabUrl";
+
+            const updateBranchLinks = () => {
+                branchLinks.forEach((link) => {
+                    const href = selectedProvider ? link.dataset[providerUrlKey()] : "";
+                    link.href = href || "#";
+                    link.toggleAttribute("aria-disabled", !href);
+                });
+                nearbyLink.href = "#";
+            };
+
+            const filterBranches = () => {
+                const query = branchSearch.value.trim().toLocaleLowerCase();
+                let visibleCount = 0;
+                branchLinks.forEach((link) => {
+                    const haystack = [link.dataset.storeName, link.dataset.storeDistrict, link.dataset.storeProvince].join(" ").toLocaleLowerCase();
+                    const visible = !query || haystack.includes(query);
+                    link.hidden = !visible;
+                    if (visible) visibleCount += 1;
+                });
+                branchEmpty.hidden = visibleCount > 0;
+            };
+
+            const distanceInKm = (lat1: number, lng1: number, lat2: number, lng2: number) => {
+                const earthRadius = 6371;
+                const radians = (degrees: number) => degrees * Math.PI / 180;
+                const dLat = radians(lat2 - lat1);
+                const dLng = radians(lng2 - lng1);
+                const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dLng / 2) ** 2;
+                return earthRadius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            };
+
+            const showNearbyError = (message: string) => {
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = message;
+            };
+
+            const findNearbyBranch = () => {
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = "กำลังค้นหาสาขาใกล้คุณ…";
+                if (!navigator.geolocation) {
+                    showNearbyError("เบราว์เซอร์นี้ไม่รองรับการค้นหาตำแหน่ง กรุณาเลือกสาขาเอง");
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    const nearest = branchLinks
+                        .map((link) => ({
+                            link,
+                            distance: distanceInKm(coords.latitude, coords.longitude, Number(link.dataset.storeLat), Number(link.dataset.storeLng)),
+                        }))
+                        .sort((a, b) => a.distance - b.distance)[0];
+                    if (!nearest) {
+                        showNearbyError("ยังไม่มีข้อมูลสาขา กรุณาเลือกสาขาเอง");
+                        return;
+                    }
+                    const href = selectedProvider ? nearest.link.dataset[providerUrlKey()] : "";
+                    nearbyName.textContent = nearest.link.dataset.storeName || "";
+                    nearbyDistance.textContent = `${nearest.distance.toFixed(1)} km from your location`;
+                    nearbyLink.href = href || "#";
+                    nearbyLink.toggleAttribute("aria-disabled", !href);
+                    nearbyLink.dataset.empty = href ? "false" : "true";
+                    nearbyStatus.textContent = "เราพบสาขาที่ใกล้ที่สุดแล้ว";
+                    nearbyResult.hidden = false;
+                }, () => {
+                    showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาอนุญาต location หรือเลือกสาขาเอง");
+                }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+            };
+
+            const resetDelivery = () => {
+                selectedProvider = null;
+                branchSearch.value = "";
+                filterBranches();
+                updateBranchLinks();
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = "กำลังค้นหาสาขาใกล้คุณ…";
+                showDeliveryStep("provider");
+            };
+
             toggle.addEventListener("click", () => {
                 if (dialog.open || desktop.matches) return;
                 lockedScrollY = window.scrollY;
@@ -155,7 +362,45 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 toggle.setAttribute("aria-expanded", "true");
                 header.removeAttribute("data-hidden");
             }, { signal });
+            deliveryTriggers.forEach((trigger) => {
+                trigger.addEventListener("click", () => openDelivery(trigger), { signal });
+            });
+            providerButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    selectedProvider = button.dataset.provider === "lineMan" ? "lineMan" : "grab";
+                    updateBranchLinks();
+                    showDeliveryStep("mode");
+                }, { signal });
+            });
+            modeButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const mode = button.dataset.deliveryMode;
+                    if (mode === "nearby") {
+                        showDeliveryStep("nearby");
+                        findNearbyBranch();
+                    } else {
+                        showDeliveryStep("manual");
+                        filterBranches();
+                        window.setTimeout(() => branchSearch.focus(), 0);
+                    }
+                }, { signal });
+            });
+            backButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    showDeliveryStep(button.dataset.deliveryBack || "provider");
+                }, { signal });
+            });
+            branchSearch.addEventListener("input", filterBranches, { signal });
+            branchLinks.forEach((link) => {
+                link.addEventListener("click", (event) => {
+                    if (!selectedProvider || link.getAttribute("href") === "#") event.preventDefault();
+                }, { signal });
+            });
+            nearbyLink.addEventListener("click", (event) => {
+                if (nearbyLink.getAttribute("href") === "#" || nearbyLink.dataset.empty === "true") event.preventDefault();
+            }, { signal });
             close.addEventListener("click", closeMenu, { signal });
+            deliveryClose.addEventListener("click", closeDelivery, { signal });
             dialog.addEventListener("cancel", (event) => {
                 event.preventDefault();
                 closeMenu();
@@ -176,8 +421,31 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 backdropPressed = false;
                 if (event.target instanceof Element && event.target.closest("a[href]")) closeMenu();
             }, { signal });
+            deliveryDialog.addEventListener("cancel", (event) => {
+                event.preventDefault();
+                closeDelivery();
+            }, { signal });
+            deliveryDialog.addEventListener("close", () => {
+                deliveryTriggers.forEach((trigger) => trigger.setAttribute("aria-expanded", "false"));
+                unlockScroll();
+                const trigger = lastDeliveryTrigger;
+                lastDeliveryTrigger = null;
+                resetDelivery();
+                trigger?.focus();
+                updateHeader();
+            }, { signal });
+            let deliveryBackdropPressed = false;
+            deliveryDialog.addEventListener("pointerdown", (event) => {
+                deliveryBackdropPressed = event.target === deliveryDialog;
+            }, { signal });
+            deliveryDialog.addEventListener("click", (event) => {
+                if (deliveryBackdropPressed && event.target === deliveryDialog) closeDelivery();
+                deliveryBackdropPressed = false;
+                if (event.target instanceof Element && event.target.closest("a[href]")) closeDelivery();
+            }, { signal });
             desktop.addEventListener("change", () => {
                 if (desktop.matches) closeMenu();
+                closeDelivery();
                 updateHeader();
             }, { signal });
             header.addEventListener("focusin", () => header.removeAttribute("data-hidden"), { signal });
@@ -185,11 +453,14 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 if (!frame) frame = window.requestAnimationFrame(updateHeader);
             }, { passive: true, signal });
             window.addEventListener("pagehide", closeMenu, { signal });
+            window.addEventListener("pagehide", closeDelivery, { signal });
             document.addEventListener("astro:before-swap", closeMenu, { signal });
+            document.addEventListener("astro:before-swap", closeDelivery, { signal });
             updateHeader();
 
             this.cleanup = () => {
                 closeMenu();
+                closeDelivery();
                 unlockScroll();
                 controller.abort();
                 window.cancelAnimationFrame(frame);
@@ -214,13 +485,17 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .announcement { display: flex; min-height: 34px; align-items: center; justify-content: center; gap: 16px; padding: 7px 16px; background: #f4f0e8; color: #435047; font-size: 10px; line-height: 1.5; text-align: center; }
     .announcement-mark { color: #947641; font-size: 10px; }
     .announcement-extra { display: none; }
-    .compact-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 78px; gap: 12px; padding-inline: max(18px, env(safe-area-inset-left)) max(18px, env(safe-area-inset-right)); color: #f4f0e8; background: rgb(18 34 27 / 96%); border-bottom: 1px solid rgb(197 162 89 / 24%); transition: background 300ms ease, color 300ms ease; }
+    .compact-nav { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; height: 78px; gap: 12px; padding-inline: max(18px, env(safe-area-inset-left)) max(18px, env(safe-area-inset-right)); color: #f4f0e8; background: rgb(18 34 27 / 96%); border-bottom: 1px solid rgb(197 162 89 / 24%); transition: background 300ms ease, color 300ms ease; }
     .site-header[data-scrolled] .compact-nav { background: #faf8f5; color: #12221b; border-color: #e2dbcd; }
     .nav-control { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-width: 44px; min-height: 44px; cursor: pointer; }
     .menu-toggle { justify-self: start; }
-    .store-control { justify-self: end; }
+    .delivery-trigger { text-transform: uppercase; letter-spacing: .12em; }
+    .delivery-label-short { display: inline; }
+    .delivery-label-full { display: none; }
+    .delivery-control { justify-self: end; min-width: 0; max-width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid currentColor; border-radius: 4px; font-size: 10px; letter-spacing: .12em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background 200ms ease, color 200ms ease; }
+    .delivery-control:hover { background: #fff; color: #12221b; }
     .control-label { display: none; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-    .compact-logo { position: relative; display: block; width: clamp(130px, 37vw, 180px); }
+    .compact-logo { position: relative; display: block; justify-self: center; width: min(37vw, 180px); max-width: 100%; min-width: 0; }
     .compact-logo img { display: block; width: 100%; height: 44px; object-fit: contain; transition: opacity 300ms ease; }
     .compact-logo .logo-dark { position: absolute; inset: 0; opacity: 0; }
     .site-header[data-scrolled] .compact-logo img:first-child { opacity: 0; }
@@ -230,6 +505,43 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .menu-dialog::backdrop { background: rgb(6 16 11 / 66%); backdrop-filter: blur(6px); }
     .menu-dialog[open] { animation: sheet-enter 350ms cubic-bezier(.22, 1, .36, 1); }
     .menu-dialog[open]::backdrop { animation: backdrop-enter 250ms ease; }
+    .delivery-dialog { position: fixed; inset: 50% auto auto 50%; width: min(460px, calc(100% - 32px)); max-width: none; margin: 0; padding: 0; border: 1px solid #dcd5c6; border-radius: 2px; background: #f6f3ec; color: #172d23; transform: translate(-50%, -50%); box-shadow: 0 24px 80px rgb(6 16 11 / 25%); }
+    .delivery-dialog::backdrop { background: rgb(6 16 11 / 66%); backdrop-filter: blur(6px); }
+    .delivery-dialog[open] { animation: delivery-enter 260ms cubic-bezier(.22, 1, .36, 1); }
+    .delivery-dialog[open]::backdrop { animation: backdrop-enter 250ms ease; }
+    .delivery-sheet { padding: 28px; }
+    .delivery-dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid #dcd5c6; }
+    .delivery-dialog-header h2 { max-width: 280px; margin: 8px 0 0; font-family: var(--font-serif); font-size: clamp(28px, 7vw, 40px); font-weight: 700; line-height: 1.05; letter-spacing: -.045em; }
+    .close-delivery { flex-shrink: 0; border: 1px solid #dcd5c6; border-radius: 50%; color: #172d23; }
+    .delivery-copy { margin: 22px 0 0; color: #6b7066; font-size: 12px; line-height: 1.6; }
+    .delivery-step[hidden] { display: none; }
+    .delivery-back { margin-top: 20px; padding: 0; border: 0; color: #8b724b; cursor: pointer; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+    .delivery-links { display: grid; gap: 12px; padding-top: 24px; }
+    .delivery-provider { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 18px; min-height: 64px; padding: 14px 16px; border: 1px solid #dcd5c6; background: transparent; color: #172d23; font: inherit; text-align: left; cursor: pointer; transition: background 200ms ease, border-color 200ms ease, transform 200ms ease; }
+    .delivery-provider:hover { border-color: #a68241; background: #eae5d9; transform: translateX(3px); }
+    .delivery-provider-name { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .delivery-provider-arrow { flex-shrink: 0; color: #8b724b; }
+    .delivery-mode-links { display: grid; gap: 12px; margin-top: 20px; }
+    .delivery-mode { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 72px; padding: 14px 16px; border: 1px solid #dcd5c6; background: transparent; color: #172d23; text-align: left; cursor: pointer; transition: background 200ms ease, border-color 200ms ease, transform 200ms ease; }
+    .delivery-mode:hover { border-color: #a68241; background: #eae5d9; transform: translateX(3px); }
+    .delivery-mode span { display: flex; flex-direction: column; gap: 6px; }
+    .delivery-mode strong { font-family: var(--font-serif); font-size: 20px; letter-spacing: -.025em; }
+    .delivery-mode small, .delivery-branch small, .delivery-nearby-result small { color: #6b7066; font-size: 10px; }
+    .delivery-status { min-height: 42px; margin: 24px 0 0; color: #6b7066; font-size: 12px; line-height: 1.6; }
+    .delivery-nearby-result { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; padding: 18px; border: 1px solid #dcd5c6; background: #eae5d9; }
+    .delivery-nearby-result strong { font-family: var(--font-serif); font-size: 25px; line-height: 1.1; letter-spacing: -.035em; }
+    .delivery-confirm { display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 8px; padding: 12px 16px; background: #172d23; color: #f6f3ec; font-size: 10px; letter-spacing: .12em; text-decoration: none; text-transform: uppercase; transition: background 200ms ease; }
+    .delivery-confirm:hover { background: #284735; }
+    .delivery-secondary { margin-top: 18px; border: 0; background: transparent; color: #8b724b; cursor: pointer; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .delivery-search { width: 100%; margin-top: 18px; padding: 12px 14px; border: 1px solid #dcd5c6; outline: none; background: transparent; color: #172d23; font: inherit; font-size: 12px; }
+    .delivery-search:focus { border-color: #a68241; box-shadow: 0 0 0 1px #a68241; }
+    .delivery-branch-list { display: grid; max-height: min(42vh, 360px); gap: 8px; margin-top: 14px; overflow-y: auto; padding-right: 4px; }
+    .delivery-branch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; border-bottom: 1px solid #dcd5c6; color: #172d23; text-decoration: none; transition: background 200ms ease, padding 200ms ease; }
+    .delivery-branch:hover { padding-inline: 18px 10px; background: #eae5d9; }
+    .delivery-branch > span { display: flex; min-width: 0; flex-direction: column; gap: 5px; }
+    .delivery-branch strong { overflow: hidden; font-family: var(--font-serif); font-size: 17px; line-height: 1.1; text-overflow: ellipsis; white-space: nowrap; }
+    .delivery-branch svg { flex-shrink: 0; color: #8b724b; }
+    .delivery-empty { margin: 22px 0 0; color: #6b7066; font-size: 12px; }
     .menu-sheet { min-height: 100%; display: flex; flex-direction: column; padding: env(safe-area-inset-top) max(26px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(26px, env(safe-area-inset-left)); }
     .sheet-header { display: flex; align-items: center; justify-content: space-between; min-height: 100px; gap: 24px; border-bottom: 1px solid #dcd5c6; }
     .sheet-logo img { width: 148px; height: 48px; object-fit: contain; }
@@ -261,11 +573,14 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     .footer-note { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 20px; font-size: 8px; color: #747466; letter-spacing: .035em; }
     .footer-note > span:nth-child(2) { color: #a68241; }
     @keyframes sheet-enter { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes delivery-enter { from { opacity: 0; transform: translate(-50%, calc(-50% + 12px)); } to { opacity: 1; transform: translate(-50%, -50%); } }
     @keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
     @media (min-width: 640px) {
         .announcement-extra { display: inline; }
         .announcement { font-size: 11px; min-height: 36px; }
         .compact-nav { height: 88px; padding-inline: 36px; }
+        .delivery-label-short { display: none; }
+        .delivery-label-full { display: inline; }
         .control-label { display: inline; }
         .compact-logo { width: 192px; }
         .compact-logo img { height: 50px; }
