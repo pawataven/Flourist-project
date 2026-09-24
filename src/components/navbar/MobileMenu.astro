@@ -1,0 +1,96 @@
+---
+import type { ImageMetadata } from "astro";
+import type { MenuItem } from "./DesktopNav.astro";
+
+interface Props {
+    menuItems: MenuItem[];
+    currentPath: string;
+    logohover: ImageMetadata;
+}
+
+const { menuItems, currentPath, logohover } = Astro.props;
+---
+
+<dialog
+    id="mobile-menu"
+    class="menu-dialog fixed inset-y-0 right-0 left-auto m-0 p-0 w-full max-w-full sm:w-[min(560px,85vw)] h-dvh max-h-none border-0 bg-[#f6f3ec] text-[#172d23] overflow-auto overscroll-contain shadow-none sm:shadow-[-20px_0_80px_rgba(0,0,0,0.16)] backdrop:bg-[#06100b]/66 backdrop:backdrop-blur-md open:animate-sheet-enter backdrop:open:animate-backdrop-enter"
+    aria-labelledby="menu-title"
+>
+    <div class="min-h-full flex flex-col pt-[env(safe-area-inset-top)] px-[max(26px,env(safe-area-inset-left))] sm:px-11 pb-[max(22px,env(safe-area-inset-bottom))] sm:pb-[max(28px,env(safe-area-inset-bottom))]">
+        <div class="flex items-center justify-between min-h-[100px] sm:min-h-[112px] gap-6 border-b border-[#dcd5c6]">
+            <a href="/" aria-label="Flourist Matchahouse home" class="block">
+                <img src={logohover.src} width={logohover.width} height={logohover.height} alt="Flourist Matchahouse" class="w-[148px] h-12 object-contain" />
+            </a>
+            <button
+                type="button"
+                class="close-menu inline-flex items-center justify-center gap-3 min-w-[44px] min-h-[44px] cursor-pointer bg-transparent border border-[#dcd5c6] sm:border-0 rounded-full sm:rounded-none px-0 sm:px-2 text-inherit transition-colors duration-200 hover:bg-[#eae5d9] focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4"
+                aria-label="Close menu"
+                autofocus
+            >
+                <span class="hidden sm:inline text-[10px] tracking-[0.14em] uppercase">Close</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                    <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
+            </button>
+        </div>
+        <div class="flex flex-1 flex-col">
+            <div class="flex items-center gap-4.5 pt-[27px] sm:pt-[34px] pb-3">
+                <span class="text-[9px] tracking-[0.24em] uppercase text-[#746449]" id="menu-title">Explore Flourist</span>
+                <span class="flex-1 h-px bg-[#dcd5c6]" aria-hidden="true"></span>
+                <span class="font-serif text-[#947641] text-[18px]" aria-hidden="true">茶</span>
+            </div>
+            <nav aria-label="Explore Flourist">
+                <ul class="list-none p-0 m-0">
+                    {menuItems.map(({ label, href, detail }, index) => (
+                        <li class="border-b border-[#ded8cd]">
+                            {href === "#" ? (
+                                <span class="flex items-center gap-5 py-4.5 sm:py-[21px] min-h-[91px] text-inherit no-underline">
+                                    <span class="self-start mt-2.25 text-[9px] tracking-[0.1em] text-[#8b724b]" aria-hidden="true">0{index + 1}</span>
+                                    <span class="flex flex-1 min-w-0 flex-col gap-2">
+                                        <span class="font-serif text-[clamp(29px,7.5vw,40px)] sm:text-[42px] font-bold leading-tight tracking-[-0.045em] text-[#7c8176]">{label}</span>
+                                        <span class="text-[#6b7066] text-[10px] sm:text-[11px] tracking-[0.025em]">{detail}</span>
+                                    </span>
+                                    <span class="text-[8px] uppercase tracking-[0.12em] border border-[#d9d2c3] rounded-[20px] px-2.25 py-1.25 text-[#746449]" aria-hidden="true">Soon</span>
+                                </span>
+                            ) : (
+                                <a
+                                    href={href}
+                                    class="group flex items-center gap-5 py-4.5 sm:py-[21px] min-h-[91px] text-inherit no-underline"
+                                    aria-current={href === currentPath ? "page" : undefined}
+                                >
+                                    <span class="self-start mt-2.25 text-[9px] tracking-[0.1em] text-[#8b724b]" aria-hidden="true">0{index + 1}</span>
+                                    <span class="flex flex-1 min-w-0 flex-col gap-2">
+                                        <span class={`font-serif text-[clamp(29px,7.5vw,40px)] sm:text-[42px] font-bold leading-tight tracking-[-0.045em] ${href === currentPath ? "text-[#8a6b35]" : ""}`}>{label}</span>
+                                        <span class="text-[#6b7066] text-[10px] sm:text-[11px] tracking-[0.025em]">{detail}</span>
+                                    </span>
+                                    <svg class="text-[#8b724b] shrink-0 transition-transform duration-200 group-hover:translate-x-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                                        <path d="M4 12h15m-6-6 6 6-6 6" />
+                                    </svg>
+                                </a>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+            <div class="mt-auto pt-8">
+                <p class="font-serif text-[23px] sm:text-[28px] leading-[1.35] tracking-[-0.025em]">
+                    A little pause.<br /><em class="text-[#8a6b35] not-italic font-normal">A finer daily ritual.</em>
+                </p>
+                <a
+                    href="/#best-sellers"
+                    class="flex items-center justify-between min-h-[54px] mt-5.5 px-5 py-3.5 bg-[#172d23] text-[#f6f3ec] border border-[#172d23] text-[10px] tracking-[0.12em] uppercase no-underline transition-colors duration-200 hover:bg-[#284735]"
+                >
+                    <span>Explore Matcha</span>
+                    <svg class="text-[#c5a259]" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                        <path d="M4 12h15m-6-6 6 6-6 6" />
+                    </svg>
+                </a>
+                <div class="flex flex-wrap items-center justify-between gap-2 mt-5 text-[8px] sm:text-[9px] text-[#747466] tracking-[0.035em]">
+                    <span>Flourist Matchahouse</span>
+                    <span class="text-[#a68241]" aria-hidden="true">✦</span>
+                    <span>Made for slow moments</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

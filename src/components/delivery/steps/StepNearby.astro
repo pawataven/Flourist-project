@@ -1,0 +1,41 @@
+---
+---
+
+<div class="delivery-step [&[hidden]]:!hidden" data-delivery-step="nearby" hidden>
+    <button
+        type="button"
+        class="mt-5 p-0 border-0 text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[9px] tracking-[0.14em] uppercase bg-transparent transition-colors"
+        data-delivery-back="mode"
+    >
+        ← ย้อนกลับ
+    </button>
+    <p class="mt-[22px] text-[#6b7066] text-xs leading-relaxed">ระบบจะใช้ตำแหน่งปัจจุบันของคุณเพื่อเลือกสาขาที่ใกล้ที่สุด</p>
+    <p class="min-h-[42px] mt-6 text-[#6b7066] text-xs leading-relaxed" data-nearby-status role="status">
+        กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…
+    </p>
+    <div
+        class="flex flex-col gap-2 mt-4.5 p-4.5 border border-[#dcd5c6] bg-[#eae5d9] [&[hidden]]:!hidden"
+        data-nearby-result
+        hidden
+    >
+        <span class="text-[9px] tracking-[0.24em] uppercase text-[#746449]">Nearest branch</span>
+        <strong class="font-serif text-[25px] leading-[1.1] tracking-[-0.035em] text-[#172d23]" data-nearby-name></strong>
+        <small class="text-[#6b7066] text-[10px]" data-nearby-distance></small>
+        <a
+            class="inline-flex items-center justify-center min-h-[48px] mt-2 px-4 py-3 bg-[#172d23] text-[#f6f3ec] text-[10px] tracking-[0.12em] uppercase no-underline hover:bg-[#284735] transition-colors duration-200"
+            data-nearby-link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="#"
+        >
+            ยืนยันสาขาและไปสั่ง
+        </a>
+    </div>
+    <button
+        type="button"
+        class="block mt-4.5 border-0 bg-transparent text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[10px] tracking-[0.1em] uppercase transition-colors"
+        data-delivery-back="mode"
+    >
+        เลือกสาขาเอง
+    </button>
+</div>

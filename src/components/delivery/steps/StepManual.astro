@@ -1,0 +1,65 @@
+---
+import type { Store } from "../../../StoreData";
+
+interface Props {
+    stores: Store[];
+}
+
+const { stores } = Astro.props;
+---
+
+<div class="delivery-step [&[hidden]]:!hidden" data-delivery-step="manual" hidden>
+    <button
+        type="button"
+        class="mt-5 p-0 border-0 text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[9px] tracking-[0.14em] uppercase bg-transparent transition-colors"
+        data-delivery-back="mode"
+    >
+        ← ย้อนกลับ
+    </button>
+    <p class="mt-[22px] text-[#6b7066] text-xs leading-relaxed">เลือกสาขาที่ต้องการสั่ง</p>
+    <label class="sr-only" for="delivery-branch-search">Search branches</label>
+    <input
+        id="delivery-branch-search"
+        class="w-full mt-4.5 px-3.5 py-3 border border-[#dcd5c6] outline-none bg-transparent text-[#172d23] text-xs font-sans transition-colors focus:border-[#a68241] focus:ring-1 focus:ring-[#a68241]"
+        type="search"
+        placeholder="ค้นหาชื่อสาขาหรือเขต"
+        autocomplete="off"
+    />
+    <p class="mt-2.5 text-[#8b724b] text-[10px] tracking-[0.05em]" data-branch-count></p>
+    <div class="grid max-h-[min(42vh,360px)] gap-2 mt-3.5 overflow-y-auto pr-1" data-branch-list>
+        {stores.map((store) => (
+            <a
+                class="delivery-branch flex items-center justify-between gap-3.5 px-3.5 py-3 border-b border-[#dcd5c6] text-[#172d23] no-underline transition-all duration-200 hover:px-4.5 hover:bg-[#eae5d9] [&[hidden]]:!hidden"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-store-id={store.id}
+                data-store-name={store.name}
+                data-store-district={store.district}
+                data-store-province={store.province}
+                data-store-lat={store.lat}
+                data-store-lng={store.lng}
+                data-line-man-url={store.delivery.lineManUrl}
+                data-grab-url={store.delivery.grabUrl}
+            >
+                <span class="flex min-w-0 flex-col gap-1.25">
+                    <strong class="overflow-hidden font-serif text-[17px] leading-tight text-ellipsis whitespace-nowrap">{store.name}</strong>
+                    <small class="text-[#6b7066] text-[10px]">{store.district} · {store.province}</small>
+                </span>
+                <svg
+                    class="shrink-0 text-[#8b724b]"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    aria-hidden="true"
+                >
+                    <path d="M4 12h15m-6-6 6 6-6 6" />
+                </svg>
+            </a>
+        ))}
+    </div>
+    <p class="mt-[22px] text-[#6b7066] text-xs [&[hidden]]:!hidden" data-branch-empty hidden>ไม่พบสาขาที่ค้นหา</p>
+</div>

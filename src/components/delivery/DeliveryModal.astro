@@ -1,0 +1,413 @@
+---
+import grabLogo from "../../assets/delivery/grab.png";
+import lineManLogo from "../../assets/delivery/line-man.png";
+import { stores } from "../../StoreData";
+import StepProvider from "./steps/StepProvider.astro";
+import StepMode from "./steps/StepMode.astro";
+import StepNearby from "./steps/StepNearby.astro";
+import StepManual from "./steps/StepManual.astro";
+---
+
+<flourist-delivery-modal class="contents">
+    <dialog
+        id="delivery-options"
+        class="fixed inset-0 m-auto w-[min(460px,calc(100%-32px))] max-w-none h-fit max-h-[calc(100dvh-32px)] p-0 overflow-auto border border-[#dcd5c6] rounded-[2px] bg-[#f6f3ec] text-[#172d23] shadow-[0_24px_80px_rgba(6,16,11,0.25)] backdrop:bg-[#06100b]/66 backdrop:backdrop-blur-md open:animate-delivery-enter backdrop:open:animate-backdrop-enter"
+        aria-labelledby="delivery-dialog-title"
+    >
+        <div class="p-7">
+            <div class="flex items-start justify-between gap-6 pb-6 border-b border-[#dcd5c6]">
+                <div>
+                    <span class="text-[9px] tracking-[0.24em] uppercase text-[#746449]">Order online</span>
+                    <h2
+                        id="delivery-dialog-title"
+                        class="max-w-[280px] mt-2 font-serif text-[clamp(28px,7vw,40px)] font-bold leading-[1.05] tracking-[-0.045em]"
+                    >
+                        Order delivery
+                    </h2>
+                </div>
+                <button
+                    type="button"
+                    class="close-delivery inline-flex items-center justify-center size-11 shrink-0 rounded-full border border-[#dcd5c6] text-[#172d23] bg-transparent hover:bg-[#eae5d9] transition-colors duration-200 cursor-pointer"
+                    aria-label="Close delivery options"
+                >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="mt-4.5 text-[#8b724b] text-[9px] tracking-[0.14em] uppercase" data-delivery-progress role="status">Step 1 of 3</div>
+            <p class="mt-2 text-[#6b7066] text-[11px] [&[hidden]]:!hidden" data-delivery-context hidden>
+                กำลังเลือกสาขาสำหรับ <span class="inline-flex items-center gap-1.5 align-middle"><img data-selected-provider-logo class="w-4 h-4 object-contain rounded align-[-2px]" src="" alt="" hidden /><strong class="text-[#172d23] font-bold tracking-[0.08em] uppercase" data-selected-provider></strong></span>
+            </p>
+
+            <StepProvider lineManLogo={lineManLogo} grabLogo={grabLogo} />
+            <StepMode />
+            <StepNearby />
+            <StepManual stores={stores} />
+        </div>
+    </dialog>
+</flourist-delivery-modal>
+
+<script>
+    import { lockScroll, unlockScroll } from "../../utils/scrollLock";
+    import { distanceInKm } from "../../utils/geo";
+
+    class FlouristDeliveryModal extends HTMLElement {
+        private cleanup?: () => void;
+
+        connectedCallback() {
+            this.cleanup?.();
+            const deliveryDialog = this.querySelector<HTMLDialogElement>("#delivery-options");
+            const deliveryClose = this.querySelector<HTMLButtonElement>(".close-delivery");
+            const deliverySteps = Array.from(this.querySelectorAll<HTMLElement>("[data-delivery-step]"));
+            const providerButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-provider]"));
+            const modeButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-delivery-mode]"));
+            const backButtons = Array.from(this.querySelectorAll<HTMLButtonElement>("[data-delivery-back]"));
+            const branchLinks = Array.from(this.querySelectorAll<HTMLAnchorElement>(".delivery-branch"));
+            const branchSearch = this.querySelector<HTMLInputElement>("#delivery-branch-search");
+            const branchCount = this.querySelector<HTMLElement>("[data-branch-count]");
+            const branchEmpty = this.querySelector<HTMLElement>("[data-branch-empty]");
+            const nearbyStatus = this.querySelector<HTMLElement>("[data-nearby-status]");
+            const nearbyResult = this.querySelector<HTMLElement>("[data-nearby-result]");
+            const nearbyName = this.querySelector<HTMLElement>("[data-nearby-name]");
+            const nearbyDistance = this.querySelector<HTMLElement>("[data-nearby-distance]");
+            const nearbyLink = this.querySelector<HTMLAnchorElement>("[data-nearby-link]");
+            const deliveryProgress = this.querySelector<HTMLElement>("[data-delivery-progress]");
+            const deliveryContext = this.querySelector<HTMLElement>("[data-delivery-context]");
+            const selectedProviderName = this.querySelector<HTMLElement>("[data-selected-provider]");
+            const selectedProviderLogo = this.querySelector<HTMLImageElement>("[data-selected-provider-logo]");
+
+            if (
+                !deliveryDialog ||
+                !deliveryClose ||
+                !branchSearch ||
+                !branchCount ||
+                !branchEmpty ||
+                !nearbyStatus ||
+                !nearbyResult ||
+                !nearbyName ||
+                !nearbyDistance ||
+                !nearbyLink ||
+                !deliveryProgress ||
+                !deliveryContext ||
+                !selectedProviderName
+            ) {
+                return;
+            }
+
+            const controller = new AbortController();
+            const { signal } = controller;
+            let isModalOpen = false;
+            let lastDeliveryTrigger: HTMLElement | null = null;
+            let selectedProvider: "lineMan" | "grab" | null = null;
+
+            const openDelivery = (trigger?: HTMLElement | null) => {
+                if (deliveryDialog.open || isModalOpen) return;
+                isModalOpen = true;
+                lastDeliveryTrigger = trigger || null;
+
+                document.querySelectorAll<HTMLElement>(".delivery-trigger").forEach((el) => {
+                    el.setAttribute("aria-expanded", "true");
+                });
+
+                lockScroll();
+                deliveryDialog.showModal();
+                window.dispatchEvent(new CustomEvent("flourist:delivery-opened", { detail: { trigger } }));
+            };
+
+            const closeDelivery = () => {
+                if (!deliveryDialog.open && !isModalOpen) return;
+                deliveryDialog.close();
+            };
+
+            const showDeliveryStep = (step: string) => {
+                deliverySteps.forEach((entry) => {
+                    entry.hidden = entry.dataset.deliveryStep !== step;
+                });
+                deliveryProgress.textContent =
+                    step === "provider" ? "Step 1 of 3" : step === "mode" ? "Step 2 of 3" : "Step 3 of 3";
+            };
+
+            const providerUrlKey = () => (selectedProvider === "lineMan" ? "lineManUrl" : "grabUrl");
+
+            const updateBranchLinks = () => {
+                branchLinks.forEach((link) => {
+                    const href = selectedProvider ? link.dataset[providerUrlKey()] : "";
+                    link.href = href || "#";
+                    link.toggleAttribute("aria-disabled", !href);
+                });
+                nearbyLink.href = "#";
+            };
+
+            const filterBranches = () => {
+                const query = branchSearch.value.trim().toLocaleLowerCase();
+                let visibleCount = 0;
+                branchLinks.forEach((link) => {
+                    const haystack = [
+                        link.dataset.storeName,
+                        link.dataset.storeDistrict,
+                        link.dataset.storeProvince,
+                    ]
+                        .join(" ")
+                        .toLocaleLowerCase();
+                    const visible = !query || haystack.includes(query);
+                    link.hidden = !visible;
+                    if (visible) visibleCount += 1;
+                });
+                branchEmpty.hidden = visibleCount > 0;
+            };
+
+            branchCount.textContent = `มี ${branchLinks.length} สาขาให้เลือก`;
+
+            const showNearbyError = (message: string) => {
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = message;
+            };
+
+            const findNearbyBranch = () => {
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
+                if (!navigator.geolocation) {
+                    showNearbyError("เบราว์เซอร์นี้ไม่รองรับการค้นหาตำแหน่ง กรุณาเลือกสาขาเอง");
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    ({ coords }) => {
+                        const nearest = branchLinks
+                            .map((link) => ({
+                                link,
+                                distance: distanceInKm(
+                                    coords.latitude,
+                                    coords.longitude,
+                                    Number(link.dataset.storeLat),
+                                    Number(link.dataset.storeLng)
+                                ),
+                            }))
+                            .sort((a, b) => a.distance - b.distance)[0];
+
+                        if (!nearest) {
+                            showNearbyError("ยังไม่มีข้อมูลสาขา กรุณาเลือกสาขาเอง");
+                            return;
+                        }
+                        const href = selectedProvider ? nearest.link.dataset[providerUrlKey()] : "";
+                        nearbyName.textContent = nearest.link.dataset.storeName || "";
+                        nearbyDistance.textContent = `ห่างจากตำแหน่งปัจจุบันประมาณ ${nearest.distance.toFixed(1)} กม.`;
+                        nearbyLink.href = href || "#";
+                        nearbyLink.toggleAttribute("aria-disabled", !href);
+                        nearbyLink.dataset.empty = href ? "false" : "true";
+                        nearbyStatus.textContent = "พบสาขาที่ใกล้ที่สุดแล้ว";
+                        nearbyResult.hidden = false;
+                    },
+                    () => {
+                        showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาอนุญาต location หรือเลือกสาขาเอง");
+                    },
+                    { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+                );
+            };
+
+            const resetDelivery = () => {
+                selectedProvider = null;
+                deliveryContext.hidden = true;
+                selectedProviderName.textContent = "";
+                if (selectedProviderLogo) {
+                    selectedProviderLogo.hidden = true;
+                    selectedProviderLogo.src = "";
+                }
+                branchSearch.value = "";
+                filterBranches();
+                updateBranchLinks();
+                nearbyResult.hidden = true;
+                nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
+                showDeliveryStep("provider");
+            };
+
+            // Global trigger listener for any .delivery-trigger button across the page
+            document.addEventListener(
+                "click",
+                (event) => {
+                    const target = event.target as HTMLElement | null;
+                    const trigger = target?.closest<HTMLButtonElement>(".delivery-trigger");
+                    if (trigger) {
+                        event.preventDefault();
+                        openDelivery(trigger);
+                    }
+                },
+                { signal }
+            );
+
+            // Programmatic open event listener
+            window.addEventListener(
+                "flourist:open-delivery",
+                ((event: CustomEvent) => {
+                    openDelivery(event.detail?.trigger);
+                }) as EventListener,
+                { signal }
+            );
+
+            // Provider selection buttons
+            providerButtons.forEach((button) => {
+                button.addEventListener(
+                    "click",
+                    () => {
+                        selectedProvider = button.dataset.provider === "lineMan" ? "lineMan" : "grab";
+                        selectedProviderName.textContent = selectedProvider === "lineMan" ? "LINE MAN" : "Grab";
+                        if (selectedProviderLogo) {
+                            selectedProviderLogo.src = button.dataset.providerLogo || "";
+                            selectedProviderLogo.hidden = false;
+                        }
+                        deliveryContext.hidden = false;
+                        updateBranchLinks();
+                        showDeliveryStep("mode");
+                        window.setTimeout(() => modeButtons[0]?.focus(), 0);
+                    },
+                    { signal }
+                );
+            });
+
+            // Mode selection buttons
+            modeButtons.forEach((button) => {
+                button.addEventListener(
+                    "click",
+                    () => {
+                        const mode = button.dataset.deliveryMode;
+                        if (mode === "nearby") {
+                            showDeliveryStep("nearby");
+                            findNearbyBranch();
+                        } else {
+                            showDeliveryStep("manual");
+                            filterBranches();
+                            window.setTimeout(() => branchSearch.focus(), 0);
+                        }
+                    },
+                    { signal }
+                );
+            });
+
+            // Back buttons
+            backButtons.forEach((button) => {
+                button.addEventListener(
+                    "click",
+                    () => {
+                        const destination = button.dataset.deliveryBack || "provider";
+                        if (destination === "provider") {
+                            selectedProvider = null;
+                            deliveryContext.hidden = true;
+                            selectedProviderName.textContent = "";
+                            if (selectedProviderLogo) {
+                                selectedProviderLogo.hidden = true;
+                                selectedProviderLogo.src = "";
+                            }
+                            updateBranchLinks();
+                        }
+                        showDeliveryStep(destination);
+                        if (destination === "provider") window.setTimeout(() => providerButtons[0]?.focus(), 0);
+                    },
+                    { signal }
+                );
+            });
+
+            // Branch search input
+            branchSearch.addEventListener("input", filterBranches, { signal });
+
+            // Branch links prevention if no provider
+            branchLinks.forEach((link) => {
+                link.addEventListener(
+                    "click",
+                    (event) => {
+                        if (!selectedProvider || link.getAttribute("href") === "#") event.preventDefault();
+                    },
+                    { signal }
+                );
+            });
+
+            // Nearby confirmation link prevention if empty
+            nearbyLink.addEventListener(
+                "click",
+                (event) => {
+                    if (nearbyLink.getAttribute("href") === "#" || nearbyLink.dataset.empty === "true") {
+                        event.preventDefault();
+                    }
+                },
+                { signal }
+            );
+
+            // Close button
+            deliveryClose.addEventListener(
+                "click",
+                (event) => {
+                    event.stopPropagation();
+                    closeDelivery();
+                },
+                { signal }
+            );
+
+            // Dialog cancel event (e.g. Escape key)
+            deliveryDialog.addEventListener(
+                "cancel",
+                (event) => {
+                    event.preventDefault();
+                    closeDelivery();
+                },
+                { signal }
+            );
+
+            // Dialog close event
+            deliveryDialog.addEventListener(
+                "close",
+                () => {
+                    if (!isModalOpen) return;
+                    isModalOpen = false;
+
+                    document.querySelectorAll<HTMLElement>(".delivery-trigger").forEach((trigger) => {
+                        trigger.setAttribute("aria-expanded", "false");
+                    });
+                    unlockScroll();
+                    const trigger = lastDeliveryTrigger;
+                    lastDeliveryTrigger = null;
+                    resetDelivery();
+                    trigger?.focus({ preventScroll: true });
+                    window.dispatchEvent(new CustomEvent("flourist:delivery-closed"));
+                },
+                { signal }
+            );
+
+            // Backdrop click detection
+            let deliveryBackdropPressed = false;
+            deliveryDialog.addEventListener(
+                "pointerdown",
+                (event) => {
+                    deliveryBackdropPressed = event.target === deliveryDialog;
+                },
+                { signal }
+            );
+
+            deliveryDialog.addEventListener(
+                "click",
+                (event) => {
+                    if (deliveryBackdropPressed && event.target === deliveryDialog) {
+                        event.stopPropagation();
+                        closeDelivery();
+                    }
+                    deliveryBackdropPressed = false;
+                    if (event.target instanceof Element && event.target.closest("a[href]")) closeDelivery();
+                },
+                { signal }
+            );
+
+            // Page navigation / lifecycle cleanup
+            window.addEventListener("pagehide", closeDelivery, { signal });
+            document.addEventListener("astro:before-swap", closeDelivery, { signal });
+
+            this.cleanup = () => {
+                closeDelivery();
+                controller.abort();
+            };
+        }
+
+        disconnectedCallback() {
+            this.cleanup?.();
+        }
+    }
+
+    if (!customElements.get("flourist-delivery-modal")) {
+        customElements.define("flourist-delivery-modal", FlouristDeliveryModal);
+    }
+</script>

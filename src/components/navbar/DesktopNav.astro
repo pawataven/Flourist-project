@@ -1,0 +1,73 @@
+---
+import type { ImageMetadata } from "astro";
+
+export interface MenuItem {
+    label: string;
+    href: string;
+    detail?: string;
+}
+
+interface Props {
+    menuItems: MenuItem[];
+    currentPath: string;
+    logo: ImageMetadata;
+    logohover: ImageMetadata;
+}
+
+const { menuItems, currentPath, logo, logohover } = Astro.props;
+---
+
+<nav
+    aria-label="Main navigation"
+    class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent xl:flex"
+>
+    <a
+        href="/"
+        aria-label="Flourist Matchahouse home"
+        class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
+    >
+        <span class="relative block h-[50px] w-auto">
+            <img
+                src={logo.src}
+                width={logo.width}
+                height={logo.height}
+                alt="Flourist Matchahouse"
+                class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
+            />
+            <img
+                src={logohover.src}
+                width={logohover.width}
+                height={logohover.height}
+                alt=""
+                aria-hidden="true"
+                class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
+            />
+        </span>
+    </a>
+    <ul class="flex items-center gap-10 text-[16px]">
+        {menuItems.map(({ label, href }) => (
+            <li>
+                {href === "#" ? (
+                    <span class="cursor-default opacity-60">{label}</span>
+                ) : (
+                    <a
+                        href={href}
+                        aria-current={href === currentPath ? "page" : undefined}
+                        class="transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
+                    >
+                        {label}
+                    </a>
+                )}
+            </li>
+        ))}
+    </ul>
+    <button
+        type="button"
+        class="delivery-trigger uppercase tracking-[0.12em] rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black cursor-pointer focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
+        aria-label="Order Delivery"
+        aria-controls="delivery-options"
+        aria-expanded="false"
+    >
+        Order Delivery
+    </button>
+</nav>

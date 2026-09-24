@@ -1,0 +1,60 @@
+---
+---
+
+<div class="delivery-step [&[hidden]]:!hidden" data-delivery-step="mode" hidden>
+    <button
+        type="button"
+        class="mt-5 p-0 border-0 text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[9px] tracking-[0.14em] uppercase bg-transparent transition-colors"
+        data-delivery-back="provider"
+    >
+        ← เปลี่ยนผู้ให้บริการ
+    </button>
+    <p class="mt-[22px] text-[#6b7066] text-xs leading-relaxed">เลือกวิธีค้นหาสาขาที่ต้องการสั่ง</p>
+    <div class="grid gap-3 mt-5">
+        <button
+            type="button"
+            class="flex items-center justify-between gap-4.5 min-h-[72px] px-4 py-3.5 border border-[#dcd5c6] bg-transparent text-[#172d23] text-left cursor-pointer transition-all duration-200 hover:border-[#a68241] hover:bg-[#eae5d9] hover:translate-x-[3px]"
+            data-delivery-mode="nearby"
+        >
+            <span class="flex flex-col gap-1.5">
+                <strong class="font-serif text-[20px] tracking-[-0.025em] font-bold">สาขาใกล้ฉัน</strong>
+                <small class="text-[#6b7066] text-[10px]">ใช้ตำแหน่งปัจจุบันเพื่อหาสาขาที่ใกล้ที่สุด</small>
+            </span>
+            <svg
+                class="shrink-0 text-[#8b724b]"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.25"
+                aria-hidden="true"
+            >
+                <path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z" />
+                <circle cx="12" cy="10" r="2.5" />
+            </svg>
+        </button>
+        <button
+            type="button"
+            class="flex items-center justify-between gap-4.5 min-h-[72px] px-4 py-3.5 border border-[#dcd5c6] bg-transparent text-[#172d23] text-left cursor-pointer transition-all duration-200 hover:border-[#a68241] hover:bg-[#eae5d9] hover:translate-x-[3px]"
+            data-delivery-mode="manual"
+        >
+            <span class="flex flex-col gap-1.5">
+                <strong class="font-serif text-[20px] tracking-[-0.025em] font-bold">เลือกสาขาเอง</strong>
+                <small class="text-[#6b7066] text-[10px]">เลือกจากรายชื่อสาขาทั้งหมด</small>
+            </span>
+            <svg
+                class="shrink-0 text-[#8b724b]"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.25"
+                aria-hidden="true"
+            >
+                <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+</div>
