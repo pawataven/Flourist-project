@@ -363,7 +363,7 @@ import StepManual from "./steps/StepManual.astro";
                     const trigger = lastDeliveryTrigger;
                     lastDeliveryTrigger = null;
                     resetDelivery();
-                    trigger?.focus({ preventScroll: true });
+                    trigger?.blur();
                     window.dispatchEvent(new CustomEvent("flourist:delivery-closed"));
                 },
                 { signal }

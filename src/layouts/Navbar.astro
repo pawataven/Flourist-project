@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <flourist-navigation class="contents">
-    <header class="site-header group fixed inset-x-0 top-0 z-50 text-white transition-transform duration-300 ease-in-out data-[scrolled]:bg-[#faf8f5] data-[scrolled]:text-[#2d2926] data-[hidden]:-translate-y-full focus-within:translate-y-0">
+    <header class="site-header group fixed inset-x-0 top-0 z-50 text-white transition-transform duration-300 ease-in-out data-[scrolled]:bg-[#faf8f5] data-[scrolled]:text-[#2d2926] data-[hidden]:-translate-y-full">
         <AnnouncementBar />
         <DesktopNav menuItems={menuItems} currentPath={currentPath} logo={logo} logohover={logohover} />
         <CompactNav logo={logo} logohover={logohover} />
@@ -55,10 +55,18 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 header.toggleAttribute("data-scrolled", y > 16);
 
                 const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-                if (y <= 60 || header.contains(document.activeElement)) {
+                if (y <= 60) {
                     header.removeAttribute("data-hidden");
                 } else if (y < maxScrollY && Math.abs(y - previousY) > 6) {
-                    header.toggleAttribute("data-hidden", y > previousY);
+                    const isScrollingDown = y > previousY;
+                    if (isScrollingDown) {
+                        if (header.contains(document.activeElement)) {
+                            (document.activeElement as HTMLElement)?.blur();
+                        }
+                        header.setAttribute("data-hidden", "");
+                    } else {
+                        header.removeAttribute("data-hidden");
+                    }
                 }
                 previousY = y;
             };
@@ -68,6 +76,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 dialog.close();
                 toggle.setAttribute("aria-expanded", "false");
                 unlockScroll();
+                previousY = Math.max(0, window.scrollY);
                 updateHeader();
             };
 
@@ -136,6 +145,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 "flourist:delivery-closed",
                 () => {
                     isDeliveryOpen = false;
+                    previousY = Math.max(0, window.scrollY);
                     updateHeader();
                 },
                 { signal }
