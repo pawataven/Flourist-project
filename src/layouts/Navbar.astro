@@ -136,7 +136,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 () => {
                     isDeliveryOpen = true;
                     if (dialog.open) closeMenu();
-                    header.removeAttribute("data-hidden");
+                    header.setAttribute("data-hidden", "");
                 },
                 { signal }
             );
