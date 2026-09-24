@@ -13,8 +13,45 @@ export interface Store {
 
 // Replace the platform URLs with each branch's real ordering page when available.
 export const stores: Store[] = [
+
   {
     id: 1,
+    name: "สาขาวิทยุ (Witthayu)",
+    district: "ปทุมวัน",
+    province: "Bangkok",
+    lat: 13.7383,
+    lng: 100.547182,
+    delivery: {
+      lineManUrl: "https://lin.ee/YCQmFxH?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/XNUnIrHb",
+    },
+  },
+  {
+    id: 2,
+    name: "สาขาราชปรารภ (Ratchaprarop)",
+    district: "ราชเทวี",
+    province: "Bangkok",
+    lat: 13.760758,
+    lng: 100.541883,
+    delivery: {
+      lineManUrl: "https://lineman.line.me/",
+      grabUrl: "https://food.grab.com/th/th/",
+    },
+  },
+  {
+    id: 3,
+    name: "สาขาราชพฤกษ์ (Ratchaphruek)",
+    district: "ตลิ่งชัน",
+    province: "Bangkok",
+    lat: 13.797775,
+    lng: 100.444447,
+    delivery: {
+      lineManUrl: "https://lineman.line.me/",
+      grabUrl: "https://food.grab.com/th/th/",
+    },
+  },
+  {
+    id: 4,
     name: "สาขาเอกมัย (Ekkamai)",
     district: "วัฒนา",
     province: "Bangkok",
@@ -26,31 +63,7 @@ export const stores: Store[] = [
     },
   },
   {
-    id: 2,
-    name: "สาขาบางนา (Bangna)",
-    district: "บางพลี",
-    province: "Samut Prakan",
-    lat: 13.663236,
-    lng: 100.653668,
-    delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
-    },
-  },
-  {
-    id: 3,
-    name: "สาขาเกษตร (Kaset)",
-    district: "จตุจักร",
-    province: "Bangkok",
-    lat: 13.836553,
-    lng: 100.578375,
-    delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
-    },
-  },
-  {
-    id: 4,
+    id: 5,
     name: "สาขาปุณณวิถี (Punnawithi)",
     district: "พระโขนง",
     province: "Bangkok",
@@ -62,24 +75,48 @@ export const stores: Store[] = [
     },
   },
   {
-    id: 5,
-    name: "สาขาวิทยุ (Witthayu)",
-    district: "ปทุมวัน",
+    id: 6,
+    name: "สาขาเกษตร (Kaset)",
+    district: "จตุจักร",
     province: "Bangkok",
-    lat: 13.7383,
-    lng: 100.547182,
+    lat: 13.836553,
+    lng: 100.578375,
     delivery: {
       lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://app.grab.com/s/XNUnIrHb",
+      grabUrl: "https://food.grab.com/th/th/",
     },
   },
   {
-    id: 6,
-    name: "สาขาราชปรารภ (Ratchaprarop)",
-    district: "ราชเทวี",
+    id: 7,
+    name: "สาขางามวงศ์วาน (Ngamwongwan)",
+    district: "หลักสี่",
     province: "Bangkok",
-    lat: 13.760758,
-    lng: 100.541883,
+    lat: 13.869944,
+    lng: 100.554522,
+    delivery: {
+      lineManUrl: "https://lineman.line.me/",
+      grabUrl: "https://food.grab.com/th/th/",
+    },
+  },
+  {
+    id: 8,
+    name: "สาขาบางนา (Bangna)",
+    district: "บางพลี",
+    province: "Samut Prakan",
+    lat: 13.663236,
+    lng: 100.653668,
+    delivery: {
+      lineManUrl: "https://lineman.line.me/",
+      grabUrl: "https://food.grab.com/th/th/",
+    },
+  },
+    {
+    id: 9,
+    name: "สาขากรุงเทพกรีฑา (Krungthep Kreetha)",
+    district: "สะพานสูง",
+    province: "bangkok",
+    lat: 13.740047,
+    lng: 100.687783,
     delivery: {
       lineManUrl: "https://lineman.line.me/",
       grabUrl: "https://food.grab.com/th/th/",
