@@ -34,8 +34,8 @@ export const stores: Store[] = [
     lat: 13.760758,
     lng: 100.541883,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/8ps0ZYL?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/tgRZjlaU",
     },
   },
   {
@@ -46,8 +46,8 @@ export const stores: Store[] = [
     lat: 13.797775,
     lng: 100.444447,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/nzSmykT?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/A4EeQf2F",
     },
   },
   {
@@ -58,8 +58,8 @@ export const stores: Store[] = [
     lat: 13.734781,
     lng: 100.589279,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/rcEon8r?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/9kfb2kAL",
     },
   },
   {
@@ -70,8 +70,8 @@ export const stores: Store[] = [
     lat: 13.699369,
     lng: 100.603935,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/QLxnv1Q?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/WgvGziRe",
     },
   },
   {
@@ -82,8 +82,8 @@ export const stores: Store[] = [
     lat: 13.836553,
     lng: 100.578375,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/PQmiB40F?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/dydE8ju2",
     },
   },
   {
@@ -94,8 +94,8 @@ export const stores: Store[] = [
     lat: 13.869944,
     lng: 100.554522,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/9m75536?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/XPJMw60i",
     },
   },
   {
@@ -106,11 +106,11 @@ export const stores: Store[] = [
     lat: 13.663236,
     lng: 100.653668,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/O3Tmdcc?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/xwTEDaFt",
     },
   },
-    {
+  {
     id: 9,
     name: "สาขากรุงเทพกรีฑา (Krungthep Kreetha)",
     district: "สะพานสูง",
@@ -118,8 +118,8 @@ export const stores: Store[] = [
     lat: 13.740047,
     lng: 100.687783,
     delivery: {
-      lineManUrl: "https://lineman.line.me/",
-      grabUrl: "https://food.grab.com/th/th/",
+      lineManUrl: "https://lin.ee/tsURnuuA?openExternalBrowser=1",
+      grabUrl: "https://app.grab.com/s/stXpxlle",
     },
   },
 ];
