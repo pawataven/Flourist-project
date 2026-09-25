@@ -1,12 +1,12 @@
 import type { ImageMetadata } from "astro";
-import Hawaii from "./assets/products/Hawaii.jpg";
-import Ichigo from "./assets/products/Ichigo.jpg";
-import Tiramisu from "./assets/products/Tiramisu.jpg";
-import Spanner from "./assets/products/Spanner.jpg";
-import Motoro from "./assets/products/Motoro.jpg";
-import Picomo from "./assets/products/Picomo.jpg";
-import Doubleflow from "./assets/products/Double Flow.jpg";
-import BlueOkinawaMatchaCheese from "./assets/products/Okinawa.jpg";
+import Hawaii from "../assets/products/Hawaii.jpg";
+import Ichigo from "../assets/products/Ichigo.jpg";
+import Tiramisu from "../assets/products/Tiramisu.jpg";
+import Spanner from "../assets/products/Spanner.jpg";
+import Motoro from "../assets/products/Motoro.jpg";
+import Picomo from "../assets/products/Picomo.jpg";
+import Doubleflow from "../assets/products/Double Flow.jpg";
+import BlueOkinawaMatchaCheese from "../assets/products/Okinawa.jpg";
 
 export interface ProductPrice {
   size: string;

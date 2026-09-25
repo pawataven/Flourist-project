@@ -1,5 +1,6 @@
-﻿import cocoaDutch from "./assets/SpecailSelection/CocoaDutch.jpg";
-import motoro from "./assets/SpecailSelection/Motoro.jpg";
+import cocoaDutch from "../assets/SpecailSelection/Cocoa-Dutch.jpg";
+import motoro from "../assets/SpecailSelection/Motoro.jpg";
+import iwa from "../assets/SpecailSelection/iwa.jpg";
 
 export interface SpecialSelectionItem {
   eyebrow: string;
@@ -24,7 +25,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     imageAlt: "Cocoa Dutch by Flourist, a Dutch cocoa drink priced at 100 THB",
     branchHref: "/map",
   },
-    {
+  {
     eyebrow: "Flourist / Special Selection",
     title: ["Motoro", ""],
     description:
@@ -33,6 +34,17 @@ export const specialSelections: SpecialSelectionItem[] = [
     availability: "Available at all branches",
     image: motoro,
     imageAlt: "Matcha with bean tones, taro and delicate rice mochi by Flourist, a special selection priced at 280 THB",
+    branchHref: "/map",
+  },
+  {
+    eyebrow: "Flourist / Special Selection",
+    title: ["Iwa matcha Latte", ""],
+    description:
+      "Crafted with Premium IWA Ceremonial Grade Matcha & Fresh Milk",
+    price: "190 THB",
+    availability: "Available at all branches",
+    image: iwa,
+    imageAlt: "Iwa matcha Latte by Flourist, a special selection priced at 280 THB",
     branchHref: "/map",
   },
 ];

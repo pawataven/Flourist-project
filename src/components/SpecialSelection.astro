@@ -1,10 +1,49 @@
 ---
 import { Image } from "astro:assets";
-import { specialSelections } from "../SpecailSelectiondata";
+import { specialSelections } from "../data/SpecailSelectiondata";
 
 const slideCount = specialSelections.length;
+const visibleDotCount = Math.min(slideCount, 5);
 ---
+<script>
+  const root = document.querySelector<HTMLElement>("[data-special-selection]");
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-special-slide]"));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-special-dot]"));
+    const previous = root.querySelector<HTMLButtonElement>("[data-special-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-special-next]");
+    let activeIndex = 0;
+    let timer: number | undefined;
 
+    const showSlide = (index: number) => {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activeIndex;
+        slide.classList.toggle("opacity-100", isActive);
+        slide.classList.toggle("opacity-0", !isActive);
+        slide.classList.toggle("pointer-events-auto", isActive);
+        slide.classList.toggle("pointer-events-none", !isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+      dots.forEach((dot, dotIndex) => {
+        const isActive = dotIndex === activeIndex % dots.length;
+        dot.classList.toggle("bg-[#C5A259]", isActive);
+        dot.classList.toggle("bg-[#FFFFFF]/35", !isActive);
+        dot.setAttribute("aria-current", String(isActive));
+      });
+    };
+
+    const restartTimer = () => {
+      window.clearInterval(timer);
+      if (slides.length > 1) timer = window.setInterval(() => showSlide(activeIndex + 1),10000);
+    };
+
+    previous?.addEventListener("click", () => { showSlide(activeIndex - 1); restartTimer(); });
+    next?.addEventListener("click", () => { showSlide(activeIndex + 1); restartTimer(); });
+    dots.forEach((dot, index) => dot.addEventListener("click", () => { showSlide(index); restartTimer(); }));
+    restartTimer();
+  }
+</script>
 <section
   id="special-selection"
   aria-labelledby="special-selection-title"
@@ -97,42 +136,4 @@ const slideCount = specialSelections.length;
   </div>
 </section>
 
-<script>
-  const root = document.querySelector<HTMLElement>("[data-special-selection]");
-  if (root) {
-    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-special-slide]"));
-    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-special-dot]"));
-    const previous = root.querySelector<HTMLButtonElement>("[data-special-prev]");
-    const next = root.querySelector<HTMLButtonElement>("[data-special-next]");
-    let activeIndex = 0;
-    let timer: number | undefined;
 
-    const showSlide = (index: number) => {
-      activeIndex = (index + slides.length) % slides.length;
-      slides.forEach((slide, slideIndex) => {
-        const isActive = slideIndex === activeIndex;
-        slide.classList.toggle("opacity-100", isActive);
-        slide.classList.toggle("opacity-0", !isActive);
-        slide.classList.toggle("pointer-events-auto", isActive);
-        slide.classList.toggle("pointer-events-none", !isActive);
-        slide.setAttribute("aria-hidden", String(!isActive));
-      });
-      dots.forEach((dot, dotIndex) => {
-        const isActive = dotIndex === activeIndex;
-        dot.classList.toggle("bg-[#C5A259]", isActive);
-        dot.classList.toggle("bg-[#FFFFFF]/35", !isActive);
-        dot.setAttribute("aria-current", String(isActive));
-      });
-    };
-
-    const restartTimer = () => {
-      window.clearInterval(timer);
-      if (slides.length > 1) timer = window.setInterval(() => showSlide(activeIndex + 1), 10000);
-    };
-
-    previous?.addEventListener("click", () => { showSlide(activeIndex - 1); restartTimer(); });
-    next?.addEventListener("click", () => { showSlide(activeIndex + 1); restartTimer(); });
-    dots.forEach((dot, index) => dot.addEventListener("click", () => { showSlide(index); restartTimer(); }));
-    restartTimer();
-  }
-</script>

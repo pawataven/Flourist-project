@@ -1,5 +1,5 @@
 import type { ImageMetadata } from "astro";
-import Sokutai from "./assets/boxset/sokutai.jpg";
+import Sokutai from "../assets/boxset/sokutai.jpg";
 
 export interface BoxsetPrice {
   size: string;
