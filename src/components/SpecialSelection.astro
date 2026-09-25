@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { specialSelections } from "../data/SpecailSelectiondata";
+import logoWeb from "../assets/index/Logo-web.png";
 
 const slideCount = specialSelections.length;
 const visibleDotCount = Math.min(slideCount, 5);
@@ -47,70 +48,127 @@ const visibleDotCount = Math.min(slideCount, 5);
 <section
   id="special-selection"
   aria-labelledby="special-selection-title"
-  class="border-y border-[#C5A259] bg-[#12221B] text-[#FFFFFF]"
+  class="relative overflow-hidden border-y border-[#C5A259] bg-[#12221B] text-[#FFFFFF]"
   data-special-selection
 >
-  <div class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-20">
-    <div class="relative grid">
-      {
-        specialSelections.map((selection, index) => (
-          <div
-            data-special-slide
-            data-slide-index={index}
-            class:list={["col-start-1 row-start-1 grid min-w-0 items-stretch gap-6 opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out lg:grid-cols-12 lg:gap-0", index === 0 && "opacity-100 pointer-events-auto"]}
-            aria-hidden={index === 0 ? "false" : "true"}
-          >
-            <div class="min-w-0 bg-[#080A09] p-2 sm:p-3 lg:col-span-7 lg:p-4">
-              <Image
-                src={selection.image}
-                alt={selection.imageAlt}
-                format="webp"
-                quality={82}
-                width={900}
-                widths={[360, 540, 720, 900, 1200]}
-                sizes="(min-width: 1280px) 700px, (min-width: 1024px) 58vw, calc(100vw - 40px)"
-                loading={index === 0 ? "eager" : "lazy"}
-                class="block h-auto w-full"
-              />
-            </div>
+  <!-- Decorative Left Logo peeking from edge -->
+  <div
+    class="pointer-events-none absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none z-0 hidden md:block opacity-65 lg:opacity-80"
+    aria-hidden="true"
+  >
+    <Image
+      src={logoWeb}
+      alt=""
+      width={720}
+      height={900}
+      class="h-auto w-[460px] md:w-[580px] lg:w-[680px] xl:w-[780px] max-w-none object-contain"
+      loading="lazy"
+    />
+  </div>
 
-            <div class="min-w-0 flex flex-col justify-center border border-[#C5A259] p-6 sm:p-8 md:p-10 lg:col-span-5 lg:border-l-0 lg:p-10 xl:p-14">
-              <p class="font-sans text-[10px] tracking-[0.28em] text-[#C5A259] uppercase sm:text-xs">
-                {selection.eyebrow}
-              </p>
-              <h2
-                id={index === 0 ? "special-selection-title" : `special-selection-title-${index}`}
-                class="mt-6 max-w-full break-words font-display text-[clamp(2.25rem,9vw,3.5rem)] uppercase leading-[0.95] tracking-normal text-[#FFFFFF] sm:mt-7 sm:text-[clamp(2.75rem,6vw,4rem)] lg:text-[clamp(2.75rem,3.5vw,4rem)]"
-              >
-                <span class="block">{selection.title[0]}</span>
-                <span class="mt-3 block sm:mt-4">{selection.title[1]}</span>
-              </h2>
-              <div class="mt-9 h-px w-14 bg-[#C5A259]"></div>
-              <p class="mt-7 max-w-sm font-sans text-sm leading-7 text-[#FFFFFF] sm:text-base sm:leading-8">
-                {selection.description}
-              </p>
-              <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-[#C5A259] pt-5">
-                <span class="font-sans text-2xl font-light text-[#FFFFFF]">{selection.price}</span>
-                <span class="font-sans text-xs text-[#FFFFFF] sm:text-sm">{selection.availability}</span>
+  <!-- Decorative Right Logo peeking from edge -->
+  <div
+    class="pointer-events-none absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 select-none z-0 hidden md:block opacity-65 lg:opacity-80"
+    aria-hidden="true"
+  >
+    <Image
+      src={logoWeb}
+      alt=""
+      width={720}
+      height={900}
+      class="h-auto w-[460px] md:w-[580px] lg:w-[680px] xl:w-[780px] max-w-none object-contain"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16">
+    <div class="relative">
+      <div class="relative grid overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl">
+        {
+          specialSelections.map((selection, index) => (
+            <div
+              data-special-slide
+              data-slide-index={index}
+              class:list={[
+                "col-start-1 row-start-1 grid min-w-0 items-stretch opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out md:grid-cols-12",
+                index === 0 && "opacity-100 pointer-events-auto"
+              ]}
+              aria-hidden={index === 0 ? "false" : "true"}
+            >
+              <div class="relative min-w-0 overflow-hidden md:col-span-5 md:border-r md:border-[#C5A259]/60 aspect-[4/5] sm:aspect-[3/4] md:aspect-auto">
+                <Image
+                  src={selection.image}
+                  alt={selection.imageAlt}
+                  format="webp"
+                  quality={85}
+                  width={720}
+                  widths={[360, 540, 720, 900]}
+                  sizes="(min-width: 1280px) 440px, (min-width: 768px) 42vw, calc(100vw - 48px)"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  class="block size-full object-cover object-center"
+                />
               </div>
-              <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-                <a href={selection.branchHref} class="inline-flex min-h-11 w-fit items-center gap-3 border-b border-[#C5A259] py-2 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]">
-                  Find a branch <span aria-hidden="true">↗</span>
-                </a>
-                <button type="button" aria-controls="delivery-options" aria-expanded="false" aria-haspopup="dialog" class="delivery-trigger inline-flex min-h-11 w-fit cursor-pointer items-center gap-3 border-b border-[#C5A259] bg-transparent py-2 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]">
-                  Order delivery <span aria-hidden="true">↗</span>
-                </button>
+
+              <div class="min-w-0 flex flex-col justify-center border-t border-[#C5A259]/60 p-7 sm:p-9 md:col-span-7 md:border-t-0 md:p-10 lg:p-12 xl:p-14">
+                <p class="font-sans text-[11px] tracking-[0.28em] text-[#C5A259] uppercase sm:text-xs">
+                  {selection.eyebrow}
+                </p>
+                <h2
+                  id={index === 0 ? "special-selection-title" : `special-selection-title-${index}`}
+                  class="mt-4 sm:mt-5 max-w-full font-display text-xl sm:text-2xl md:text-[1.65rem] lg:text-[1.85rem] xl:text-[2rem] uppercase leading-tight tracking-normal text-[#FFFFFF] whitespace-nowrap"
+                >
+                  {selection.title.filter(Boolean).join(" ")}
+                </h2>
+                <div class="mt-5 sm:mt-6 h-px w-12 sm:w-14 bg-[#C5A259]"></div>
+                <p class="mt-5 sm:mt-6 max-w-md font-sans text-sm sm:text-base leading-relaxed text-[#FFFFFF]/90">
+                  {selection.description}
+                </p>
+                <div class="mt-7 sm:mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 border-t border-[#C5A259]/60 pt-5 sm:pt-6">
+                  <span class="font-sans text-2xl sm:text-3xl font-light text-[#FFFFFF]">{selection.price}</span>
+                  <span class="font-sans text-xs sm:text-sm text-[#FFFFFF]/80">{selection.availability}</span>
+                </div>
+                <div class="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <a
+                    href={selection.branchHref}
+                    class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+                  >
+                    Find a branch <span aria-hidden="true">↗</span>
+                  </a>
+                  <button
+                    type="button"
+                    aria-controls="delivery-options"
+                    aria-expanded="false"
+                    aria-haspopup="dialog"
+                    class="delivery-trigger inline-flex min-h-10 w-fit cursor-pointer items-center gap-2.5 border-b border-[#C5A259] bg-transparent py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+                  >
+                    Order delivery <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
 
       {
         slideCount > 1 && (
           <>
-            <button type="button" data-special-prev aria-label="Previous special selection" class="absolute left-2 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B]/80 text-2xl text-[#FFFFFF] transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]">&lsaquo;</button>
-            <button type="button" data-special-next aria-label="Next special selection" class="absolute right-2 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B]/80 text-2xl text-[#FFFFFF] transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]">&rsaquo;</button>
+            <button
+              type="button"
+              data-special-prev
+              aria-label="Previous special selection"
+              class="absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+            >
+              &lsaquo;
+            </button>
+            <button
+              type="button"
+              data-special-next
+              aria-label="Next special selection"
+              class="absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+            >
+              &rsaquo;
+            </button>
           </>
         )
       }
@@ -118,7 +176,7 @@ const visibleDotCount = Math.min(slideCount, 5);
 
     {
       slideCount > 1 && (
-        <div class="mt-6 flex justify-center gap-2" aria-label="Choose special selection">
+        <div class="mt-5 sm:mt-6 flex justify-center gap-2" aria-label="Choose special selection">
           {
             specialSelections.map((selection, index) => (
               <button
@@ -126,7 +184,7 @@ const visibleDotCount = Math.min(slideCount, 5);
                 data-special-dot={index}
                 aria-label={`Go to ${selection.title.join(" ")}`}
                 aria-current={index === 0 ? "true" : "false"}
-                class:list={["h-1.5 w-8 bg-[#FFFFFF]/35 transition-colors", index === 0 && "bg-[#C5A259]" ]}
+                class:list={["h-1.5 w-7 sm:w-8 bg-[#FFFFFF]/35 transition-colors cursor-pointer", index === 0 && "bg-[#C5A259]"]}
               />
             ))
           }

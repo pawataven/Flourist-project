@@ -4,7 +4,7 @@ import iwa from "../assets/SpecailSelection/iwa.jpg";
 
 export interface SpecialSelectionItem {
   eyebrow: string;
-  title: [string, string];
+  title: string[];
   description: string;
   price: string;
   availability: string;
@@ -38,7 +38,7 @@ export const specialSelections: SpecialSelectionItem[] = [
   },
   {
     eyebrow: "Flourist / Special Selection",
-    title: ["Iwa matcha Latte", ""],
+    title: ["Iwa", "Matcha", "Latte"],
     description:
       "Crafted with Premium IWA Ceremonial Grade Matcha & Fresh Milk",
     price: "190 THB",
