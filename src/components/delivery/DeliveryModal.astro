@@ -66,6 +66,7 @@ import StepManual from "./steps/StepManual.astro";
             const branchCount = this.querySelector<HTMLElement>("[data-branch-count]");
             const branchEmpty = this.querySelector<HTMLElement>("[data-branch-empty]");
             const nearbyStatus = this.querySelector<HTMLElement>("[data-nearby-status]");
+            const nearbyRetry = this.querySelector<HTMLButtonElement>("[data-nearby-retry]");
             const nearbyResult = this.querySelector<HTMLElement>("[data-nearby-result]");
             const nearbyName = this.querySelector<HTMLElement>("[data-nearby-name]");
             const nearbyDistance = this.querySelector<HTMLElement>("[data-nearby-distance]");
@@ -82,6 +83,7 @@ import StepManual from "./steps/StepManual.astro";
                 !branchCount ||
                 !branchEmpty ||
                 !nearbyStatus ||
+                !nearbyRetry ||
                 !nearbyResult ||
                 !nearbyName ||
                 !nearbyDistance ||
@@ -160,11 +162,17 @@ import StepManual from "./steps/StepManual.astro";
             const showNearbyError = (message: string) => {
                 nearbyResult.hidden = true;
                 nearbyStatus.textContent = message;
+                nearbyRetry.hidden = false;
             };
 
             const findNearbyBranch = () => {
                 nearbyResult.hidden = true;
+                nearbyRetry.hidden = true;
                 nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
+                if (!window.isSecureContext) {
+                    showNearbyError("การค้นหาตำแหน่งต้องเปิดเว็บไซต์ผ่าน HTTPS หรือ localhost กรุณาเลือกสาขาเอง");
+                    return;
+                }
                 if (!navigator.geolocation) {
                     showNearbyError("เบราว์เซอร์นี้ไม่รองรับการค้นหาตำแหน่ง กรุณาเลือกสาขาเอง");
                     return;
@@ -196,12 +204,22 @@ import StepManual from "./steps/StepManual.astro";
                         nearbyStatus.textContent = "พบสาขาที่ใกล้ที่สุดแล้ว";
                         nearbyResult.hidden = false;
                     },
-                    () => {
-                        showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาอนุญาต location หรือเลือกสาขาเอง");
+                    (error) => {
+                        if (error.code === 1) {
+                            showNearbyError("ไม่ได้รับอนุญาตให้ใช้ตำแหน่ง กรุณาตรวจสิทธิ์ของเว็บไซต์ในเบราว์เซอร์ และ Location Services ของเบราว์เซอร์ในเครื่อง Mac แล้วลองอีกครั้ง หรือเลือกสาขาเอง");
+                        } else if (error.code === 2) {
+                            showNearbyError("เครื่องไม่สามารถระบุตำแหน่งได้ กรุณาตรวจอินเทอร์เน็ตและ Location Services แล้วลองอีกครั้ง หรือเลือกสาขาเอง");
+                        } else if (error.code === 3) {
+                            showNearbyError("ค้นหาตำแหน่งไม่ทันเวลา กรุณาลองอีกครั้ง หรือเลือกสาขาเอง");
+                        } else {
+                            showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาลองอีกครั้ง หรือเลือกสาขาเอง");
+                        }
                     },
-                    { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+                    { enableHighAccuracy: false, timeout: 30000, maximumAge: 300000 }
                 );
             };
+
+            nearbyRetry.addEventListener("click", findNearbyBranch, { signal });
 
             const resetDelivery = () => {
                 selectedProvider = null;
@@ -215,6 +233,7 @@ import StepManual from "./steps/StepManual.astro";
                 filterBranches();
                 updateBranchLinks();
                 nearbyResult.hidden = true;
+                nearbyRetry.hidden = true;
                 nearbyStatus.textContent = "กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…";
                 showDeliveryStep("provider");
             };
