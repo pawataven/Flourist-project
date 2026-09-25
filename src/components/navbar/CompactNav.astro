@@ -11,7 +11,7 @@ const { logo, logohover } = Astro.props;
 
 <nav
     aria-label="Mobile navigation"
-    class="compact-nav grid grid-cols-[44px_minmax(0,1fr)_auto] items-center h-[78px] sm:h-[88px] gap-3 px-[max(18px,env(safe-area-inset-left))] sm:px-9 text-[#f4f0e8] bg-[#12221b]/96 border-b border-[#c5a259]/24 transition-colors duration-300 xl:hidden group-data-[scrolled]:bg-[#faf8f5] group-data-[scrolled]:text-[#12221b] group-data-[scrolled]:border-[#e2dbcd]"
+    class="compact-nav grid grid-cols-[44px_minmax(0,1fr)_auto] items-center h-[78px] sm:h-[88px] gap-3 px-[max(18px,env(safe-area-inset-left))] sm:px-9 text-[#f4f0e8] bg-[#12221b]/96 border-b border-[#c5a259]/24 transition-colors duration-300 xl:hidden group-data-[scrolled]:bg-[#080a09] group-data-[scrolled]:text-white group-data-[scrolled]:border-[#c5a259]/24"
 >
     <button
         type="button"
@@ -36,20 +36,12 @@ const { logo, logohover } = Astro.props;
             width={logo.width}
             height={logo.height}
             alt="Flourist Matchahouse"
-            class="block w-full h-[44px] sm:h-[50px] object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
-        />
-        <img
-            src={logohover.src}
-            width={logohover.width}
-            height={logohover.height}
-            alt=""
-            aria-hidden="true"
-            class="absolute inset-0 block w-full h-[44px] sm:h-[50px] object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
+            class="block w-full h-[44px] sm:h-[50px] object-contain"
         />
     </a>
     <button
         type="button"
-        class="delivery-trigger delivery-control justify-self-end min-w-0 max-w-full min-h-[44px] px-3 border border-current rounded text-[10px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden text-ellipsis bg-transparent text-inherit cursor-pointer transition-colors duration-200 hover:bg-white hover:text-[#12221b] focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
+        class="delivery-trigger delivery-control justify-self-end min-w-0 max-w-full min-h-[44px] px-3 border border-current rounded text-[10px] tracking-[0.12em] uppercase whitespace-nowrap overflow-hidden text-ellipsis bg-transparent text-inherit cursor-pointer transition-colors duration-200 hover:bg-white hover:text-[#080a09] focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
         aria-label="Order Delivery"
         aria-controls="delivery-options"
         aria-expanded="false"

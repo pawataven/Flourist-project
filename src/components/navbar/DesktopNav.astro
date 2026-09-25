@@ -19,30 +19,20 @@ const { menuItems, currentPath, logo, logohover } = Astro.props;
 
 <nav
     aria-label="Main navigation"
-    class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] px-16 transition-colors duration-300 group-data-[scrolled]:bg-transparent xl:flex"
+    class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] group-data-[scrolled]:bg-[#080a09] px-16 transition-colors duration-300 xl:flex"
 >
     <a
         href="/"
         aria-label="Flourist Matchahouse home"
         class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
     >
-        <span class="relative block h-[50px] w-auto">
-            <img
-                src={logo.src}
-                width={logo.width}
-                height={logo.height}
-                alt="Flourist Matchahouse"
-                class="h-[50px] w-auto object-contain transition-opacity duration-300 group-data-[scrolled]:opacity-0"
-            />
-            <img
-                src={logohover.src}
-                width={logohover.width}
-                height={logohover.height}
-                alt=""
-                aria-hidden="true"
-                class="absolute inset-0 h-[50px] w-auto object-contain opacity-0 transition-opacity duration-300 group-data-[scrolled]:opacity-100"
-            />
-        </span>
+        <img
+            src={logo.src}
+            width={logo.width}
+            height={logo.height}
+            alt="Flourist Matchahouse"
+            class="h-[50px] w-auto object-contain"
+        />
     </a>
     <ul class="flex items-center gap-10 text-[16px]">
         {menuItems.map(({ label, href }) => (
