@@ -1,0 +1,73 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../layouts/Navbar.astro";
+import { Image } from "astro:assets";
+import menuA2 from "../assets/menu/menuA2.jpg";
+---
+
+<Layout>
+  <Navbar />
+
+  <main class="relative min-h-screen bg-[#080a09] text-white pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24">
+    <div class="mx-auto w-full max-w-[96vw] 2xl:max-w-[1860px] px-2 sm:px-4 md:px-6">
+      <!-- Page Header -->
+      <div class="mb-6 sm:mb-8 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-4 px-1 sm:px-2">
+        <div>
+          <p class="font-sans text-[11px] tracking-[0.28em] text-[#c5a259] uppercase sm:text-xs">
+            Flourist / Matcha &amp; Drinks
+          </p>
+          <h1 class="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl uppercase tracking-normal text-[#ffffff]">
+            Menu
+          </h1>
+          <div class="mt-3.5 h-px w-14 bg-[#c5a259] mx-auto md:mx-0"></div>
+        </div>
+
+        <div class="flex items-center justify-center md:justify-end gap-3">
+          <a
+            href={menuA2.src}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-md border border-[#c5a259]/60 bg-[#12221b] px-4 py-2 font-sans text-xs sm:text-sm text-[#ffffff] transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:outline-2 focus-visible:outline-[#c5a259]"
+          >
+            <span>ดูภาพขนาดเต็ม (Full Resolution)</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Menu Image Display (Large, almost edge-to-edge) -->
+      <div class="relative overflow-hidden rounded-xl border border-[#c5a259]/40 bg-[#0e1b15] shadow-2xl transition hover:border-[#c5a259]/70">
+        <a
+          href={menuA2.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block relative cursor-zoom-in overflow-hidden"
+          title="คลิกเพื่อดูภาพขนาดเต็ม"
+        >
+          <Image
+            src={menuA2}
+            alt="Flourist Menu - เมนูเครื่องดื่มและมัทฉะ"
+            format="webp"
+            quality={100}
+            width={1920}
+            widths={[640, 960, 1280, 1684, 1920, 2400]}
+            sizes="(min-width: 1920px) 1860px, 96vw"
+            loading="eager"
+            class="w-full h-auto block transition-transform duration-500 ease-out group-hover:scale-[1.008]"
+          />
+
+          <!-- Hover Hint Overlay on Desktop -->
+          <div class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span class="rounded-full border border-[#c5a259] bg-[#080a09]/90 px-4 py-2 font-sans text-xs sm:text-sm font-medium text-white shadow-lg backdrop-blur-xs">
+              🔍 คลิกเพื่อดูรูปขนาดเต็ม (Zoom in)
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <p class="mt-4 text-center font-sans text-xs text-white/50">
+        * แตะหรือคลิกที่รูปเพื่อเปิดดูภาพขนาดเต็มความละเอียดสูง
+      </p>
+    </div>
+  </main>
+</Layout>
