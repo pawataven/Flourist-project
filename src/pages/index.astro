@@ -68,20 +68,20 @@ const [mobileBanner, desktopBanner] = await Promise.all([
       </div>
 
       <div
-        class="page-container relative z-10 pb-11 sm:pb-16 lg:pb-0 lg:mt-16 text-left"
+        class="page-container mx-auto max-w-7xl relative z-10 pb-12 sm:pb-16 lg:pb-0 lg:mt-16 text-left"
       >
         <h1
-          class="min-w-0 flex flex-col gap-2 sm:gap-2.5 lg:gap-3.5 max-w-3xl font-display text-[#c5a259] text-[clamp(10px,3.8vw,29px)] sm:text-[clamp(14px,2.2vw,29px)] leading-none uppercase tracking-wide [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.2px_#c5a259] lg:[-webkit-text-stroke:1.4px_#c5a259] [paint-order:stroke_fill] px-25"
+          class="min-w-0 flex flex-col gap-1.5 sm:gap-2.5 lg:gap-3.5 max-w-3xl font-display text-[#c5a259] text-[clamp(18px,4.5vw,32px)] sm:text-[clamp(22px,2.8vw,34px)] lg:text-[38px] leading-tight uppercase tracking-wider [-webkit-text-stroke:0.6px_#c5a259] sm:[-webkit-text-stroke:1px_#c5a259] lg:[-webkit-text-stroke:1.2px_#c5a259] [paint-order:stroke_fill]"
         >
-          <span class="block whitespace-nowrap">From Japan’s Finest</span>
-          <span class="block whitespace-nowrap"
+          <span class="block whitespace-normal sm:whitespace-nowrap">From Japan’s Finest</span>
+          <span class="block whitespace-normal sm:whitespace-nowrap"
             >Terroir to Your Daily Ritual.</span
           >
         </h1>
-        <div class="mt-5 sm:mt-7 px-25">
+        <div class="mt-5 sm:mt-7">
           <a
             href="#best-sellers"
-            class="inline-flex rounded-md bg-white px-2 py-2 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]"
+            class="inline-flex items-center justify-center rounded-md bg-white px-5 py-2.5 sm:px-6 sm:py-3 font-sans text-xs sm:text-sm font-bold text-[#12221b] transition-all hover:bg-[#eee9e3] hover:shadow-lg active:scale-[0.98]"
           >
             Explore Matcha
           </a>
@@ -92,10 +92,10 @@ const [mobileBanner, desktopBanner] = await Promise.all([
     <SpecialSelection />
     <section
       id="best-sellers"
-      class="page-container mx-auto max-w-7xl lg:py-24 py-12"
+      class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-24"
     >
-      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">
-        Best Sellers - สินค้าขายดี
+      <h2 class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap">
+        Best Sellers
       </h2>
       <ProductCarousel products={products} />
     </section>
@@ -116,12 +116,12 @@ const [mobileBanner, desktopBanner] = await Promise.all([
 
     <section
       id="sokutai-collection"
-      class="page-container mx-auto max-w-7xl py-12 lg:py-24"
+      class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-24"
     >
-      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">
-        The Sokutai Collection - โซกุไต Box set
+      <h2 class="mb-6 sm:mb-8 font-display uppercase text-[clamp(14px,4.2vw,22px)] tracking-[0.08em] sm:tracking-[0.12em] lg:tracking-[0.15em] text-[#c5a259] whitespace-nowrap">
+        The Sokutai Collection
       </h2>
-      <div class="space-y-12">
+      <div class="space-y-12 sm:space-y-16">
         {boxsets.map((boxset) => <ProductBoxCard boxset={boxset} />)}
       </div>
     </section>

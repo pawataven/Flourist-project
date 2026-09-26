@@ -14,12 +14,12 @@ const { products } = Astro.props;
     data-product-carousel
     class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing"
   >
-    <div data-product-track class="flex gap-5 sm:gap-5 will-change-transform">
+    <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
       {
         products.map((product) => (
           <div
             data-product-item
-            class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] shrink-0"
+            class="w-[calc(50%-8px)] sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] min-w-0 shrink-0"
           >
             <ProductCard product={product} />
           </div>
@@ -33,7 +33,7 @@ const { products } = Astro.props;
     type="button"
     data-carousel-prev
     aria-label="Previous products"
-    class="pointer-events-auto absolute left-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+    class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
   >
     &lsaquo;
   </button>
@@ -41,7 +41,7 @@ const { products } = Astro.props;
     type="button"
     data-carousel-next
     aria-label="Next products"
-    class="pointer-events-auto absolute right-1 top-[100px] sm:top-[150px] z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-3xl leading-none text-white opacity-100 transition hover:bg-black/65 focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+    class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
   >
     &rsaquo;
   </button>
@@ -120,11 +120,25 @@ const { products } = Astro.props;
         cardsPerPage = window.innerWidth >= 1024 ? 4 : 2;
         totalPages = Math.ceil(realCount / cardsPerPage);
 
-        const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
-        const gap = window.innerWidth >= 640 ? 20 : 16;
-        cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+        const allItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
+        if (allItems.length >= realCount * 2) {
+          const firstReal = allItems[realCount];
+          const firstClone = allItems[0];
+          cycleWidth = firstReal.offsetLeft - firstClone.offsetLeft;
+
+          if (allItems.length > realCount + 1) {
+            cardStep = allItems[realCount + 1].offsetLeft - firstReal.offsetLeft;
+          } else {
+            cardStep = cycleWidth / realCount;
+          }
+        } else {
+          const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
+          const gap = parseFloat(window.getComputedStyle(track).gap) || (window.innerWidth >= 640 ? 20 : 16);
+          cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+          cycleWidth = realCount * cardStep;
+        }
+
         pageStep = cardsPerPage * cardStep;
-        cycleWidth = realCount * cardStep;
       };
 
       measure();
@@ -222,7 +236,7 @@ const { products } = Astro.props;
         });
       });
 
-      window.addEventListener("resize", () => {
+      const handleResizeOrLoad = () => {
         measure();
         const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
         const nearestPage = Math.round(normPos / pageStep) % totalPages;
@@ -231,7 +245,11 @@ const { products } = Astro.props;
         normalizeBounds();
         track.style.transform = `translate3d(${currentX}px, 0, 0)`;
         updateDots();
-      });
+      };
+
+      window.addEventListener("resize", handleResizeOrLoad);
+      window.addEventListener("load", handleResizeOrLoad);
+      document.fonts?.ready?.then(handleResizeOrLoad);
 
       // Encapsulated Drag Gesture Engine (Exact 1 Page/Column set per Swipe)
       const gestureState: PointerDragState = {

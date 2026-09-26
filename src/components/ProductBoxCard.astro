@@ -11,20 +11,20 @@ const { boxset } = Astro.props;
 
 <article
   data-product-card
-  class="group grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-start w-full select-none"
+  class="group grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-stretch w-full select-none"
 >
   <!-- Left Column: Large Image Showcase -->
-  <div class="md:col-span-6 lg:col-span-7">
-    <div class="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
+  <div class="md:col-span-6 lg:col-span-7 flex flex-col justify-center">
+    <div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
       {
         boxset.image && (
           <Image
             src={boxset.image}
             alt={boxset.title}
             format="webp"
-            quality={80}
-            width={720}
-            widths={[360, 540, 720, 1080, 1440]}
+            quality={85}
+            width={960}
+            widths={[360, 540, 720, 960, 1440]}
             sizes="(min-width: 1280px) 686px, (min-width: 1024px) calc(58.333vw - 61px), (min-width: 768px) calc(50vw - 52px), (min-width: 640px) calc(100vw - 64px), calc(100vw - 48px)"
             loading="lazy"
             class="size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
@@ -34,35 +34,46 @@ const { boxset } = Astro.props;
     </div>
   </div>
 
-  <!-- Right Column: Product Details & Description (All at the top, aligned with image top edge) -->
-  <div class="md:col-span-6 lg:col-span-5 flex flex-col justify-start text-white">
-    <h3 class="font-sans text-xl sm:text-2xl lg:text-3xl font-bold leading-snug tracking-wide text-white">
-      {boxset.title}
-    </h3>
+  <!-- Right Column: Product Details & Description (Aligned nicely with image) -->
+  <div class="md:col-span-6 lg:col-span-5 flex flex-col justify-between text-white md:py-1">
+    <div class="flex flex-col">
+      <h3 class="font-display uppercase text-[clamp(13px,4.2vw,20px)] md:text-[clamp(14px,1.8vw,20px)] lg:text-xl xl:text-2xl leading-snug tracking-[0.08em] sm:tracking-[0.12em] md:tracking-[0.08em] lg:tracking-[0.15em] xl:tracking-[0.2em] font-bold text-white whitespace-nowrap">
+        {boxset.title}
+      </h3>
 
-    <dl class="my-4 sm:my-5 border-y border-white/10 py-3 sm:py-3.5 font-sans">
-      {
-        boxset.prices.map(({ size, price }) => (
-          <div class="flex items-baseline justify-between gap-4">
-            <dt class="font-sans text-base sm:text-lg font-bold text-[#c5a259]">{size}</dt>
-            <dd class="font-sans text-lg sm:text-2xl font-bold text-[#c5a259] whitespace-nowrap">{price}</dd>
-          </div>
-        ))
-      }
-    </dl>
+      <dl class="my-3.5 sm:my-4 md:my-5 border-y border-white/10 py-2.5 sm:py-3 md:py-3.5 font-sans">
+        {
+          boxset.prices.map(({ size, price }) => (
+            <div class="flex items-baseline justify-between gap-4">
+              <dt class="font-sans text-sm sm:text-base md:text-lg font-bold text-[#c5a259]">{size}</dt>
+              <dd class="font-sans text-base sm:text-xl md:text-2xl font-bold text-[#c5a259] whitespace-nowrap">{price}</dd>
+            </div>
+          ))
+        }
+      </dl>
 
-    {boxset.note && (
-      <p class="mb-3 font-sans text-xs sm:text-sm font-semibold text-[#c5a259]/80">
-        {boxset.note}
+      {boxset.note && (
+        <p class="mb-3 font-sans text-xs sm:text-sm font-semibold text-[#c5a259]/80">
+          {boxset.note}
+        </p>
+      )}
+
+      <p
+        lang="th"
+        class="font-sans text-xs sm:text-sm md:text-base leading-relaxed sm:leading-[1.85] lg:leading-[1.9] text-white/85 font-light break-words [text-wrap:pretty]"
+      >
+        {boxset.description}
       </p>
-    )}
+    </div>
 
-    <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-[1.9] text-white/85 font-light">
-      {boxset.description}
-    </p>
-
-    <div class="mt-6">
-      <button class="w-full cursor-pointer flex items-center justify-center rounded-md bg-[#c5a259] py-3 font-sans font-bold text-[#12221b] px-6 py-3 font-sans text-base font-bold text-[#12221b] transition hover:bg-[#b08d4a]">
+    <div class="mt-6 sm:mt-8 md:mt-6 pt-2">
+      <button
+        type="button"
+        aria-controls="delivery-options"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        class="delivery-trigger w-full cursor-pointer flex items-center justify-center rounded-md bg-[#c5a259] px-6 py-3 sm:py-3.5 font-sans text-sm sm:text-base font-bold text-[#12221b] transition-all hover:bg-[#b08d4a] active:scale-[0.99] shadow-md"
+      >
         สั่งซื้อ
       </button>
     </div>
