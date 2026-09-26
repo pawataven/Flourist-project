@@ -73,7 +73,7 @@ const [mobileBanner, desktopBanner] = await Promise.all([
     </section>
 
     <SpecialSelection />
-    <section id="best-sellers" class="page-container mx-auto max-w-7xl lg:py-24">
+    <section id="best-sellers" class="page-container mx-auto max-w-7xl lg:py-24 py-12">
       <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
       <ProductCarousel products={products} />
     </section>
@@ -87,8 +87,8 @@ const [mobileBanner, desktopBanner] = await Promise.all([
       </div>
     </section>
 
-    <section id="sokutai-collection" class="page-container mx-auto max-w-7xl py-16 lg:py-24">
-      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set </h2>
+    <section id="sokutai-collection" class="page-container mx-auto max-w-7xl py-12 lg:py-24">
+      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set</h2>
       <div class="space-y-12">
         {
           boxsets.map((boxset) => (
