@@ -37,7 +37,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     branchHref: "/map",
   },
   {
-    eyebrow: "Flourist / Special Selection",
+    eyebrow: "Flourist / Selection",
     title: ["Iwa", "Matcha", "Latte"],
     description:
       "Crafted with Premium IWA Ceremonial Grade Matcha & Fresh Milk",
