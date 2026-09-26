@@ -14,7 +14,7 @@ const { boxset } = Astro.props;
   class="group grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-stretch w-full select-none"
 >
   <!-- Left Column: Large Image Showcase -->
-  <div class="md:col-span-6 lg:col-span-7 flex flex-col justify-center">
+  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-center">
     <div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
       {
         boxset.image && (
@@ -25,7 +25,7 @@ const { boxset } = Astro.props;
             quality={85}
             width={960}
             widths={[360, 540, 720, 960, 1440]}
-            sizes="(min-width: 1280px) 686px, (min-width: 1024px) calc(58.333vw - 61px), (min-width: 768px) calc(50vw - 52px), (min-width: 640px) calc(100vw - 64px), calc(100vw - 48px)"
+            sizes="(min-width: 1280px) 590px, (min-width: 768px) calc(50vw - 40px), calc(100vw - 32px)"
             loading="lazy"
             class="size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
@@ -35,9 +35,9 @@ const { boxset } = Astro.props;
   </div>
 
   <!-- Right Column: Product Details & Description (Aligned nicely with image) -->
-  <div class="md:col-span-6 lg:col-span-5 flex flex-col justify-between text-white md:py-1">
+  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-between text-white md:py-1">
     <div class="flex flex-col">
-      <h3 class="font-display uppercase text-[clamp(13px,4.2vw,20px)] md:text-[clamp(14px,1.8vw,20px)] lg:text-xl xl:text-2xl leading-snug tracking-[0.08em] sm:tracking-[0.12em] md:tracking-[0.08em] lg:tracking-[0.15em] xl:tracking-[0.2em] font-bold text-white whitespace-nowrap">
+      <h3 class="font-display uppercase text-[clamp(14px,3.4vw,20px)] md:text-[clamp(15px,1.6vw,22px)] lg:text-lg xl:text-xl leading-snug tracking-[0.06em] sm:tracking-[0.08em] lg:tracking-[0.1em] font-bold text-white whitespace-nowrap">
         {boxset.title}
       </h3>
 
@@ -60,7 +60,7 @@ const { boxset } = Astro.props;
 
       <p
         lang="th"
-        class="font-sans text-xs sm:text-sm md:text-base leading-relaxed sm:leading-[1.85] lg:leading-[1.9] text-white/85 font-light break-words [text-wrap:pretty]"
+        class="font-sans text-xs sm:text-sm md:text-base leading-relaxed sm:leading-[1.85] lg:leading-[1.9] text-white/85 font-light text-justify [text-align-last:left] [text-justify:inter-character] [text-wrap:pretty] break-words w-full"
       >
         {boxset.description}
       </p>
