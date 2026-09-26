@@ -8,44 +8,6 @@ import StepNearby from "./steps/StepNearby.astro";
 import StepManual from "./steps/StepManual.astro";
 ---
 
-<flourist-delivery-modal class="contents">
-    <dialog
-        id="delivery-options"
-        class="fixed inset-0 m-auto w-[min(460px,calc(100%-32px))] max-w-none h-fit max-h-[calc(100dvh-32px)] p-0 overflow-auto border border-[#dcd5c6] rounded-[2px] bg-[#f6f3ec] text-[#172d23] shadow-[0_24px_80px_rgba(6,16,11,0.25)] backdrop:bg-[#06100b]/90 backdrop:backdrop-blur-md open:animate-delivery-enter backdrop:open:animate-backdrop-enter"
-        aria-labelledby="delivery-dialog-title"
-    >
-        <div class="p-7">
-            <div class="flex items-start justify-between gap-6 pb-6 border-b border-[#dcd5c6]">
-                <div>
-                    <span class="text-[9px] tracking-[0.24em] uppercase text-[#746449]">Order online</span>
-                    <h2
-                        id="delivery-dialog-title"
-                        class="max-w-[280px] mt-2 font-serif text-[clamp(28px,7vw,40px)] font-bold leading-[1.05] tracking-[-0.045em]"
-                    >
-                        Order delivery
-                    </h2>
-                </div>
-                <button
-                    type="button"
-                    class="close-delivery inline-flex items-center justify-center size-11 shrink-0 rounded-full border border-[#dcd5c6] text-[#172d23] bg-transparent hover:bg-[#eae5d9] transition-colors duration-200 cursor-pointer"
-                    aria-label="Close delivery options"
-                >
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
-                </button>
-            </div>
-            <div class="mt-4.5 text-[#8b724b] text-[9px] tracking-[0.14em] uppercase" data-delivery-progress role="status">Step 1 of 3</div>
-            <p class="mt-2 text-[#6b7066] text-[11px] [&[hidden]]:!hidden" data-delivery-context hidden>
-                กำลังเลือกสาขาสำหรับ <span class="inline-flex items-center gap-1.5 align-middle"><img data-selected-provider-logo class="w-4 h-4 object-contain rounded align-[-2px]" src="" alt="" hidden /><strong class="text-[#172d23] font-bold tracking-[0.08em] uppercase" data-selected-provider></strong></span>
-            </p>
-
-            <StepProvider lineManLogo={lineManLogo} grabLogo={grabLogo} />
-            <StepMode />
-            <StepNearby />
-            <StepManual stores={stores} />
-        </div>
-    </dialog>
-</flourist-delivery-modal>
-
 <script>
     import { lockScroll, unlockScroll } from "../../utils/scrollLock";
     import { distanceInKm } from "../../utils/geo";
@@ -440,3 +402,43 @@ import StepManual from "./steps/StepManual.astro";
         customElements.define("flourist-delivery-modal", FlouristDeliveryModal);
     }
 </script>
+
+<flourist-delivery-modal class="contents">
+    <dialog
+        id="delivery-options"
+        class="fixed inset-0 m-auto w-[min(460px,calc(100%-32px))] max-w-none h-fit max-h-[calc(100dvh-32px)] p-0 overflow-auto border border-[#dcd5c6] rounded-[2px] bg-[#f6f3ec] text-[#172d23] shadow-[0_24px_80px_rgba(6,16,11,0.25)] backdrop:bg-[#06100b]/90 backdrop:backdrop-blur-md open:animate-delivery-enter backdrop:open:animate-backdrop-enter"
+        aria-labelledby="delivery-dialog-title"
+    >
+        <div class="p-7">
+            <div class="flex items-start justify-between gap-6 pb-6 border-b border-[#dcd5c6]">
+                <div>
+                    <span class="text-[9px] tracking-[0.24em] uppercase text-[#746449]">Order online</span>
+                    <h2
+                        id="delivery-dialog-title"
+                        class="max-w-[280px] mt-2 font-serif text-[clamp(28px,7vw,40px)] font-bold leading-[1.05] tracking-[-0.045em]"
+                    >
+                        Order delivery
+                    </h2>
+                </div>
+                <button
+                    type="button"
+                    class="close-delivery inline-flex items-center justify-center size-11 shrink-0 rounded-full border border-[#dcd5c6] text-[#172d23] bg-transparent hover:bg-[#eae5d9] transition-colors duration-200 cursor-pointer"
+                    aria-label="Close delivery options"
+                >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </button>
+            </div>
+            <div class="mt-4.5 text-[#8b724b] text-[9px] tracking-[0.14em] uppercase" data-delivery-progress role="status">Step 1 of 3</div>
+            <p class="mt-2 text-[#6b7066] text-[11px] [&[hidden]]:!hidden" data-delivery-context hidden>
+                กำลังเลือกสาขาสำหรับ <span class="inline-flex items-center gap-1.5 align-middle"><img data-selected-provider-logo class="w-4 h-4 object-contain rounded align-[-2px]" src="" alt="" hidden /><strong class="text-[#172d23] font-bold tracking-[0.08em] uppercase" data-selected-provider></strong></span>
+            </p>
+
+            <StepProvider lineManLogo={lineManLogo} grabLogo={grabLogo} />
+            <StepMode />
+            <StepNearby />
+            <StepManual stores={stores} />
+        </div>
+    </dialog>
+</flourist-delivery-modal>
+
+
