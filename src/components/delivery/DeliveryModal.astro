@@ -62,9 +62,7 @@ import StepManual from "./steps/StepManual.astro";
             let isModalOpen = false;
             let lastDeliveryTrigger: HTMLElement | null = null;
             let selectedProvider: "lineMan" | "grab" | null = null;
-            // Keep location only in this request's callback. Nothing is persisted
-            // in localStorage/sessionStorage, and older requests cannot overwrite
-            // the result of a newer retry.
+ 
             let nearbyRequestId = 0;
 
             const openDelivery = (trigger?: HTMLElement | null) => {
@@ -184,8 +182,7 @@ import StepManual from "./steps/StepManual.astro";
                             showNearbyError("ไม่สามารถเข้าถึงตำแหน่งได้ กรุณาลองอีกครั้ง หรือเลือกสาขาเอง");
                         }
                     },
-                    // `maximumAge: 0` asks the browser for a fresh reading from
-                    // the current device instead of accepting a cached reading.
+
                     { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
                 );
             };

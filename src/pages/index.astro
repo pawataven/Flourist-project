@@ -14,14 +14,14 @@ const [mobileBanner, desktopBanner] = await Promise.all([
   getImage({
     src: bannerMobile,
     format: "webp",
-    quality: 80,
+    quality: 100,
     width: 960,
     widths: [480, 640, 960, 1280, 1440],
   }),
   getImage({
     src: banner,
     format: "webp",
-    quality: 80,
+    quality: 100,
     width: 1920,
     widths: [1024, 1280, 1600, 1920],
   }),
@@ -31,7 +31,9 @@ const [mobileBanner, desktopBanner] = await Promise.all([
 <Layout>
   <Navbar />
   <main>
-    <section class="relative flex min-h-[92svh] sm:min-h-screen flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white">
+    <section
+      class="relative flex min-h-[75svh] sm:min-h-screen flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white"
+    >
       <!-- Select one banner source for the current viewport. -->
       <picture>
         <source
@@ -56,16 +58,31 @@ const [mobileBanner, desktopBanner] = await Promise.all([
         />
       </picture>
 
-      <div class="lg:hidden absolute top-0 inset-x-0 h-28 bg-linear-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-5"></div>
-      <div class="lg:hidden absolute inset-0 bg-linear-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-5"></div>
+      <div
+        class="lg:hidden absolute top-0 inset-x-0 h-28 bg-linear-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-5"
+      >
+      </div>
+      <div
+        class="lg:hidden absolute inset-0 bg-linear-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-5"
+      >
+      </div>
 
-      <div class="page-container relative z-10 pb-24 sm:pb-16 lg:pb-0 lg:mt-16 text-left">
-        <h1 class="min-w-0 flex flex-col gap-2 sm:gap-2.5 lg:gap-3.5 max-w-3xl font-display text-[#c5a259] text-[clamp(14px,2.2vw,29px)] leading-none uppercase tracking-wide [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.2px_#c5a259] lg:[-webkit-text-stroke:1.4px_#c5a259] [paint-order:stroke_fill]">
+      <div
+        class="page-container relative z-10 pb-11 sm:pb-16 lg:pb-0 lg:mt-16 text-left"
+      >
+        <h1
+          class="min-w-0 flex flex-col gap-2 sm:gap-2.5 lg:gap-3.5 max-w-3xl font-display text-[#c5a259] text-[clamp(10px,3.8vw,29px)] sm:text-[clamp(14px,2.2vw,29px)] leading-none uppercase tracking-wide [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.2px_#c5a259] lg:[-webkit-text-stroke:1.4px_#c5a259] [paint-order:stroke_fill] px-25"
+        >
           <span class="block whitespace-nowrap">From Japan’s Finest</span>
-          <span class="block whitespace-nowrap">Terroir to Your Daily Ritual.</span>
+          <span class="block whitespace-nowrap"
+            >Terroir to Your Daily Ritual.</span
+          >
         </h1>
-        <div class="mt-5 sm:mt-7">
-          <a href="#best-sellers" class="inline-flex rounded-md bg-white px-6 py-3 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]">
+        <div class="mt-5 sm:mt-7 px-25">
+          <a
+            href="#best-sellers"
+            class="inline-flex rounded-md bg-white px-2 py-2 font-sans text-[12px] font-bold text-[#12221b] transition hover:bg-[#eee9e3]"
+          >
             Explore Matcha
           </a>
         </div>
@@ -73,28 +90,39 @@ const [mobileBanner, desktopBanner] = await Promise.all([
     </section>
 
     <SpecialSelection />
-    <section id="best-sellers" class="page-container mx-auto max-w-7xl lg:py-24 py-12">
-      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">Best Sellers - สินค้าขายดี</h2>
+    <section
+      id="best-sellers"
+      class="page-container mx-auto max-w-7xl lg:py-24 py-12"
+    >
+      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">
+        Best Sellers - สินค้าขายดี
+      </h2>
       <ProductCarousel products={products} />
     </section>
 
     <section class="bg-[#12221b]">
-      <div class="page-container mx-auto max-w-5xl py-12 text-center text-white sm:py-16 md:py-20">
-        <h3 class="font-sans text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed md:leading-loose">
-          รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br class="hidden sm:inline" />
+      <div
+        class="page-container mx-auto max-w-5xl py-12 text-center text-white sm:py-16 md:py-20"
+      >
+        <h3
+          class="font-sans text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed md:leading-loose"
+        >
+          รับข่าวสารเกี่ยวกับการเปิดตัวคอลเล็กชั่น
+          การติดต่อเพื่อส่งข่าวสารสุดพิเศษ <br class="hidden sm:inline" />
           และข่าวสารล่าสุดจากแบรนด์สุดเอ็กซ์คลูซีฟได้ที่นี่
         </h3>
       </div>
     </section>
 
-    <section id="sokutai-collection" class="page-container mx-auto max-w-7xl py-12 lg:py-24">
-      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">The Sokutai Collection - โซกุไต Box set</h2>
+    <section
+      id="sokutai-collection"
+      class="page-container mx-auto max-w-7xl py-12 lg:py-24"
+    >
+      <h2 class="mb-8 font-sans text-[20px] text-[#c5a259] sm:text-[22px]">
+        The Sokutai Collection - โซกุไต Box set
+      </h2>
       <div class="space-y-12">
-        {
-          boxsets.map((boxset) => (
-            <ProductBoxCard boxset={boxset} />
-          ))
-        }
+        {boxsets.map((boxset) => <ProductBoxCard boxset={boxset} />)}
       </div>
     </section>
   </main>
