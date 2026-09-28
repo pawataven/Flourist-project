@@ -10,7 +10,7 @@ const { product } = Astro.props;
 const description = product.description.replace(/ท็อปด้วย Umi/g, "ท็อปด้วย\u00A0Umi").replace(/ท็อป/g, "ท็อ\u2060ป");
 ---
 
-<article data-product-card class="group w-full select-none">
+<article data-product-card class="group min-w-0 w-full select-none">
   <div
     class="relative aspect-square w-full overflow-hidden rounded-xl bg-[#12221b] isolate"
   >
@@ -31,9 +31,9 @@ const description = product.description.replace(/ท็อปด้วย Umi/g,
       )
     }
   </div>
-  <div class="pt-3 sm:pt-4 text-white">
+  <div class="min-w-0 pt-3 text-white sm:pt-4">
     <h2
-      class="font-display pt-2 text-[14px] uppercase sm:text-[12px] font-bold leading-snug tracking-[0.25em] line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]"
+      class="max-w-full break-words font-display pt-2 text-[14px] uppercase sm:text-[12px] font-bold leading-snug tracking-[0.12em] sm:tracking-[0.25em] line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]"
     >
       {product.title}
     </h2>
@@ -61,7 +61,7 @@ const description = product.description.replace(/ท็อปด้วย Umi/g,
     <p
       lang="th"
       class:list={[
-        "mt-2 font-sans text-xs sm:text-sm leading-relaxed text-justify [text-align-last:left] [text-justify:inter-character] [text-wrap:pretty] indent-[25px] break-words",
+        "mt-2 min-w-0 font-sans text-xs sm:text-sm leading-relaxed text-justify [text-justify:inter-character] [text-align-last:left] indent-[0.75rem] sm:indent-[25px] break-words [overflow-wrap:anywhere]",
         product.note && "mt-1",
       ]}
     >

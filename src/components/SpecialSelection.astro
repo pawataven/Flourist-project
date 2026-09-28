@@ -83,14 +83,14 @@ const visibleDotCount = Math.min(slideCount, 5);
 
   <div class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16">
     <div class="relative">
-      <div class="relative grid overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl">
+      <div class="relative grid items-start overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl md:items-stretch">
         {
           specialSelections.map((selection, index) => (
             <div
               data-special-slide
               data-slide-index={index}
               class:list={[
-                "col-start-1 row-start-1 grid min-w-0 grid-rows-[auto_1fr] items-stretch opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out md:grid-cols-12 md:grid-rows-1",
+                "col-start-1 row-start-1 grid min-w-0 content-start grid-rows-[auto_auto] items-start opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out md:grid-cols-12 md:grid-rows-1 md:items-stretch md:content-stretch",
                 index === 0 && "opacity-100 pointer-events-auto"
               ]}
               aria-hidden={index === 0 ? "false" : "true"}

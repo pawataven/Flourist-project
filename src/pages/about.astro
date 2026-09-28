@@ -4,51 +4,109 @@ import Navbar from "../layouts/Navbar.astro";
 import { Image } from "astro:assets";
 import originImage from "../assets/About/pic1.jpg";
 import specialtyMatchaImage from "../assets/About/p2.jpg";
+import pic1 from "../assets/About/Asset_1-100.jpg";
 ---
 
 <Layout>
   <Navbar />
 
-  <main class="relative min-h-screen bg-[#080a09] text-white pt-[92px] selection:bg-[#c5a259] selection:text-[#080a09]">
-
+  <main
+    class="relative min-h-screen bg-[#080a09] pt-24 text-white selection:bg-[#c5a259] selection:text-[#080a09] sm:pt-28 lg:pt-32"
+  >
     <section class="relative border-b border-[#c5a259]/20">
-      <div class="page-container relative mx-auto max-w-7xl pt-20 pb-16 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24">
-        
-        <h1 class="min-w-0 flex flex-col gap-2 sm:gap-3.5 lg:gap-5 max-w-4xl font-display text-[#c5a259] text-[clamp(13px,3.8vw,44px)] leading-none uppercase tracking-wide sm:tracking-wider [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.5px_#c5a259] lg:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
-          Our Story &amp; Philosophy
-        </h1>
-
-        <div class="relative mt-12 overflow-hidden rounded-xl border border-[#c5a259]/30 bg-[#12221b]/60 p-8 sm:p-12 lg:p-14">
-
-          <div class="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-[#c5a259]/60"></div>
-          <div class="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-[#c5a259]/60"></div>
-          <div class="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-[#c5a259]/60"></div>
-          <div class="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-[#c5a259]/60"></div>
+      <div
+        class="page-container relative mx-auto max-w-7xl py-8 text-center sm:py-12 lg:py-16"
+      >
+        <div
+          class="mx-auto flex min-h-36 w-full max-w-5xl items-center justify-center bg-white px-6 py-10 sm:min-h-44 sm:px-12 sm:py-35 lg:min-h-52 lg:px-20"
+        >
+          <h1
+            class="mx-auto min-w-0 max-w-full whitespace-nowrap font-display text-[clamp(13px,4.2vw,48px)] leading-none uppercase tracking-wide text-[#080a09] sm:tracking-wider"
+          >
+            Our Story &amp; Philosophy
+          </h1>
+        </div>
+      </div>
+      <div
+        class="page-container relative mx-auto max-w-7xl pb-16 sm:pb-20 lg:pb-24"
+      >
+        <div
+            class="relative mt-8 overflow-hidden rounded-xl border border-[#c5a259]/30 bg-[#12221b]/60 p-5 sm:mt-10 sm:p-8 lg:mt-12 lg:p-12"
+        >
+          <div
+            class="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-[#c5a259]/60"
+          >
+          </div>
+          <div
+            class="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-[#c5a259]/60"
+          >
+          </div>
+          <div
+            class="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-[#c5a259]/60"
+          >
+          </div>
+          <div
+            class="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-[#c5a259]/60"
+          >
+          </div>
 
           <p
             lang="th"
             class="relative z-10 font-sans text-[15px] sm:text-base md:text-[17px] leading-relaxed sm:leading-[2.2] text-white/95 font-light text-justify [text-align-last:left] [text-justify:inter-word] break-words max-w-5xl mx-auto"
           >
-            <span class="text-[#c5a259] font-medium font-sans">FLOURIST Matchahouse</span> เริ่มต้น<wbr>เส้นทาง<wbr>ธุรกิจ<wbr>จาก<wbr>ความ<wbr>ชื่นชอบ<wbr>ใน<wbr>ขนมหวาน<wbr>โฮมเมด โดยเฉพาะ<wbr>ไดฟูกุ ก่อนจะ<wbr>ขยาย<wbr>มิติ<wbr>ของ<wbr>แบรนด์<wbr>เข้าสู่<wbr>วัฒนธรรม<wbr>ชาเขียว<wbr>อย่าง<wbr>เต็ม<wbr>รูปแบบ ด้วย<wbr>การ<wbr>คัดสรร<wbr>ผงมัทฉะ<wbr>คุณภาพ<wbr>สูง<wbr>จาก<wbr>หลาก<wbr>หลาย<wbr>แหล่ง<wbr>ปลูก<wbr>ใน<wbr>ประเทศ<wbr>ญี่ปุ่น เพื่อ<wbr>สร้าง<wbr>สุนทรียภาพ<wbr>ใน<wbr>การ<wbr>จับคู่<wbr>รสชาติ<wbr>ระหว่าง<wbr>มัทฉะ<wbr>และ<wbr>ขนมหวาน จาก<wbr>จุด<wbr>เริ่มต้น<wbr>สาขา<wbr>แรก<wbr>สู่<wbr>การ<wbr>ขยาย<wbr>สาขา<wbr>ใน<wbr>เขต<wbr>เมือง แบรนด์<wbr>ยังคง<wbr>ยึดมั่น<wbr>ใน<wbr>ความ<wbr>พิถีพิถัน ละเมียดละไม และ<wbr>การ<wbr>ส่งมอบ<wbr>ประสบการณ์<wbr>มัทฉะ<wbr>ระดับ<wbr>สเปเชียลตี<wbr>ให้แก่<wbr>ผู้บริโภค
+            <span class="text-[#c5a259] font-medium font-sans"
+              >FLOURIST Matchahouse</span
+            > เริ่มต้น<wbr />เส้นทาง<wbr />ธุรกิจ<wbr />จาก<wbr />ความ<wbr
+            />ชื่นชอบ<wbr />ใน<wbr />ขนมหวาน<wbr />โฮมเมด โดยเฉพาะ<wbr />ไดฟูกุ
+            ก่อนจะ<wbr />ขยาย<wbr />มิติ<wbr />ของ<wbr />แบรนด์<wbr
+            />เข้าสู่<wbr />วัฒนธรรม<wbr />ชาเขียว<wbr />อย่าง<wbr />เต็ม<wbr
+            />รูปแบบ ด้วย<wbr />การ<wbr />คัดสรร<wbr />ผงมัทฉะ<wbr />คุณภาพ<wbr
+            />สูง<wbr />จาก<wbr />หลาก<wbr />หลาย<wbr />แหล่ง<wbr />ปลูก<wbr
+            />ใน<wbr />ประเทศ<wbr />ญี่ปุ่น เพื่อ<wbr />สร้าง<wbr
+            />สุนทรียภาพ<wbr />ใน<wbr />การ<wbr />จับคู่<wbr />รสชาติ<wbr
+            />ระหว่าง<wbr />มัทฉะ<wbr />และ<wbr />ขนมหวาน จาก<wbr />จุด<wbr
+            />เริ่มต้น<wbr />สาขา<wbr />แรก<wbr />สู่<wbr />การ<wbr />ขยาย<wbr
+            />สาขา<wbr />ใน<wbr />เขต<wbr />เมือง แบรนด์<wbr />ยังคง<wbr
+            />ยึดมั่น<wbr />ใน<wbr />ความ<wbr />พิถีพิถัน ละเมียดละไม และ<wbr
+            />การ<wbr />ส่งมอบ<wbr />ประสบการณ์<wbr />มัทฉะ<wbr />ระดับ<wbr
+            />สเปเชียลตี<wbr />ให้แก่<wbr />ผู้บริโภค
           </p>
         </div>
       </div>
     </section>
 
-    <section class="relative py-20 sm:py-24 lg:py-28 border-b border-white/5">
+    <section class="relative py-8 sm:py-10 lg:py-12">
+      <div>
+        <Image
+          src={pic1}
+            alt="FLOURIST Matchahouse Specialty Matcha"
+          quality={100}
+          class="mx-auto h-auto w-full max-w-6xl object-cover object-center"
+        />
+      </div>
+    </section>
+
+    <section class="relative border-b border-white/5 py-16 sm:py-20 lg:py-24">
       <div class="page-container mx-auto max-w-7xl">
-        
         <div class="mb-12">
-          <h2 class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+          <h2
+            class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide"
+          >
             1. จุดเริ่มต้นและการเติบโต - Brand Origin &amp; Journey
           </h2>
-          <div class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"></div>
+          <div
+            class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"
+          >
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
+        <div
+          class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
+        >
           <div class="lg:col-span-6 order-2 lg:order-1">
-            <div class="rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-2 sm:p-3">
+            <div
+              class="rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-2 sm:p-3"
+            >
               <div class="overflow-hidden rounded-lg bg-[#080a09]">
                 <Image
                   src={originImage}
@@ -61,135 +119,228 @@ import specialtyMatchaImage from "../assets/About/p2.jpg";
           </div>
 
           <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
-
-            <div class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40">
-              <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2">
+            <div
+              class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40"
+            >
+              <h3
+                class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2"
+              >
                 จุดเริ่มต้นจากขนมหวาน
               </h3>
-              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
-                FLOURIST ไม่ได้เริ่มจากการเป็นร้านชาเขียวเพียวๆ ตั้งแต่แรก แต่เริ่มต้นจากการทำ "ไดฟูกุ (Signature Daifuku)" และเบเกอรีโฮมเมด
+              <p
+                class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light"
+              >
+                FLOURIST ไม่ได้เริ่มจากการเป็นร้านชาเขียวเพียวๆ ตั้งแต่แรก
+                แต่เริ่มต้นจากการทำ "ไดฟูกุ (Signature Daifuku)"
+                และเบเกอรีโฮมเมด
               </p>
             </div>
 
-            <div class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40">
-              <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2">
+            <div
+              class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40"
+            >
+              <h3
+                class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2"
+              >
                 ก้าวสู่ Matcha Specialty
               </h3>
-              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
-                ด้วยความหลงใหลในวัตถุดิบและความลงตัวเมื่อทานขนมคู่กับมัทฉะ จึงได้พัฒนาและคัดสรรผงมัทฉะเกรดพรีเมียมจากญี่ปุ่นอย่างจริงจัง จนเติบโตกลายมาเป็น Matcha Specialty House เต็มตัว
+              <p
+                class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light"
+              >
+                ด้วยความหลงใหลในวัตถุดิบและความลงตัวเมื่อทานขนมคู่กับมัทฉะ
+                จึงได้พัฒนาและคัดสรรผงมัทฉะเกรดพรีเมียมจากญี่ปุ่นอย่างจริงจัง
+                จนเติบโตกลายมาเป็น Matcha Specialty House เต็มตัว
               </p>
             </div>
 
-            <div class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40">
-              <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2">
+            <div
+              class="rounded-xl border border-white/10 bg-[#12221b]/40 p-6 sm:p-7 transition-colors duration-300 hover:border-[#c5a259]/40"
+            >
+              <h3
+                class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2"
+              >
                 สาขาแรกตั้งต้น
               </h3>
-              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
-                ปักหลักสาขาแรกที่ย่าน สามโคก ปทุมธานี ด้วยบรรยากาศสไตล์คาเฟ่โฮมเมด ล้อมรอบด้วยต้นไม้และดอกไม้ ก่อนจะขยายตัวและปักหมุด Pop-up Store เข้าสู่ใจกลางเมืองและขยายสาขารูปแบบ Grab &amp; Go / Flagship กระจายตามมุมเมือง
+              <p
+                class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light"
+              >
+                ปักหลักสาขาแรกที่ย่าน สามโคก ปทุมธานี
+                ด้วยบรรยากาศสไตล์คาเฟ่โฮมเมด ล้อมรอบด้วยต้นไม้และดอกไม้
+                ก่อนจะขยายตัวและปักหมุด Pop-up Store
+                เข้าสู่ใจกลางเมืองและขยายสาขารูปแบบ Grab &amp; Go / Flagship
+                กระจายตามมุมเมือง
               </p>
             </div>
-
           </div>
         </div>
       </div>
     </section>
 
-    <section class="relative bg-[#12221b] py-20 sm:py-28 lg:py-32 border-y border-[#c5a259]/25">
+    <section
+      class="relative border-y border-[#c5a259]/25 bg-[#12221b] py-16 sm:py-20 lg:py-20"
+    >
       <div class="page-container relative mx-auto max-w-7xl text-center">
-        
-        <h2 class="mb-3 font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+        <h2
+          class="mb-3 font-sans text-[0px] font-medium tracking-wide"
+        >
           2. ที่มาของชื่อแบรนด์ - Brand Name Meaning
         </h2>
-        <div class="mx-auto h-px w-20 bg-gradient-to-r from-transparent via-[#c5a259] to-transparent"></div>
-
-        <div class="my-12 py-8 border-y border-[#c5a259]/20 flex flex-wrap items-center justify-center gap-4 sm:gap-8 font-display text-2xl sm:text-4xl md:text-[42px] uppercase tracking-wider">
-          <span class="text-[#c5a259] [-webkit-text-stroke:1.5px_#c5a259]">FLOURIST</span>
-          <span class="text-white/40">=</span>
-          <span class="text-white [-webkit-text-stroke:1.5px_white]">FLOUR</span>
-          <span class="text-[#c5a259] font-sans text-2xl sm:text-3xl">+</span>
-          <span class="text-white [-webkit-text-stroke:1.5px_white]">FLORIST</span>
+        <div
+          class="my-12 flex flex-col items-center justify-center gap-2 border-y border-[#c5a259]/20 py-8 font-display text-3xl uppercase tracking-wider sm:flex-row sm:gap-8 sm:text-4xl md:text-[42px]"
+        >
+          <span class="text-[#c5a259] [-webkit-text-stroke:1.5px_#c5a259]"
+            >FLOURIST</span
+          >
+          <span class="font-display text-2xl text-white/70 sm:text-4xl md:text-[42px]">=</span>
+          <span class="text-white [-webkit-text-stroke:1.5px_white]">FLOUR</span
+          >
+          <span class="font-display text-2xl text-white/70 sm:text-4xl md:text-[42px]">+</span>
+          <span class="text-white [-webkit-text-stroke:1.5px_white]"
+            >FLORIST</span
+          >
         </div>
 
-        <p class="font-sans text-sm sm:text-base text-white/85 mb-12 font-normal">
+        <p
+          class="hidden"
+        >
           FLOURIST = Flour (แป้ง) + Florist (คนขายดอกไม้ / ความเบ่งบาน)
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
-          
-          <div class="rounded-xl bg-[#080a09] p-8 sm:p-10 border border-[#c5a259]/30 transition-colors duration-300 hover:border-[#c5a259]">
-            <div class="flex items-center justify-between pb-5 mb-5 border-b border-white/10">
-              <span class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]">
+        <div
+          class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto"
+        >
+          <div
+            class="rounded-xl bg-[#080a09] p-8 sm:p-10 border border-[#c5a259]/30 transition-colors duration-300 hover:border-[#c5a259]"
+          >
+            <div
+              class="flex items-center justify-between pb-5 mb-5 border-b border-white/10"
+            >
+              <span
+                class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]"
+              >
                 FLOUR
               </span>
-              <span class="font-sans text-xs tracking-widest text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]">
+              <span
+                class="font-sans text-xs tracking-widest text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]"
+              >
                 แป้ง
               </span>
             </div>
-            <h3 class="font-sans text-[18px] sm:text-[20px] font-medium text-white mb-2">
+            <h3
+              class="hidden"
+            >
               Flour (แป้ง)
             </h3>
-            <p class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
-              สะท้อนถึงรากเหง้าของแบรนด์ที่เริ่มต้นจากการทำขนมหวาน เบเกอรี และไดฟูกุ
+            <p
+              class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light"
+            >
+              สะท้อนถึงรากเหง้าของแบรนด์ที่เริ่มต้นจากการทำขนมหวาน เบเกอรี
+              และไดฟูกุ
             </p>
           </div>
 
-          <div class="rounded-xl bg-[#080a09] p-8 sm:p-10 border border-[#c5a259]/30 transition-colors duration-300 hover:border-[#c5a259]">
-            <div class="flex items-center justify-between pb-5 mb-5 border-b border-white/10">
-              <span class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]">
+          <div
+            class="rounded-xl bg-[#080a09] p-8 sm:p-10 border border-[#c5a259]/30 transition-colors duration-300 hover:border-[#c5a259]"
+          >
+            <div
+              class="flex items-center justify-between pb-5 mb-5 border-b border-white/10"
+            >
+              <span
+                class="font-display text-2xl sm:text-3xl text-[#c5a259] tracking-wider [-webkit-text-stroke:1px_#c5a259]"
+              >
                 FLORIST
               </span>
-              <span class="font-sans text-xs tracking-widest text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]">
+              <span
+                class="font-sans text-xs tracking-widest text-[#c5a259]/80 uppercase px-3 py-1 rounded-sm border border-[#c5a259]/30 bg-[#12221b]"
+              >
                 ดอกไม้
               </span>
             </div>
-            <h3 class="font-sans text-[18px] sm:text-[20px] font-medium text-white mb-2">
+            <h3
+              class="hidden"
+            >
               Florist (ดอกไม้)
             </h3>
-            <p class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light">
-              สะท้อนถึงความละเมียดละไม บรรยากาศร้านที่ร่มรื่น และการปรุงแต่งรสชาติที่พิถีพิถันเสมือนการประดิดประดอยดอกไม้
+            <p
+              class="font-sans text-sm sm:text-base leading-relaxed text-white/80 font-light"
+            >
+              สะท้อนถึงความละเมียดละไม บรรยากาศร้านที่ร่มรื่น
+              และการปรุงแต่งรสชาติที่พิถีพิถันเสมือนการประดิดประดอยดอกไม้
             </p>
           </div>
-
         </div>
       </div>
     </section>
 
-    <section class="relative pt-20 sm:pt-24 lg:py-28 border-b border-white/5">
+    <section class="relative py-8 sm:py-10 lg:py-12">
+      <div>
+        <Image
+          src={pic1}
+            alt="FLOURIST Matchahouse Specialty Matcha"
+          quality={100}
+          class="mx-auto h-auto w-full max-w-6xl object-cover object-center"
+        />
+      </div>
+    </section>
+
+    <section class="relative border-b border-white/5 py-16 sm:py-20 lg:py-24">
       <div class="page-container mx-auto max-w-7xl">
-        
         <div class="mb-12">
-          <h2 class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide">
+          <h2
+            class="font-sans text-[20px] text-[#c5a259] sm:text-[24px] font-medium tracking-wide"
+          >
             3. ปรัชญาและคุณค่าของแบรนด์ - Core Values
           </h2>
-          <div class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"></div>
+          <div
+            class="mt-3 h-px w-24 bg-gradient-to-r from-[#c5a259] to-transparent"
+          >
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
+        <div
+          class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
+        >
           <div class="lg:col-span-6 space-y-6">
-            
-            <div class="rounded-xl border border-white/10 bg-[#12221b]/40 p-7 sm:p-8 transition-colors duration-300 hover:border-[#c5a259]/40">
-              <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2">
+            <div
+              class="rounded-xl border border-white/10 bg-[#12221b]/40 p-7 sm:p-8 transition-colors duration-300 hover:border-[#c5a259]/40"
+            >
+              <h3
+                class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2"
+              >
                 Craftsmanship &amp; Pairing
               </h3>
-              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
-                ความเชื่อที่ว่ามัทฉะที่ดีต้องมาพร้อมกับขนมที่ดี การรังสรรค์เมนูจึงเน้นการจับคู่รสชาติ (Pairing) ระหว่างมัทฉะสายพันธุ์ต่างๆ กับเบเกอรีสูตรพิเศษของทางร้าน
+              <p
+                class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light"
+              >
+                ความเชื่อที่ว่ามัทฉะที่ดีต้องมาพร้อมกับขนมที่ดี
+                การรังสรรค์เมนูจึงเน้นการจับคู่รสชาติ (Pairing)
+                ระหว่างมัทฉะสายพันธุ์ต่างๆ กับเบเกอรีสูตรพิเศษของทางร้าน
               </p>
             </div>
 
-            <div class="rounded-xl border border-white/10 bg-[#12221b]/40 p-7 sm:p-8 transition-colors duration-300 hover:border-[#c5a259]/40">
-              <h3 class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2">
+            <div
+              class="rounded-xl border border-white/10 bg-[#12221b]/40 p-7 sm:p-8 transition-colors duration-300 hover:border-[#c5a259]/40"
+            >
+              <h3
+                class="font-sans text-[17px] sm:text-[19px] font-medium text-[#c5a259] mb-2"
+              >
                 Accessibility to Specialty Matcha
               </h3>
-              <p class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light">
-                การทำให้มัทฉะเกรดพิธีการ (Ceremonial Grade) และผงชาเฉพาะสายพันธุ์ (Single Cultivar) เข้าถึงง่ายสำหรับคนทั่วไป ไม่ว่าจะเป็นสายชงใส (Clear) หรือสายลาเต้ (Latte)
+              <p
+                class="font-sans text-sm sm:text-base leading-relaxed sm:leading-loose text-white/85 font-light"
+              >
+                การทำให้มัทฉะเกรดพิธีการ (Ceremonial Grade)
+                และผงชาเฉพาะสายพันธุ์ (Single Cultivar)
+                เข้าถึงง่ายสำหรับคนทั่วไป ไม่ว่าจะเป็นสายชงใส (Clear)
+                หรือสายลาเต้ (Latte)
               </p>
             </div>
-
           </div>
 
           <div class="lg:col-span-6">
-            <div class="rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-2 sm:p-3">
+            <div
+              class="rounded-xl border border-[#c5a259]/35 bg-[#12221b]/40 p-2 sm:p-3"
+            >
               <div class="overflow-hidden rounded-lg bg-[#080a09]">
                 <Image
                   src={specialtyMatchaImage}
@@ -200,16 +351,21 @@ import specialtyMatchaImage from "../assets/About/p2.jpg";
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
-    <section class="relative py-24 sm:py-24">
-      <div class="page-container relative mx-auto max-w-4xl text-center space-y-7">
-        <h2 class="w-full min-w-0 flex flex-col items-center text-center gap-2 sm:gap-3.5 lg:gap-4 max-w-4xl mx-auto font-display text-[#c5a259] text-[clamp(13px,3.8vw,44px)] leading-none uppercase tracking-wide sm:tracking-wider [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.5px_#c5a259] lg:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]">
+    <section class="relative py-16 sm:py-20 lg:py-24">
+      <div
+        class="page-container relative mx-auto max-w-4xl text-center space-y-7"
+      >
+        <h2
+          class="w-full min-w-0 flex flex-col items-center text-center gap-2 sm:gap-3.5 lg:gap-4 max-w-4xl mx-auto font-display text-[#c5a259] text-[clamp(13px,3.8vw,44px)] leading-none uppercase tracking-wide sm:tracking-wider [-webkit-text-stroke:0.8px_#c5a259] sm:[-webkit-text-stroke:1.5px_#c5a259] lg:[-webkit-text-stroke:2px_#c5a259] [paint-order:stroke_fill]"
+        >
           <span class="block whitespace-nowrap">From Japan’s Finest</span>
-          <span class="block whitespace-nowrap">Terroir to Your Daily Ritual.</span>
+          <span class="block whitespace-nowrap"
+            >Terroir to Your Daily Ritual.</span
+          >
         </h2>
 
         <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -228,6 +384,5 @@ import specialtyMatchaImage from "../assets/About/p2.jpg";
         </div>
       </div>
     </section>
-
   </main>
 </Layout>
