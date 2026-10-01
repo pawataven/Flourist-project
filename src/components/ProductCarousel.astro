@@ -12,7 +12,7 @@ const { products } = Astro.props;
 <div class="group relative">
   <div
     data-product-carousel
-    class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing"
+    class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing px-1"
   >
     <div data-product-track class="flex gap-4 sm:gap-5 will-change-transform">
       {
@@ -123,21 +123,23 @@ const { products } = Astro.props;
         const allItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
         if (allItems.length >= realCount * 2) {
           const firstReal = allItems[realCount];
-          const firstClone = allItems[0];
-          cycleWidth = firstReal.offsetLeft - firstClone.offsetLeft;
 
           if (allItems.length > realCount + 1) {
-            cardStep = allItems[realCount + 1].offsetLeft - firstReal.offsetLeft;
+            // Use getBoundingClientRect for subpixel accuracy (offsetLeft rounds to integers)
+            cardStep = allItems[realCount + 1].getBoundingClientRect().left - firstReal.getBoundingClientRect().left;
           } else {
-            cardStep = cycleWidth / realCount;
+            const firstClone = allItems[0];
+            cardStep = (firstReal.getBoundingClientRect().left - firstClone.getBoundingClientRect().left) / realCount;
           }
         } else {
           const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
           const gap = parseFloat(window.getComputedStyle(track).gap) || (window.innerWidth >= 640 ? 20 : 16);
           cardStep = (firstItem?.offsetWidth ?? 0) + gap;
-          cycleWidth = realCount * cardStep;
         }
 
+        // Derive cycleWidth from cardStep so totalPages * pageStep === cycleWidth exactly.
+        // This prevents position drift when normalizeBounds wraps around.
+        cycleWidth = realCount * cardStep;
         pageStep = cardsPerPage * cardStep;
       };
 
@@ -237,10 +239,14 @@ const { products } = Astro.props;
       });
 
       const handleResizeOrLoad = () => {
+        let activePage = 0;
+        if (pageStep > 0 && cycleWidth > 0) {
+          const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
+          activePage = Math.round(normPos / pageStep) % totalPages;
+        }
         measure();
-        const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
-        const nearestPage = Math.round(normPos / pageStep) % totalPages;
-        currentX = -(cycleWidth + nearestPage * pageStep);
+        const clampedPage = Math.min(totalPages - 1, Math.max(0, activePage));
+        currentX = -(cycleWidth + clampedPage * pageStep);
         targetX = currentX;
         normalizeBounds();
         track.style.transform = `translate3d(${currentX}px, 0, 0)`;
