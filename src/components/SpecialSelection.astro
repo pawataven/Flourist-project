@@ -4,7 +4,6 @@ import { specialSelections } from "../data/SpecailSelectiondata";
 import logoWeb from "../assets/index/Logo-web.png";
 
 const slideCount = specialSelections.length;
-const visibleDotCount = Math.min(slideCount, 5);
 ---
 
 <script>
@@ -44,7 +43,7 @@ const visibleDotCount = Math.min(slideCount, 5);
     const restartTimer = () => {
       window.clearInterval(timer);
       if (slides.length > 1)
-        timer = window.setInterval(() => showSlide(activeIndex + 1), 10000);
+        timer = window.setInterval(() => showSlide(activeIndex + 1), 8000);
     };
 
     previous?.addEventListener("click", () => {
