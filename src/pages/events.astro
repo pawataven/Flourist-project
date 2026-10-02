@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../layouts/Navbar.astro";
 
@@ -22,24 +22,21 @@ import eventpic from "../assets/events/Evens.jpg";
           </span>
         </div>
 
-        <!-- Title row: h1 left, date right on desktop; stacked on mobile -->
+        <!-- Title + date row -->
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-6">
-
-          <!-- Title โ€” fluid scale: 2xl mobile โ’ 7xl desktop -->
           <h1 class="font-display text-[clamp(1.1rem,5.5vw,4.5rem)] uppercase leading-none tracking-[-0.01em] text-white whitespace-nowrap">
             The Leaf&rsquo;s <span class="text-[#c5a259]">Secret</span>
           </h1>
 
-          <!-- date + venue โ€” stacks neatly on mobile too -->
           <div class="flex flex-col gap-1 sm:text-right shrink-0 pb-0.5">
             <div class="flex sm:justify-end items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-[#c5a259] animate-pulse shrink-0"></span>
               <span class="font-sans text-[11px] sm:text-xs text-white/60 tracking-[0.1em] sm:tracking-[0.12em]">
-                23 เธเธฑเธเธขเธฒเธขเธ โ€“ 4 เธ•เธธเธฅเธฒเธเธก 2026
+                23 กันยายน &ndash; 4 ตุลาคม 2026
               </span>
             </div>
             <p class="font-sans text-[9px] sm:text-[10px] text-white/30 tracking-[0.15em] sm:tracking-[0.2em]">
-              Seacon Bangkae Hall &middot; 10:30 โ€“ 21:30 เธ.
+              Seacon Bangkae Hall &middot; 10:30 &ndash; 21:30 น.
             </p>
           </div>
         </div>
@@ -50,7 +47,7 @@ import eventpic from "../assets/events/Evens.jpg";
       <section class="pb-10 sm:pb-12 lg:pb-16">
         <img
           src={eventpic.src}
-          alt="THONBURI CAFE: The Leaf's Secret โ€” Flourist Events"
+          alt="THONBURI CAFE: The Leaf's Secret — Flourist Events"
           width={eventpic.width}
           height={eventpic.height}
           loading="eager"
@@ -68,16 +65,16 @@ import eventpic from "../assets/events/Evens.jpg";
           <!-- LEFT -->
           <div>
             <p class="font-sans text-lg sm:text-xl lg:text-2xl text-white/85 leading-relaxed mb-4 sm:mb-5 max-w-lg">
-              เธเธงเธฒเธกเธฅเธฑเธเนเธซเนเธเธเธฒเน€เธเธตเธขเธงเธเธฃเธตเน€เธกเธตเธขเธก เธเธณเธฅเธฑเธเธเธฐเธ–เธนเธเน€เธเธขเธ—เธตเนเธเธฑเนเธเธเธเธฏ
+              ความลับแห่งชาเขียวพรีเมียม กำลังจะถูกเผยที่ฝั่งธนฯ
             </p>
 
             <p class="font-sans text-xs sm:text-sm text-white/50 leading-[1.9] sm:leading-[2] font-light mb-3 sm:mb-4 max-w-lg">
-              เธชเธฒเธงเธเธกเธฑเธ—เธเธฐเธซเนเธฒเธกเธเธฅเธฒเธ”! <span class="text-white/75">FLOURIST Matcha House</span> เธเธญเน€เธเธดเธเธเธงเธเธ—เธธเธเธเธเธกเธฒเธฃเนเธงเธกเธเนเธเธซเธฒเธเธงเธฒเธกเธญเธฃเนเธญเธขเนเธเธเธฒเธ
+              สาวกมัทฉะห้ามพลาด! <span class="text-white/75">FLOURIST Matcha House</span> ขอเชิญชวนทุกคนมาร่วมค้นหาความอร่อยในงาน
               <span class="text-white/75">&ldquo;THONBURI CAF&Eacute;: The Leaf&rsquo;s Secret&rdquo;</span>
             </p>
 
             <p class="font-sans text-xs sm:text-sm text-white/35 leading-[1.9] sm:leading-[2] font-light max-w-lg mb-10 sm:mb-12">
-              เธเธฃเธฑเนเธเธเธตเนเน€เธฃเธฒเธขเธเธเธงเธฒเธกเธเธฃเธฐเธ“เธตเธ•เธฃเธฐเธ”เธฑเธเธเธฃเธตเน€เธกเธตเธขเธกเธกเธฒเน€เธชเธดเธฃเนเธเนเธซเนเธ–เธถเธเธ—เธตเน เธเธฃเนเธญเธกเนเธฎเนเธฅเธ•เนเธชเธธเธ”เธเธดเน€เธจเธฉเธ—เธตเนเธเธธเธ“เนเธกเนเธเธงเธฃเธเธฅเธฒเธ”
+              ครั้งนี้เรายกความประณีตระดับพรีเมียมมาเสิร์ฟให้ถึงที่ พร้อมไฮไลต์สุดพิเศษที่คุณไม่ควรพลาด
             </p>
 
             <!-- numbered highlight list -->
@@ -88,7 +85,7 @@ import eventpic from "../assets/events/Evens.jpg";
                 <div>
                   <p class="font-sans text-xs sm:text-sm text-white/85 font-medium mb-1">Special Event Menu</p>
                   <p class="font-sans text-[11px] sm:text-xs text-white/38 font-light leading-relaxed">
-                    เธชเธฑเธกเธเธฑเธชเธฃเธชเธเธฒเธ•เธดเน€เธกเธเธนเธเธดเน€เธจเธฉเธ—เธตเนเธชเธฃเนเธฒเธเธชเธฃเธฃเธเนเธเธถเนเธเน€เธเธเธฒเธฐเธเธฒเธเธเธตเนเน€เธ—เนเธฒเธเธฑเนเธ
+                    สัมผัสรสชาติเมนูพิเศษที่สร้างสรรค์ขึ้นเฉพาะงานนี้เท่านั้น
                   </p>
                 </div>
               </div>
@@ -98,17 +95,17 @@ import eventpic from "../assets/events/Evens.jpg";
                 <div>
                   <p class="font-sans text-xs sm:text-sm text-white/85 font-medium mb-1">Ceremonial Grade Matcha</p>
                   <p class="font-sans text-[11px] sm:text-xs text-white/38 font-light leading-relaxed">
-                    เธเธฑเธ”เธชเธฃเธฃเธเธเธกเธฑเธ—เธเธฐเน€เธเธฃเธ”เธเธดเธเธตเธเธฒเธฃ เธซเธญเธก เธเธธเนเธก เธฅเธฐเธกเธธเธ เธฃเธชเธญเธนเธกเธฒเธกเธดเธเธฅเธกเธเธฅเนเธญเธก
+                    คัดสรรผงมัทฉะเกรดพิธีการ หอม นุ่ม ละมุน รสอูมามิกลมกล่อม
                   </p>
                 </div>
               </div>
 
               <div class="py-4 sm:py-5 flex items-start gap-4 sm:gap-5 border-b border-white/8">
-                <span class="font-sans text-[9px] sm:text-[10px] tracking-widest text-[#c5a259] shrink-0 mt-0.5">03</span>
+                <span class="font-sans text-[9px] sm:text-[10px] tracking-widest text-[#c5a259] shrink-0 mt:0.5">03</span>
                 <div>
                   <p class="font-sans text-xs sm:text-sm text-white/85 font-medium mb-1">Crafted with Care</p>
                   <p class="font-sans text-[11px] sm:text-xs text-white/38 font-light leading-relaxed">
-                    เธเธเธกเธซเธงเธฒเธเนเธฅเธฐเน€เธเธฃเธทเนเธญเธเธ”เธทเนเธกเธกเธฑเธ—เธเธฐเธชเธนเธ•เธฃเธเธดเน€เธจเธฉเธ—เธตเนเธเธฃเธฒเธเธ•เนเธญเธขเนเธฒเธเธ•เธฑเนเธเนเธเนเธเธ—เธธเธเธเธฑเนเธเธ•เธญเธ
+                    ขนมหวานและเครื่องดื่มมัทฉะสูตรพิเศษที่คราฟต์อย่างตั้งใจในทุกขั้นตอน
                   </p>
                 </div>
               </div>
@@ -123,18 +120,18 @@ import eventpic from "../assets/events/Evens.jpg";
             <div class="space-y-5 sm:space-y-7">
 
               <div>
-                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">เธงเธฑเธเธ—เธตเน</p>
-                <p class="font-sans text-base sm:text-lg text-white/88 leading-snug">23 เธเธฑเธเธขเธฒเธขเธ โ€“ 4 เธ•เธธเธฅเธฒเธเธก 2026</p>
+                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">วันที่</p>
+                <p class="font-sans text-base sm:text-lg text-white/88 leading-snug">23 กันยายน &ndash; 4 ตุลาคม 2026</p>
               </div>
 
               <div class="h-px bg-white/7"></div>
 
               <div>
-                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">เธชเธ–เธฒเธเธ—เธตเน</p>
+                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">สถานที่</p>
                 <p class="font-sans text-base sm:text-lg text-white/88 leading-snug">Seacon Bangkae Hall</p>
-                <p class="font-sans text-[11px] sm:text-xs text-white/28 mt-1">เธเธตเธเธญเธ เธเธฒเธเนเธ</p>
+                <p class="font-sans text-[11px] sm:text-xs text-white/28 mt-1">ซีคอน บางแค</p>
                 <a
-                  href="https://www.google.com/maps/place/เธเธตเธเธญเธ+เธเธฒเธเนเธ/@13.7115711,100.4343269,19z/data=!3m1!5s0x30e297f47543c249:0x468cd99c0c265335!4m14!1m7!3m6!1s0x30e297f475a6cc69:0x8eddef9a39ba368a!2z4LiL4Li14LiE4Lit4LiZIOC4muC4suC4h-C5geC4hA!8m2!3d13.711446!4d100.4341056!16s%2Fm%2F0zbv18_!3m5!1s0x30e297f475a6cc69:0x8eddef9a39ba368a!8m2!3d13.711446!4d100.4341056!16s%2Fm%2F0zbv18_?entry=ttu&g_ep=EgoyMDI2MDkyOS4wIKXMDSoASAFQAw%3D%3D"
+                  href="https://www.google.com/maps/place/%E0%B8%8B%E0%B8%B5%E0%B8%84%E0%B8%AD%E0%B8%99+%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B9%81%E0%B8%84/@13.7115711,100.4343269,19z"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 mt-3 font-sans text-[11px] sm:text-xs text-[#c5a259]/70 hover:text-[#c5a259] transition-colors duration-200 group"
@@ -142,7 +139,7 @@ import eventpic from "../assets/events/Evens.jpg";
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0" aria-hidden="true">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
                   </svg>
-                  <span class="border-b border-[#c5a259]/30 group-hover:border-[#c5a259]/70 transition-colors pb-px">เน€เธเธดเธ”เนเธ Google Maps</span>
+                  <span class="border-b border-[#c5a259]/30 group-hover:border-[#c5a259]/70 transition-colors pb-px">เปิดใน Google Maps</span>
                   <svg width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -152,14 +149,14 @@ import eventpic from "../assets/events/Evens.jpg";
               <div class="h-px bg-white/7"></div>
 
               <div>
-                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">เน€เธงเธฅเธฒ</p>
-                <p class="font-sans text-base sm:text-lg text-white/88 leading-snug">10:30 โ€“ 21:30 เธ.</p>
+                <p class="font-sans text-[9px] tracking-[0.28em] uppercase text-white/22 mb-1.5 sm:mb-2">เวลา</p>
+                <p class="font-sans text-base sm:text-lg text-white/88 leading-snug">10:30 &ndash; 21:30 น.</p>
               </div>
 
             </div>
 
             <div class="w-6 h-px bg-[#c5a259]/35 mt-8 sm:mt-10 mb-4 sm:mb-6"></div>
-            <p class="font-sans text-[11px] sm:text-xs text-white/22 leading-relaxed">เธเธฑเธเธซเธกเธธเธ”เนเธฅเนเธงเธกเธฒเธเธเธเธฑเธเธเธฐเธเธฃเธฑเธ ๐ฑ</p>
+            <p class="font-sans text-[11px] sm:text-xs text-white/22 leading-relaxed">ปักหมุดแล้วมาพบกันนะครับ</p>
           </aside>
 
         </div>
