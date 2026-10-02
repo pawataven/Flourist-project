@@ -11,21 +11,23 @@ const { boxset } = Astro.props;
 
 <article
   data-product-card
-  class="group grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-center w-full select-none"
+  class="group flex flex-col items-center w-full max-w-[640px] mx-auto select-none"
 >
-  <!-- Left Column: Large Image Showcase -->
-  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-center">
-    <div class="relative aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
+  <!-- Large Centered Image Showcase -->
+  <div class="w-full flex flex-col justify-center">
+    <div
+      class="relative aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl"
+    >
       {
         boxset.image && (
           <Image
             src={boxset.image}
             alt={boxset.title}
             format="webp"
-            quality={85}
-            width={960}
-            widths={[360, 540, 720, 960, 1440]}
-            sizes="(min-width: 1280px) 590px, (min-width: 768px) calc(50vw - 40px), calc(100vw - 32px)"
+            quality={90}
+            width={1086}
+            widths={[360, 540, 720, 960, 1086, 1440]}
+            sizes="(min-width: 1024px) 768px, (min-width: 640px) 672px, calc(100vw - 32px)"
             loading="lazy"
             class="size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
@@ -34,39 +36,48 @@ const { boxset } = Astro.props;
     </div>
   </div>
 
-  <!-- Right Column: Product Details & Description (Aligned nicely with image) -->
-  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-center text-white md:py-2">
-    <div class="flex flex-col">
-      <h3 class="font-display uppercase text-[clamp(14px,3.4vw,20px)] md:text-[clamp(15px,1.6vw,22px)] lg:text-lg xl:text-xl leading-snug tracking-[0.06em] sm:tracking-[0.08em] lg:tracking-[0.1em] font-bold text-white whitespace-nowrap">
-        {boxset.title}
-      </h3>
+  <!-- Product Details & Description (Equal to ProductCard) -->
+  <div class="w-full min-w-0 pt-3 text-white sm:pt-4">
+    <h3
+      class="whitespace-nowrap font-display pt-2 text-[14px] uppercase sm:text-[12px] font-bold leading-snug tracking-[0.12em] sm:tracking-[0.25em]"
+    >
+      {boxset.title}
+    </h3>
 
-      <dl class="my-3.5 sm:my-4 md:my-5 border-y border-white/10 py-2.5 sm:py-3 md:py-3.5 font-sans">
-        {
-          boxset.prices.map(({ size, price }) => (
-            <div class="flex items-baseline justify-between gap-4">
-              <dt class="font-sans text-sm sm:text-base md:text-lg font-bold text-[#c5a259]">{size}</dt>
-              <dd class="font-sans text-base sm:text-xl md:text-2xl font-bold text-[#c5a259] whitespace-nowrap">{price}</dd>
-            </div>
-          ))
-        }
-      </dl>
+    <dl class="mt-2 space-y-1 font-sans">
+      {
+        boxset.prices.map(({ size, price }) => (
+          <div class="flex items-baseline justify-between gap-1">
+            <dt class="font-bold text-[13px] sm:text-[16px] text-[#c5a259] shrink-0">
+              {size}
+            </dt>
+            <dd class="shrink-0 text-right text-[13px] sm:text-[16px] font-bold text-[#c5a259] whitespace-nowrap">
+              {price}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
 
-      {boxset.note && (
-        <p class="mb-3 font-sans text-xs sm:text-sm font-semibold text-[#c5a259]/80">
+    {
+      boxset.note && (
+        <p class="mt-2 font-sans text-xs sm:text-sm font-semibold text-[#8c6b3f] text-center">
           {boxset.note}
         </p>
-      )}
+      )
+    }
 
-      <p
-        lang="th"
-        class="font-sans text-xs sm:text-sm md:text-base leading-relaxed sm:leading-[1.85] lg:leading-[1.9] text-white/85 font-light text-justify [text-align-last:left] [text-justify:inter-character] [text-wrap:pretty] break-words w-full"
-      >
-        {boxset.description}
-      </p>
-    </div>
+    <p
+      lang="th"
+      class:list={[
+        "mt-2 min-w-0 font-sans text-xs sm:text-sm leading-relaxed text-center break-words [word-break:break-word] [text-wrap:pretty]",
+        boxset.note && "mt-1",
+      ]}
+    >
+      {boxset.description}
+    </p>
 
-    <div class="mt-6 sm:mt-8 md:mt-6 pt-2">
+    <div class="mt-4 sm:mt-6 pt-1">
       <button
         type="button"
         aria-controls="delivery-options"
