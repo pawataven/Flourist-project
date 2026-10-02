@@ -184,7 +184,7 @@ const visibleDotCount = Math.min(slideCount, 5);
                 data-special-dot={index}
                 aria-label={`Go to ${selection.title.join(" ")}`}
                 aria-current={index === 0 ? "true" : "false"}
-                class:list={["h-1.5 w-7 sm:w-8 bg-[#FFFFFF]/35 transition-colors cursor-pointer", index === 0 && "bg-[#C5A259]"]}
+                class:list={["h-1.5 w-7 sm:w-8 transition-colors cursor-pointer", index === 0 ? "bg-[#C5A259]" : "bg-[#FFFFFF]/35"]}
               />
             ))
           }
