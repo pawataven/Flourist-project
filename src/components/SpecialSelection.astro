@@ -1,4 +1,4 @@
----
+﻿---
 import { Image } from "astro:assets";
 import { specialSelections } from "../data/SpecailSelectiondata";
 import logoWeb from "../assets/index/Logo-web.png";
@@ -83,15 +83,15 @@ const visibleDotCount = Math.min(slideCount, 5);
 
   <div class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16">
     <div class="relative">
-      <div class="relative grid items-start overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl md:items-stretch">
+      <div class="relative grid grid-cols-1 grid-rows-1 items-start overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl md:items-stretch">
         {
           specialSelections.map((selection, index) => (
             <div
               data-special-slide
               data-slide-index={index}
               class:list={[
-                "col-start-1 row-start-1 grid min-w-0 content-start grid-rows-[auto_auto] items-start opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out md:grid-cols-12 md:grid-rows-1 md:items-stretch md:content-stretch",
-                index === 0 && "opacity-100 pointer-events-auto"
+                "col-start-1 row-start-1 grid min-w-0 content-start grid-rows-[auto_auto] items-start transition-opacity duration-700 ease-in-out md:grid-cols-12 md:grid-rows-1 md:items-stretch md:content-stretch",
+                index === 0 ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
               ]}
               aria-hidden={index === 0 ? "false" : "true"}
             >
@@ -132,7 +132,7 @@ const visibleDotCount = Math.min(slideCount, 5);
                     href={selection.branchHref}
                     class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                   >
-                    Find a branch <span aria-hidden="true">↗</span>
+                    Find a branch <span aria-hidden="true">โ—</span>
                   </a>
                   <button
                     type="button"
@@ -141,7 +141,7 @@ const visibleDotCount = Math.min(slideCount, 5);
                     aria-haspopup="dialog"
                     class="delivery-trigger inline-flex min-h-10 w-fit cursor-pointer items-center gap-2.5 border-b border-[#C5A259] bg-transparent py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                   >
-                    Order delivery <span aria-hidden="true">↗</span>
+                    Order delivery <span aria-hidden="true">โ—</span>
                   </button>
                 </div>
               </div>
@@ -193,5 +193,6 @@ const visibleDotCount = Math.min(slideCount, 5);
     }
   </div>
 </section>
+
 
 
