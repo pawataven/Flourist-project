@@ -6,12 +6,19 @@ import logoWeb from "../assets/index/Logo-web.png";
 const slideCount = specialSelections.length;
 const visibleDotCount = Math.min(slideCount, 5);
 ---
+
 <script>
   const root = document.querySelector<HTMLElement>("[data-special-selection]");
   if (root) {
-    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-special-slide]"));
-    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-special-dot]"));
-    const previous = root.querySelector<HTMLButtonElement>("[data-special-prev]");
+    const slides = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-special-slide]"),
+    );
+    const dots = Array.from(
+      root.querySelectorAll<HTMLButtonElement>("[data-special-dot]"),
+    );
+    const previous = root.querySelector<HTMLButtonElement>(
+      "[data-special-prev]",
+    );
     const next = root.querySelector<HTMLButtonElement>("[data-special-next]");
     let activeIndex = 0;
     let timer: number | undefined;
@@ -36,12 +43,24 @@ const visibleDotCount = Math.min(slideCount, 5);
 
     const restartTimer = () => {
       window.clearInterval(timer);
-      if (slides.length > 1) timer = window.setInterval(() => showSlide(activeIndex + 1),10000);
+      if (slides.length > 1)
+        timer = window.setInterval(() => showSlide(activeIndex + 1), 10000);
     };
 
-    previous?.addEventListener("click", () => { showSlide(activeIndex - 1); restartTimer(); });
-    next?.addEventListener("click", () => { showSlide(activeIndex + 1); restartTimer(); });
-    dots.forEach((dot, index) => dot.addEventListener("click", () => { showSlide(index); restartTimer(); }));
+    previous?.addEventListener("click", () => {
+      showSlide(activeIndex - 1);
+      restartTimer();
+    });
+    next?.addEventListener("click", () => {
+      showSlide(activeIndex + 1);
+      restartTimer();
+    });
+    dots.forEach((dot, index) =>
+      dot.addEventListener("click", () => {
+        showSlide(index);
+        restartTimer();
+      }),
+    );
     restartTimer();
   }
 </script>
@@ -81,9 +100,13 @@ const visibleDotCount = Math.min(slideCount, 5);
     />
   </div>
 
-  <div class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16">
+  <div
+    class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16"
+  >
     <div class="relative">
-      <div class="relative grid grid-cols-1 grid-rows-1 items-start overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl md:items-stretch">
+      <div
+        class="relative grid grid-cols-1 grid-rows-1 items-start overflow-hidden rounded-sm border border-[#C5A259]/70 bg-[#0e1b15] shadow-2xl md:items-stretch"
+      >
         {
           specialSelections.map((selection, index) => (
             <div
@@ -91,7 +114,9 @@ const visibleDotCount = Math.min(slideCount, 5);
               data-slide-index={index}
               class:list={[
                 "col-start-1 row-start-1 grid min-w-0 content-start grid-rows-[auto_auto] items-start transition-opacity duration-700 ease-in-out md:grid-cols-12 md:grid-rows-1 md:items-stretch md:content-stretch",
-                index === 0 ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                index === 0
+                  ? "opacity-100 pointer-events-auto"
+                  : "opacity-0 pointer-events-none",
               ]}
               aria-hidden={index === 0 ? "false" : "true"}
             >
@@ -114,25 +139,50 @@ const visibleDotCount = Math.min(slideCount, 5);
                   {selection.eyebrow}
                 </p>
                 <h2
-                  id={index === 0 ? "special-selection-title" : `special-selection-title-${index}`}
+                  id={
+                    index === 0
+                      ? "special-selection-title"
+                      : `special-selection-title-${index}`
+                  }
                   class="mt-4 sm:mt-5 max-w-full font-display text-xl sm:text-2xl md:text-[1.65rem] lg:text-[1.85rem] xl:text-[2rem] uppercase leading-tight tracking-normal text-[#FFFFFF] whitespace-normal wrap-break-word"
                 >
                   {selection.title.filter(Boolean).join(" ")}
                 </h2>
-                <div class="mt-5 sm:mt-6 h-px w-12 sm:w-14 bg-[#C5A259]"></div>
+                <div class="mt-5 sm:mt-6 h-px w-12 sm:w-14 bg-[#C5A259]" />
                 <p class="mt-5 sm:mt-6 max-w-md font-sans text-sm sm:text-base leading-relaxed text-[#FFFFFF]/90">
                   {selection.description}
                 </p>
                 <div class="mt-7 sm:mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 border-t border-[#C5A259]/60 pt-5 sm:pt-6">
-                  <span class="font-sans text-2xl sm:text-3xl font-light text-[#FFFFFF]">{selection.price}</span>
-                  <span class="font-sans text-xs sm:text-sm text-[#FFFFFF]/80">{selection.availability}</span>
+                  <span class="font-sans text-2xl sm:text-3xl font-light text-[#FFFFFF]">
+                    {selection.price}
+                  </span>
+                  <span class="font-sans text-xs sm:text-sm text-[#FFFFFF]/80">
+                    {selection.availability}
+                  </span>
                 </div>
                 <div class="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                   <a
                     href={selection.branchHref}
                     class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                   >
-                    Find a branch <svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Find a branch{" "}
+                    <svg
+                      aria-hidden="true"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="inline-block"
+                    >
+                      <path
+                        d="M1 9L9 1M9 1H3M9 1V7"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </a>
                   <button
                     type="button"
@@ -141,7 +191,24 @@ const visibleDotCount = Math.min(slideCount, 5);
                     aria-haspopup="dialog"
                     class="delivery-trigger inline-flex min-h-10 w-fit cursor-pointer items-center gap-2.5 border-b border-[#C5A259] bg-transparent py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                   >
-                    Order delivery <svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Order delivery{" "}
+                    <svg
+                      aria-hidden="true"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="inline-block"
+                    >
+                      <path
+                        d="M1 9L9 1M9 1H3M9 1V7"
+                        stroke="currentColor"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -157,7 +224,7 @@ const visibleDotCount = Math.min(slideCount, 5);
               type="button"
               data-special-prev
               aria-label="Previous special selection"
-              class="absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+              class=" cursor-pointer absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
             >
               &lsaquo;
             </button>
@@ -165,7 +232,7 @@ const visibleDotCount = Math.min(slideCount, 5);
               type="button"
               data-special-next
               aria-label="Next special selection"
-              class="absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+              class="absolute cursor-pointer -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
             >
               &rsaquo;
             </button>
@@ -176,23 +243,24 @@ const visibleDotCount = Math.min(slideCount, 5);
 
     {
       slideCount > 1 && (
-        <div class="mt-5 sm:mt-6 flex justify-center gap-2" aria-label="Choose special selection">
-          {
-            specialSelections.map((selection, index) => (
-              <button
-                type="button"
-                data-special-dot={index}
-                aria-label={`Go to ${selection.title.join(" ")}`}
-                aria-current={index === 0 ? "true" : "false"}
-                class:list={["h-1.5 w-7 sm:w-8 transition-colors cursor-pointer", index === 0 ? "bg-[#C5A259]" : "bg-[#FFFFFF]/35"]}
-              />
-            ))
-          }
+        <div
+          class="mt-5 sm:mt-6 flex justify-center gap-2"
+          aria-label="Choose special selection"
+        >
+          {specialSelections.map((selection, index) => (
+            <button
+              type="button"
+              data-special-dot={index}
+              aria-label={`Go to ${selection.title.join(" ")}`}
+              aria-current={index === 0 ? "true" : "false"}
+              class:list={[
+                "h-1.5 w-7 sm:w-8 transition-colors cursor-pointer",
+                index === 0 ? "bg-[#C5A259]" : "bg-[#FFFFFF]/35",
+              ]}
+            />
+          ))}
         </div>
       )
     }
   </div>
 </section>
-
-
-
