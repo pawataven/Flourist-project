@@ -11,12 +11,12 @@ const { boxset } = Astro.props;
 
 <article
   data-product-card
-  class="group flex flex-col items-center w-full max-w-[640px] mx-auto select-none"
+  class="group flex flex-col items-center w-full mx-auto select-none"
 >
   <!-- Large Centered Image Showcase -->
   <div class="w-full flex flex-col justify-center">
     <div
-      class="relative aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl"
+      class="relative aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#12221b] border border-white/10 shadow-2xl"
     >
       {
         boxset.image && (
@@ -26,8 +26,8 @@ const { boxset } = Astro.props;
             format="webp"
             quality={90}
             width={1086}
-            widths={[360, 540, 720, 960, 1086, 1440]}
-            sizes="(min-width: 1024px) 768px, (min-width: 640px) 672px, calc(100vw - 32px)"
+            widths={[360, 540, 720, 960, 1086, 1440, 1920]}
+            sizes="(min-width: 1280px) 1200px, (min-width: 1024px) 1000px, calc(100vw - 32px)"
             loading="lazy"
             class="size-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
@@ -37,7 +37,7 @@ const { boxset } = Astro.props;
   </div>
 
   <!-- Product Details & Description (Equal to ProductCard) -->
-  <div class="w-full min-w-0 pt-3 text-white sm:pt-4">
+  <div class="w-full max-w-xl sm:max-w-2xl mx-auto min-w-0 pt-4 text-white sm:pt-6 px-4 sm:px-0">
     <h3
       class="whitespace-nowrap font-display pt-2 text-[14px] uppercase sm:text-[12px] font-bold leading-snug tracking-[0.12em] sm:tracking-[0.25em]"
     >
@@ -77,13 +77,13 @@ const { boxset } = Astro.props;
       {boxset.description}
     </p>
 
-    <div class="mt-4 sm:mt-6 pt-1">
+    <div class="mt-5 sm:mt-7 flex justify-center pt-1">
       <button
         type="button"
         aria-controls="delivery-options"
         aria-expanded="false"
         aria-haspopup="dialog"
-        class="delivery-trigger w-full cursor-pointer flex items-center justify-center rounded-md bg-[#c5a259] px-6 py-3 sm:py-3.5 font-sans text-sm sm:text-base font-bold text-[#12221b] transition-all hover:bg-[#b08d4a] active:scale-[0.99] shadow-md"
+        class="delivery-trigger w-full max-w-[260px] sm:max-w-[300px] cursor-pointer flex items-center justify-center rounded-md bg-[#c5a259] px-8 py-3 sm:py-3.5 font-sans text-sm sm:text-base font-bold text-[#12221b] transition-all hover:bg-[#b08d4a] active:scale-[0.99] shadow-md"
       >
         สั่งซื้อ
       </button>
