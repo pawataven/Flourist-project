@@ -11,11 +11,11 @@ const { boxset } = Astro.props;
 
 <article
   data-product-card
-  class="group grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-stretch w-full select-none"
+  class="group grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-center w-full select-none"
 >
   <!-- Left Column: Large Image Showcase -->
   <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-center">
-    <div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
+    <div class="relative aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#e5e5e5] border border-white/10 shadow-2xl">
       {
         boxset.image && (
           <Image
@@ -35,7 +35,7 @@ const { boxset } = Astro.props;
   </div>
 
   <!-- Right Column: Product Details & Description (Aligned nicely with image) -->
-  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-between text-white md:py-1">
+  <div class="md:col-span-6 lg:col-span-6 flex flex-col justify-center text-white md:py-2">
     <div class="flex flex-col">
       <h3 class="font-display uppercase text-[clamp(14px,3.4vw,20px)] md:text-[clamp(15px,1.6vw,22px)] lg:text-lg xl:text-xl leading-snug tracking-[0.06em] sm:tracking-[0.08em] lg:tracking-[0.1em] font-bold text-white whitespace-nowrap">
         {boxset.title}
