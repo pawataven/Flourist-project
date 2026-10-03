@@ -19,7 +19,7 @@ const { menuItems, currentPath, logo, logohover } = Astro.props;
 
 <nav
     aria-label="Main navigation"
-    class="desktop-nav hidden h-[92px] w-full items-center justify-between gap-6 bg-[#12221b] group-data-[scrolled]:bg-[#080a09] px-16 transition-colors duration-300 xl:flex"
+    class="desktop-nav hidden h-[64px] w-full items-center justify-between gap-6 bg-[#12221b] group-data-[scrolled]:bg-[#080a09] px-10 xl:px-14 transition-colors duration-300 xl:flex"
 >
     <a
         href="/"
@@ -31,10 +31,10 @@ const { menuItems, currentPath, logo, logohover } = Astro.props;
             width={logo.width}
             height={logo.height}
             alt="Flourist Matchahouse"
-            class="h-[50px] w-auto object-contain"
+            class="h-[36px] w-auto object-contain"
         />
     </a>
-    <ul class="flex items-center gap-10 text-[16px]">
+    <ul class="flex items-center gap-8 text-[14px]">
         {menuItems.map(({ label, href }) => (
             <li>
                 {href === "#" ? (
@@ -53,7 +53,7 @@ const { menuItems, currentPath, logo, logohover } = Astro.props;
     </ul>
     <button
         type="button"
-        class="delivery-trigger uppercase tracking-[0.12em] rounded-md border border-current px-5 py-2 text-sm transition hover:bg-white hover:text-black cursor-pointer focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
+        class="delivery-trigger uppercase tracking-[0.14em] rounded border border-current px-4 py-1.5 text-xs transition hover:bg-white hover:text-black cursor-pointer focus-visible:outline-2 focus-visible:outline-[#a68241] focus-visible:outline-offset-4 focus-visible:rounded-xs"
         aria-label="Order Delivery"
         aria-controls="delivery-options"
         aria-expanded="false"

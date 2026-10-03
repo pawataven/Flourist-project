@@ -972,7 +972,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
         const rect = headerEl.getBoundingClientRect();
         if (rect.height > 0) return Math.round(rect.height);
       }
-      return window.innerWidth < 768 ? 112 : (window.innerWidth >= 1280 ? 128 : 124);
+      return window.innerWidth < 768 ? 112 : (window.innerWidth >= 1280 ? 64 : 124);
     }
 
     const actualHeaderHeight = getActualHeaderHeight();

@@ -10,7 +10,7 @@ import MenuBook from "../components/menu/MenuBook.astro";
   <!-- Fullscreen viewport layout containing Navbar spacer and Book stage -->
   <div class="relative h-[100dvh] w-full flex flex-col bg-[#080a09] text-white overflow-hidden box-border">
     <!-- Navbar Spacer: dynamically matches the fixed header height so book is guaranteed to sit BELOW navbar -->
-    <div id="menu-nav-spacer" class="w-full shrink-0 h-[112px] sm:h-[124px] xl:h-[128px] transition-all pointer-events-none"></div>
+    <div id="menu-nav-spacer" class="w-full shrink-0 h-[112px] sm:h-[124px] xl:h-[64px] transition-all pointer-events-none"></div>
 
     <!-- Centered Book Stage within remaining space strictly below navbar (explicit 0 padding to override global main pb-24) -->
     <main id="menu-stage-container" class="w-full flex-1 min-h-0 flex items-center justify-center relative !p-0 !pb-0 overflow-hidden box-border">
