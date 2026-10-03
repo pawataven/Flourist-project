@@ -53,8 +53,8 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     <!-- Book Transform Container (Shifts to center cover on desktop) -->
     <div id="book-centering-container" data-state="cover" class="at-cover centering-box">
       
-      <!-- StPageFlip Target Element with clean neutral drop shadow -->
-      <div id="flourist-flipbook" class="flipbook-root shadow-[0_0_40px_rgba(0,0,0,0.95)]">
+      <!-- StPageFlip Target Element without leftover shadows -->
+      <div id="flourist-flipbook" class="flipbook-root">
         
         {menuBookPages.map((page, index) => (
           <div
@@ -145,12 +145,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                         <img src={page.data?.watermark?.src || defaultWatermark.src} alt="Watermark" class="w-full h-full object-contain pointer-events-none" />
                       </div>
 
-                      <!-- Book Spine Accent (Left Edge) -->
-                      <div class="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none"></div>
-                      <div class="absolute top-0 bottom-0 left-1 w-px bg-[#c5a259]/20 pointer-events-none"></div>
 
-                      <!-- Book Edge White Paper Stack Effect (Right Edge) -->
-                      <div class="absolute top-0 bottom-0 right-0 w-2.5 bg-gradient-to-l from-[#e6dfcb] via-[#a89f88] to-transparent pointer-events-none opacity-40 shadow-inner"></div>
 
                       <!-- Top Header: MENU -->
                       <div class="text-center pt-3 sm:pt-4 relative z-10">
@@ -202,8 +197,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 2. BRAND STORY PAGE (INDEX 1 - LEFT SPREAD) --- */}
                   {page.type === 'story' && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
-                      <!-- Page Crease Shadow on the right edge -->
-                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+
 
                       <!-- Header with Logo -->
                       <div class="flex items-center gap-3 border-b border-[#c5a259]/20 pb-3">
@@ -263,8 +257,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 3. MOTORO SIGNATURE PAGE (INDEX 2 - RIGHT SPREAD) --- */}
                   {page.type === 'product-spotlight' && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-radial from-[#151f19] via-[#0d1612] to-[#070c09] text-white border-r border-white/5">
-                      <!-- Page Crease Shadow on the left edge -->
-                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+
 
                       <!-- Product Header -->
                       <div class="text-center pt-2 relative z-10">
@@ -322,7 +315,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 4. SIGNATURE CATALOG (INDEX 3) --- */}
                   {page.type === 'catalog' && page.pageIndex === 3 && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
-                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+
                       
                       <!-- Header -->
                       <div class="border-b border-[#c5a259]/20 pb-2 mb-3 text-center">
@@ -359,7 +352,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 5. REFRESH & CEREMONIAL (INDEX 4) --- */}
                   {page.type === 'catalog' && page.pageIndex === 4 && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0d1612] text-white border-r border-white/5">
-                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+
                       
                       <!-- Header -->
                       <div class="border-b border-[#c5a259]/20 pb-2 mb-3 text-center">
@@ -396,7 +389,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 6. DESSERTS & DAIFUKU (INDEX 5) --- */}
                   {page.type === 'dessert' && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
-                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+
                       
                       <!-- Header -->
                       <div class="border-b border-[#c5a259]/20 pb-2 mb-2 text-center">
@@ -433,7 +426,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   {/* --- 7. CULTIVARS & SINGLE ORIGIN (INDEX 6) --- */}
                   {page.type === 'catalog' && page.pageIndex === 6 && (
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0d1612] text-white border-r border-white/5">
-                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+
                       
                       <!-- Header -->
                       <div class="border-b border-[#c5a259]/20 pb-2 mb-2 text-center">
@@ -481,12 +474,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                     <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 md:p-10 bg-radial from-[#122e23] via-[#0b1c15] to-[#050e0a] border-l-2 border-white/5 overflow-hidden select-none">
                       <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a259_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
 
-                      <!-- Book Spine Accent (Right Edge on Back Cover) -->
-                      <div class="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-black/80 via-black/40 to-transparent pointer-events-none"></div>
-                      <div class="absolute top-0 bottom-0 right-1 w-px bg-[#c5a259]/20 pointer-events-none"></div>
 
-                      <!-- Book Edge White Paper Stack Effect (Left Edge) -->
-                      <div class="absolute top-0 bottom-0 left-0 w-2.5 bg-gradient-to-r from-[#e6dfcb] via-[#a89f88] to-transparent pointer-events-none opacity-40 shadow-inner"></div>
 
                       <div class="text-center pt-3 sm:pt-4 relative z-10">
                         <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2 sm:mb-3 drop-shadow-[0_4px_16px_rgba(197,162,89,0.3)]">
@@ -626,12 +614,28 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     background: transparent;
     width: 100% !important;
     height: 100% !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* Completely eliminate all StPageFlip internal shadows and leftover artifacts */
+  .stf__outerShadow,
+  .stf__innerShadow,
+  .stf__hardShadow,
+  .stf__hardInnerShadow {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    box-shadow: none !important;
+    background: none !important;
+    pointer-events: none !important;
   }
 
   .stf__wrapper,
   .stf__block {
     width: 100% !important;
     height: 100% !important;
+    box-shadow: none !important;
   }
 
   .book-page-wrapper {
@@ -640,13 +644,14 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     box-sizing: border-box;
     background-color: #000000;
     overflow: hidden;
+    box-shadow: none !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
   .page-content-box {
-    box-shadow: none;
+    box-shadow: none !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -681,7 +686,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     }
     #book-centering-container.at-cover #flourist-flipbook,
     #book-centering-container[data-state="cover"] #flourist-flipbook {
-      clip-path: inset(-100px -100px -100px 50%);
+      clip-path: inset(0 0 0 50%);
     }
 
     /* BACK COVER (PAGE 9): Shift right 25% to center the back cover, clip out empty right 50% */
@@ -691,7 +696,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     }
     #book-centering-container.at-back #flourist-flipbook,
     #book-centering-container[data-state="back"] #flourist-flipbook {
-      clip-path: inset(-100px 50% -100px -100px);
+      clip-path: inset(0 50% 0 0);
     }
 
     /* OPEN SPREAD (PAGES 1 - 8) & FLIPPING ANIMATION: Full 2-page view without clipping */
