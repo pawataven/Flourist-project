@@ -61,7 +61,7 @@ export const products: Product[] = [
     {
     image: Spanner,
     descriptionImage: MatchaSaltedSpannerDescription,
-    title: "Salted Spanner",
+    title: "Spanner",
     description: "เมนูใหม่! นมสดวนิลาสูตรพิเศษจากทางร้าน เลเยอร์ด้วยมัทฉะเกรดพรีเมียมเข้มข้นพิเศษ ท็อปวิปครีมสูตร Signature Blend หอมมันเนื้อเนียนนุ่ม โรยเกลือมัทฉะปิดท้าย เพื่อรสชาติที่กลมกล่อมลงตัว",
     prices: [
       { size: "ราคา", price: "189 บาท" },
