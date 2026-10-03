@@ -519,6 +519,10 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
         ))}
 
       </div>
+
+      <!-- Book Spine Overlay (visible when book is open as spread) -->
+      <div id="book-spine-overlay" class="book-spine"></div>
+
     </div>
   </div>
 
@@ -610,12 +614,78 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     margin: 0 auto;
     display: block;
     position: relative;
-    border-radius: 6px;
+    border-radius: 4px;
     background: transparent;
     width: 100% !important;
     height: 100% !important;
-    box-shadow: none !important;
     filter: none !important;
+    /* Controlled book edge shadow — tight & no bleed */
+    box-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.6),
+      0 8px 28px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Book Spine — vertical center crease & dimensional gutter shadow */
+  .book-spine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    z-index: 20;
+    pointer-events: none;
+    background: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.06) 15%,
+      rgba(0, 0, 0, 0.25) 35%,
+      rgba(0, 0, 0, 0.6) 46%,
+      rgba(0, 0, 0, 0.85) 50%,
+      rgba(0, 0, 0, 0.6) 54%,
+      rgba(0, 0, 0, 0.25) 65%,
+      rgba(0, 0, 0, 0.06) 85%,
+      rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Center binding seam inside the spine */
+  .book-spine::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Show spine only when the book is resting open as a 2-page spread */
+  #book-centering-container.at-spread .book-spine,
+  #book-centering-container[data-state="spread"] .book-spine {
+    opacity: 1;
+    transition: opacity 0.35s ease 0.1s;
+  }
+
+  /* Immediately hide spine during page flip animation and when book is closed (cover or back) */
+  #book-centering-container.at-flipping .book-spine,
+  #book-centering-container[data-state="flipping"] .book-spine,
+  #book-centering-container.at-cover .book-spine,
+  #book-centering-container[data-state="cover"] .book-spine,
+  #book-centering-container.at-back .book-spine,
+  #book-centering-container[data-state="back"] .book-spine {
+    opacity: 0 !important;
+    transition: opacity 0.08s ease !important;
+  }
+
+  /* Hide spine on mobile single-page view */
+  @media (max-width: 767px) {
+    .book-spine {
+      display: none !important;
+    }
   }
 
   /* Completely eliminate all StPageFlip internal shadows and leftover artifacts */
