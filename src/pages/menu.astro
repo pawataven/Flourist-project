@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../layouts/Navbar.astro";
 import MenuBook from "../components/menu/MenuBook.astro";
+import ProductCarousel from "../components/ProductCarousel.astro";
+import { products } from "../data/Bestsellerdata";
 ---
 
 <Layout>
@@ -17,6 +19,16 @@ import MenuBook from "../components/menu/MenuBook.astro";
       <MenuBook />
     </main>
   </div>
+
+      <section
+      id="best-sellers"
+      class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-24"
+    >
+      <h2 class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap">
+        Best Sellers
+      </h2>
+      <ProductCarousel products={products} />
+    </section>
 </Layout>
 
 <style>

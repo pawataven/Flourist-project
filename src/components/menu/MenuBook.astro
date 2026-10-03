@@ -75,12 +75,6 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                     loading={index <= 2 ? "eager" : "lazy"}
                     decoding="async"
                   />
-                  <!-- Page Number for soft pages -->
-                  {page.density !== 'hard' && (
-                    <span class={`absolute bottom-3 text-[10px] tracking-widest text-[#c5a259]/75 font-sans ${index % 2 === 1 ? 'left-4' : 'right-4'}`}>
-                      {page.pageNumberLabel}
-                    </span>
-                  )}
                   <!-- Click to open hint pill on Front Cover -->
                   {index === 0 && (
                     <div class="absolute bottom-[13%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
@@ -245,9 +239,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                           </div>
                         </div>
 
-                        <!-- Left Page Number -->
-                        <div class="mt-3 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
-                          <span>1</span>
+                        <div class="mt-3 flex justify-end items-center text-[9px] text-[#c5a259]/60 font-sans">
                           <span class="tracking-widest uppercase">Flourist Origins</span>
                         </div>
                       </div>
@@ -299,14 +291,13 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                         </p>
 
                         <!-- Brand Mini Logo Footer -->
-                        <div class="mt-3 flex items-center justify-between text-[9px] text-[#c5a259]/60 font-sans">
+                        <div class="mt-3 flex items-center text-[9px] text-[#c5a259]/60 font-sans">
                           <div class="flex items-center gap-1.5">
                             <div class="w-3.5 h-3.5">
                               <img src={page.data.logo?.src || "/src/assets/Logo-5.png"} alt="Flourist" class="w-full h-full object-contain" />
                             </div>
                             <span class="tracking-widest uppercase">FLOURIST 抹茶ハウス</span>
                           </div>
-                          <span>2</span>
                         </div>
                       </div>
                     </div>
@@ -342,8 +333,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                       </div>
 
                       <!-- Footer -->
-                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
-                        <span>3</span>
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-end items-center text-[9px] text-[#c5a259]/60 font-sans">
                         <span class="tracking-widest uppercase">House Signatures</span>
                       </div>
                     </div>
@@ -379,9 +369,8 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                       </div>
 
                       <!-- Footer -->
-                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex items-center text-[9px] text-[#c5a259]/60 font-sans">
                         <span class="tracking-widest uppercase">Ceremonial Selection</span>
-                        <span>4</span>
                       </div>
                     </div>
                   )}
@@ -416,8 +405,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                       </div>
 
                       <!-- Footer -->
-                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
-                        <span>5</span>
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-end items-center text-[9px] text-[#c5a259]/60 font-sans">
                         <span class="tracking-widest uppercase">Handcrafted Sweets</span>
                       </div>
                     </div>
@@ -460,9 +448,8 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                       <!-- Branch note -->
                       <div class="pt-2 border-t border-[#c5a259]/20 text-center">
                         <p class="text-[9px] text-white/60 tracking-wider font-light">{page.data?.branchNotice || ''}</p>
-                        <div class="mt-2 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                        <div class="mt-2 flex justify-center items-center text-[9px] text-[#c5a259]/60 font-sans">
                           <span class="tracking-widest uppercase">Pure Origins</span>
-                          <span>6</span>
                         </div>
                       </div>
                     </div>
@@ -556,11 +543,6 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                 </div>
               )}
               <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-            </div>
-            <div class="p-1 text-center bg-[#0d1813] border-t border-[#c5a259]/20">
-              <span class="text-[10px] text-[#c5a259] font-medium tracking-wide">
-                {page.pageNumberLabel || index}
-              </span>
             </div>
           </button>
         ))}
@@ -892,7 +874,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     position: absolute;
     top: calc(50% - var(--book-spread-height, 580px) / 2 + 10px);
     right: max(16px, calc(50% - var(--book-spread-width, 820px) / 2 - 64px));
-    z-index: 50;
+    z-index: 10;
     width: 44px;
     height: 44px;
     border-radius: 9999px;
