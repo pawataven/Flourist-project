@@ -58,14 +58,32 @@ const description = product.description.replace(/ท็อปด้วย Umi/g,
         </p>
       )
     }
-    <p
-      lang="th"
-      class:list={[
-        "mt-2 min-w-0 font-sans text-xs sm:text-sm leading-relaxed text-center break-words [word-break:break-word] [text-wrap:pretty]",
-        product.note && "mt-1",
-      ]}
-    >
-      {description}
-    </p>
+    {
+      product.descriptionImage ? (
+        <div class="relative mt-2 w-full overflow-hidden" style="aspect-ratio: 289 / 92;">
+          <Image
+            src={product.descriptionImage}
+            alt={description}
+            quality={100}
+            width={480}
+            widths={[200, 320, 480, 640, 960]}
+            sizes="(min-width: 1280px) 289px, (min-width: 1024px) calc(25vw - 31px), (min-width: 640px) calc(50vw - 42px), calc(50vw - 32px)"
+            loading="lazy"
+            draggable="false"
+            class="absolute inset-0 h-auto w-full"
+          />
+        </div>
+      ) : (
+        <p
+          lang="th"
+          class:list={[
+            "mt-2 min-w-0 font-sans text-xs sm:text-sm leading-relaxed text-center break-words [word-break:break-word] [text-wrap:pretty]",
+            product.note && "mt-1",
+          ]}
+        >
+          {description}
+        </p>
+      )
+    }
   </div>
 </article>

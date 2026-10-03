@@ -1,6 +1,7 @@
 ---
 import type { Boxset } from "../data/Boxsetdata";
 import { Image } from "astro:assets";
+import CollectionDescription from "../assets/products/description/The-FLOURIST-Collection.png";
 
 interface Props {
   boxset: Boxset;
@@ -67,15 +68,22 @@ const { boxset } = Astro.props;
       )
     }
 
-    <p
-      lang="th"
-      class:list={[
-        "mt-2 min-w-0 font-sans text-xs sm:text-sm leading-relaxed text-center break-words [word-break:break-word] [text-wrap:pretty]",
-        boxset.note && "mt-1",
-      ]}
+    <div
+      class="relative mt-2 w-full overflow-hidden"
+      style="aspect-ratio: 1920 / 231;"
     >
-      {boxset.description}
-    </p>
+      <Image
+        src={CollectionDescription}
+        alt={boxset.description}
+        quality={100}
+        width={1920}
+        widths={[640, 960, 1280, 1920]}
+        sizes="(min-width: 1024px) 768px, calc(100vw - 32px)"
+        loading="lazy"
+        draggable="false"
+        class="absolute inset-0 h-auto w-full"
+      />
+    </div>
 
     <div class="mt-5 sm:mt-7 flex justify-center pt-1">
       <button
