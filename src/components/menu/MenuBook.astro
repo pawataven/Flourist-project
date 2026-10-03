@@ -1,0 +1,1284 @@
+---
+import { menuBookPages } from "../../data/MenuBookData";
+import defaultLogo from "../../assets/Logo-5.png";
+import defaultWatermark from "../../assets/index/Logo-web.png";
+---
+
+<div id="flourist-book-wrapper" data-book-state="cover" class="relative w-full h-full flex flex-col items-center justify-center select-none">
+  <!-- Interactive Book Stage Area -->
+  <div class="book-stage relative w-full h-full flex items-center justify-center overflow-visible">
+    
+
+
+    <!-- Navigation Buttons Beside the Book -->
+    <button
+      id="btn-book-prev"
+      type="button"
+      aria-label="Previous Page"
+      title="หน้าก่อนหน้า (Previous)"
+      class="book-nav-btn book-nav-prev group"
+      disabled
+    >
+      <svg class="w-6 h-6 sm:w-7 sm:h-7 -translate-x-0.5 transition-transform duration-200 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <button
+      id="btn-book-next"
+      type="button"
+      aria-label="Next Page"
+      title="หน้าถัดไป (Next)"
+      class="book-nav-btn book-nav-next group"
+    >
+      <svg class="w-6 h-6 sm:w-7 sm:h-7 translate-x-0.5 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- Return to Cover / Close Button (Top-Right of Book) -->
+    <button
+      id="btn-book-close"
+      type="button"
+      aria-label="กลับเมนูหน้าแรก (Return to Cover)"
+      title="กลับเมนูหน้าแรก (Return to Cover)"
+      class="book-close-btn group opacity-0 pointer-events-none invisible"
+    >
+      <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Book Transform Container (Shifts to center cover on desktop) -->
+    <div id="book-centering-container" data-state="cover" class="at-cover centering-box">
+      
+      <!-- StPageFlip Target Element with clean neutral drop shadow -->
+      <div id="flourist-flipbook" class="flipbook-root shadow-[0_0_40px_rgba(0,0,0,0.95)]">
+        
+        {menuBookPages.map((page, index) => (
+          <div
+            class={`book-page-wrapper ${page.density === 'hard' ? 'page-hard' : 'page-soft'}`}
+            data-density={page.density}
+            data-page-index={index}
+            data-title={page.title}
+          >
+            <div class="page-content-box w-full h-full relative overflow-hidden bg-black text-white">
+              
+              {/* IF CUSTOM IMAGE PROVIDED */}
+              {page.customImage ? (
+                <div class="w-full h-full relative bg-black">
+                  <img
+                    src={page.customImage}
+                    alt={page.title}
+                    class="menu-page-img w-full h-full object-cover select-none pointer-events-none"
+                    loading={index <= 2 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                  <!-- Page Number for soft pages -->
+                  {page.density !== 'hard' && (
+                    <span class={`absolute bottom-3 text-[10px] tracking-widest text-[#c5a259]/75 font-sans ${index % 2 === 1 ? 'left-4' : 'right-4'}`}>
+                      {page.pageNumberLabel}
+                    </span>
+                  )}
+                  <!-- Click to open hint pill on Front Cover -->
+                  {index === 0 && (
+                    <div class="absolute bottom-[13%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
+                      <span>คลิกหรือลากเพื่อเปิด &bull; Click to open</span>
+                      <span class="text-sm">&rarr;</span>
+                    </div>
+                  )}
+
+                  {/* Flyleaf / Closing Page Design (Page 8) */}
+                  {page.data?.isEnding && (
+                    <div class="absolute inset-0 flex flex-col items-center justify-between p-8 sm:p-10 text-center select-none pointer-events-none z-10 bg-black">
+                      <div class="pt-4 sm:pt-6">
+                        <p class="font-sans text-[10px] sm:text-[11px] tracking-[0.35em] text-[#c5a259] uppercase font-semibold">
+                          {page.data.brandName}
+                        </p>
+                        <p class="font-serif text-xs tracking-[0.25em] text-[#c5a259]/80 mt-0.5">
+                          {page.data.subBrand}
+                        </p>
+                      </div>
+
+                      <div class="flex flex-col items-center my-auto px-4 max-w-xs">
+                        <p class="font-serif text-2xl sm:text-3xl tracking-[0.3em] text-[#c5a259] font-light mb-2">
+                          {page.data.kanji}
+                        </p>
+                        <p class="font-serif text-xs tracking-wider text-[#c5a259]/80 italic mb-3 leading-relaxed">
+                          {page.data.kanjiMeaning}
+                        </p>
+                        <div class="w-14 h-px bg-gradient-to-r from-transparent via-[#c5a259]/50 to-transparent my-1"></div>
+                        <p class="font-sans text-xs tracking-wide text-white/85 mt-2 leading-relaxed">
+                          {page.data.message}
+                        </p>
+                      </div>
+
+                      <div class="pb-4 sm:pb-6">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider shadow-xl animate-pulse whitespace-nowrap">
+                          <span>คลิกเพื่อปิดสมุด &bull; Close</span>
+                          <span class="text-sm">&rarr;</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Click to open hint pill on Back Cover (Page 9) */}
+                  {index === menuBookPages.length - 1 && (
+                    <div class="absolute bottom-[13%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
+                      <span class="text-sm">&larr;</span>
+                      <span>คลิกเพื่อเปิดสมุด &bull; Click to open</span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* TEMPLATE HIGH-FIDELITY DESIGN */
+                <>
+                  {/* --- 1. COVER PAGE (INDEX 0) --- */}
+                  {page.type === 'cover' && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 md:p-10 bg-radial from-[#122e23] via-[#0b1c15] to-[#050e0a] border-r-2 border-white/5 overflow-hidden select-none">
+                      <!-- Leather Texture Overlay -->
+                      <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#c5a259_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+                      
+                      <!-- Big Watermark Motif on the left -->
+                      <div class="absolute -left-16 sm:-left-20 top-1/2 -translate-y-1/2 w-72 sm:w-80 h-72 sm:h-80 opacity-15 pointer-events-none">
+                        <img src={page.data?.watermark?.src || defaultWatermark.src} alt="Watermark" class="w-full h-full object-contain pointer-events-none" />
+                      </div>
+
+                      <!-- Book Spine Accent (Left Edge) -->
+                      <div class="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none"></div>
+                      <div class="absolute top-0 bottom-0 left-1 w-px bg-[#c5a259]/20 pointer-events-none"></div>
+
+                      <!-- Book Edge White Paper Stack Effect (Right Edge) -->
+                      <div class="absolute top-0 bottom-0 right-0 w-2.5 bg-gradient-to-l from-[#e6dfcb] via-[#a89f88] to-transparent pointer-events-none opacity-40 shadow-inner"></div>
+
+                      <!-- Top Header: MENU -->
+                      <div class="text-center pt-3 sm:pt-4 relative z-10">
+                        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-[0.25em] text-[#c5a259] drop-shadow-[0_2px_14px_rgba(197,162,89,0.35)]">
+                          MENU
+                        </h2>
+                      </div>
+
+                      <!-- Center Brand Emblem & Gold Typography -->
+                      <div class="my-auto flex flex-col items-center justify-center text-center relative z-10 py-3 sm:py-5">
+                        <!-- Floral Emblem -->
+                        <div class="w-18 h-18 sm:w-20 sm:h-20 md:w-24 md:h-24 mb-3 sm:mb-4 drop-shadow-[0_4px_16px_rgba(197,162,89,0.4)]">
+                          <img src={page.data?.logo?.src || defaultLogo.src} alt="Flourist Logo" class="w-full h-full object-contain pointer-events-none" />
+                        </div>
+
+                        <!-- Brand Title -->
+                        <h1 class="font-sans text-xl sm:text-2xl md:text-3xl tracking-[0.35em] uppercase text-[#c5a259] font-medium">
+                          {page.data?.brandName || "FLOURIST"}
+                        </h1>
+                        <p class="font-serif text-xs sm:text-sm tracking-[0.25em] text-[#c5a259]/90 mt-1">
+                          {page.data?.subBrand || "抹茶ハウス"}
+                        </p>
+
+                        <!-- Est & Year -->
+                        <div class="mt-4 sm:mt-5 flex flex-col items-center">
+                          <span class="font-serif text-[11px] sm:text-xs tracking-[0.3em] uppercase text-[#c5a259]/80">
+                            {page.data?.est || "EST. 2020"}
+                          </span>
+                          <div class="w-px h-6 bg-gradient-to-b from-[#c5a259]/80 to-[#c5a259]/20 my-1"></div>
+                          <span class="font-sans text-[11px] sm:text-xs tracking-[0.3em] uppercase text-[#c5a259]/80">
+                            {page.data?.location || "BANGKOK"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Bottom Tagline & Click to Open Pill -->
+                      <div class="text-center pb-2 relative z-10 flex flex-col items-center gap-3">
+                        <p class="font-serif text-[11px] sm:text-xs tracking-[0.2em] text-[#c5a259]/75 italic">
+                          {page.data?.tagline || "The Art of Ceremonial Matcha."}
+                        </p>
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider shadow-lg animate-pulse pointer-events-none">
+                          <span>คลิกหรือลากเพื่อเปิด &bull; Click to open</span>
+                          <span class="text-sm">&rarr;</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 2. BRAND STORY PAGE (INDEX 1 - LEFT SPREAD) --- */}
+                  {page.type === 'story' && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
+                      <!-- Page Crease Shadow on the right edge -->
+                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+
+                      <!-- Header with Logo -->
+                      <div class="flex items-center gap-3 border-b border-[#c5a259]/20 pb-3">
+                        <div class="w-6 h-6">
+                          <img src={page.data.logo?.src || "/src/assets/Logo-5.png"} alt="Flourist" class="w-full h-full object-contain" />
+                        </div>
+                        <div>
+                          <p class="font-sans text-[10px] tracking-[0.25em] text-[#c5a259] uppercase font-semibold">
+                            FLOURIST 抹茶ハウス
+                          </p>
+                          <h3 class="font-serif text-xs sm:text-sm tracking-wide text-white/90">
+                            {page.data.headline}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <!-- Tea Farmers Image -->
+                      <div class="my-3 relative rounded-lg overflow-hidden border border-[#c5a259]/30 shadow-lg group">
+                        <img
+                          src={page.data.teamImage?.src}
+                          alt="Tea plantation farmers"
+                          class="w-full h-28 sm:h-36 object-cover"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      </div>
+
+                      <!-- Thai Brand Story Text -->
+                      <div class="my-auto">
+                        <p class="font-sans text-[10.5px] sm:text-[11.5px] md:text-xs text-white/80 leading-relaxed font-light text-justify indent-4">
+                          {page.data.storyText}
+                        </p>
+                      </div>
+
+                      <!-- Bottom Photo & Contact Footer -->
+                      <div class="mt-3 pt-3 border-t border-[#c5a259]/20">
+                        <div class="flex items-center gap-3">
+                          <div class="w-20 h-14 sm:w-24 sm:h-16 rounded overflow-hidden border border-[#c5a259]/30 shrink-0">
+                            <img src={page.data.whiskImage?.src} alt="Matcha bowl & whisk" class="w-full h-full object-cover" />
+                          </div>
+                          <div class="text-[9px] sm:text-[10px] text-white/60 font-sans space-y-0.5">
+                            <p class="text-[#c5a259] font-medium tracking-wide">CONNECT WITH US</p>
+                            <p>IG: <span class="text-white/80">{page.data.contacts.ig}</span></p>
+                            <p>Line: <span class="text-white/80">{page.data.contacts.line}</span></p>
+                            <p>Tel: <span class="text-white/80">{page.data.contacts.phone}</span></p>
+                          </div>
+                        </div>
+
+                        <!-- Left Page Number -->
+                        <div class="mt-3 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                          <span>1</span>
+                          <span class="tracking-widest uppercase">Flourist Origins</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 3. MOTORO SIGNATURE PAGE (INDEX 2 - RIGHT SPREAD) --- */}
+                  {page.type === 'product-spotlight' && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-radial from-[#151f19] via-[#0d1612] to-[#070c09] text-white border-r border-white/5">
+                      <!-- Page Crease Shadow on the left edge -->
+                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+
+                      <!-- Product Header -->
+                      <div class="text-center pt-2 relative z-10">
+                        <div class="inline-block px-2.5 py-0.5 rounded-full border border-[#c5a259]/40 bg-[#c5a259]/10 text-[#c5a259] text-[9px] tracking-[0.2em] uppercase font-medium mb-1">
+                          {page.data.badge}
+                        </div>
+                        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl tracking-[0.1em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
+                          {page.data.title}
+                        </h2>
+                        <p class="font-serif text-[11px] sm:text-xs text-white/75 mt-1 italic tracking-wide">
+                          {page.data.description}
+                        </p>
+                        
+                        <!-- Price Badge -->
+                        <div class="mt-2 inline-flex items-center gap-1.5 px-4 py-1 rounded border border-[#c5a259] bg-[#0c1913]/90 shadow-[0_0_15px_rgba(197,162,89,0.2)]">
+                          <span class="font-sans text-[10px] tracking-widest text-[#c5a259] uppercase font-light">PRICE</span>
+                          <span class="font-serif text-lg sm:text-xl font-bold text-[#c5a259]">{page.data.price}</span>
+                          <span class="font-sans text-[10px] text-[#c5a259]/80">THB</span>
+                        </div>
+                      </div>
+
+                      <!-- Product Center Visual -->
+                      <div class="my-auto relative flex items-center justify-center py-2">
+                        <!-- Soft Backlight Circle -->
+                        <div class="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-[#c5a259]/15 blur-2xl pointer-events-none"></div>
+                        <div class="relative w-44 h-44 sm:w-52 sm:h-52 md:w-56 md:h-56 rounded-2xl overflow-hidden border border-[#c5a259]/30 shadow-2xl">
+                          <img
+                            src={page.data.image?.src}
+                            alt={page.data.title}
+                            class="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      <!-- Thai Description & Footer -->
+                      <div class="text-center relative z-10 pt-2 border-t border-[#c5a259]/20">
+                        <p class="font-sans text-[10.5px] sm:text-xs text-white/75 font-light leading-relaxed max-w-xs mx-auto">
+                          {page.data.thaiNote}
+                        </p>
+
+                        <!-- Brand Mini Logo Footer -->
+                        <div class="mt-3 flex items-center justify-between text-[9px] text-[#c5a259]/60 font-sans">
+                          <div class="flex items-center gap-1.5">
+                            <div class="w-3.5 h-3.5">
+                              <img src={page.data.logo?.src || "/src/assets/Logo-5.png"} alt="Flourist" class="w-full h-full object-contain" />
+                            </div>
+                            <span class="tracking-widest uppercase">FLOURIST 抹茶ハウス</span>
+                          </div>
+                          <span>2</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 4. SIGNATURE CATALOG (INDEX 3) --- */}
+                  {page.type === 'catalog' && page.pageIndex === 3 && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
+                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+                      
+                      <!-- Header -->
+                      <div class="border-b border-[#c5a259]/20 pb-2 mb-3 text-center">
+                        <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-[#c5a259]">{page.data.category}</p>
+                        <h3 class="font-display text-xl sm:text-2xl tracking-wider text-white">Signature Crafted Drinks</h3>
+                      </div>
+
+                      <!-- 3 Drinks list -->
+                      <div class="space-y-3.5 my-auto">
+                        {page.data.items?.map((item: any) => (
+                          <div class="flex items-center gap-3 p-2 rounded-lg bg-[#111c16]/80 border border-[#c5a259]/20 shadow-sm">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded overflow-hidden border border-[#c5a259]/30 shrink-0">
+                              <img src={item.image?.src} alt={item.name} class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 min-w-0">
+                              <div class="flex items-baseline justify-between gap-2">
+                                <h4 class="font-sans text-xs sm:text-sm font-semibold tracking-wider text-white truncate">{item.name}</h4>
+                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price} ฿</span>
+                              </div>
+                              <p class="font-sans text-[10px] sm:text-[10.5px] text-white/70 line-clamp-2 mt-0.5 leading-snug">{item.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <!-- Footer -->
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                        <span>3</span>
+                        <span class="tracking-widest uppercase">House Signatures</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 5. REFRESH & CEREMONIAL (INDEX 4) --- */}
+                  {page.type === 'catalog' && page.pageIndex === 4 && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0d1612] text-white border-r border-white/5">
+                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+                      
+                      <!-- Header -->
+                      <div class="border-b border-[#c5a259]/20 pb-2 mb-3 text-center">
+                        <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-[#c5a259]">{page.data.category}</p>
+                        <h3 class="font-display text-xl sm:text-2xl tracking-wider text-white">Cold Whisk & Modern Flavors</h3>
+                      </div>
+
+                      <!-- 3 Drinks list -->
+                      <div class="space-y-3.5 my-auto">
+                        {page.data.items?.map((item: any) => (
+                          <div class="flex items-center gap-3 p-2 rounded-lg bg-[#111c16]/80 border border-[#c5a259]/20 shadow-sm">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded overflow-hidden border border-[#c5a259]/30 shrink-0">
+                              <img src={item.image?.src} alt={item.name} class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 min-w-0">
+                              <div class="flex items-baseline justify-between gap-2">
+                                <h4 class="font-sans text-xs sm:text-sm font-semibold tracking-wider text-white truncate">{item.name}</h4>
+                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price} ฿</span>
+                              </div>
+                              <p class="font-sans text-[10px] sm:text-[10.5px] text-white/70 line-clamp-2 mt-0.5 leading-snug">{item.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <!-- Footer -->
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                        <span class="tracking-widest uppercase">Ceremonial Selection</span>
+                        <span>4</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 6. DESSERTS & DAIFUKU (INDEX 5) --- */}
+                  {page.type === 'dessert' && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0b120e] text-white border-l border-white/5">
+                      <div class="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black/60 to-transparent pointer-events-none z-10"></div>
+                      
+                      <!-- Header -->
+                      <div class="border-b border-[#c5a259]/20 pb-2 mb-2 text-center">
+                        <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-[#c5a259]">{page.data.category}</p>
+                        <h3 class="font-display text-xl sm:text-2xl tracking-wider text-white">Artisanal Daifuku & Sweets</h3>
+                      </div>
+
+                      <!-- Hero Daifuku Visual -->
+                      <div class="relative rounded-lg overflow-hidden border border-[#c5a259]/30 h-28 sm:h-32 mb-2">
+                        <img src={page.data.heroImage?.src} alt="Fresh strawberry daifuku" class="w-full h-full object-cover" />
+                      </div>
+
+                      <!-- Dessert Items list -->
+                      <div class="space-y-1.5 my-auto">
+                        {page.data.items?.map((item: any) => (
+                          <div class="flex items-start justify-between border-b border-white/5 pb-1">
+                            <div>
+                              <p class="font-sans text-xs font-medium text-white tracking-wide">{item.name}</p>
+                              <p class="font-sans text-[9.5px] text-white/60">{item.thaiName} &bull; {item.desc}</p>
+                            </div>
+                            <span class="font-serif text-xs font-bold text-[#c5a259] shrink-0 ml-2">{item.price} ฿</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <!-- Footer -->
+                      <div class="pt-2 border-t border-[#c5a259]/20 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                        <span>5</span>
+                        <span class="tracking-widest uppercase">Handcrafted Sweets</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- 7. CULTIVARS & SINGLE ORIGIN (INDEX 6) --- */}
+                  {page.type === 'catalog' && page.pageIndex === 6 && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 bg-[#0d1612] text-white border-r border-white/5">
+                      <div class="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none z-10"></div>
+                      
+                      <!-- Header -->
+                      <div class="border-b border-[#c5a259]/20 pb-2 mb-2 text-center">
+                        <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-[#c5a259]">{page.data.category}</p>
+                        <h3 class="font-display text-xl sm:text-2xl tracking-wider text-white">Single Cultivars & Origin</h3>
+                      </div>
+
+                      <!-- Table Header -->
+                      <div class="flex items-center text-[9px] text-[#c5a259] uppercase tracking-wider font-semibold px-1 pb-1 border-b border-[#c5a259]/20">
+                        <span class="w-1/2">Cultivar / Terroir</span>
+                        <span class="w-1/4 text-right">Latte</span>
+                        <span class="w-1/4 text-right">Clear</span>
+                      </div>
+
+                      <!-- Cultivars List -->
+                      <div class="space-y-2 my-auto">
+                        {page.data.cultivars?.map((c: any) => (
+                          <div class="flex items-center justify-between text-xs px-1 border-b border-white/5 pb-1.5">
+                            <div class="w-1/2 pr-2">
+                              <span class="font-display text-sm text-[#c5a259] font-bold block">{c.code}</span>
+                              <span class="text-[9px] text-white/50 block font-serif">{c.region}</span>
+                              <span class="text-[9px] text-white/70 block leading-tight">{c.notes}</span>
+                            </div>
+                            <span class="w-1/4 text-right font-serif font-semibold text-white/90">{c.lattePrice} ฿</span>
+                            <span class="w-1/4 text-right font-serif font-semibold text-[#c5a259]">{c.clearPrice !== '-' ? `${c.clearPrice} ฿` : '-'}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <!-- Branch note -->
+                      <!-- Branch note -->
+                      <div class="pt-2 border-t border-[#c5a259]/20 text-center">
+                        <p class="text-[9px] text-white/60 tracking-wider font-light">{page.data?.branchNotice || ''}</p>
+                        <div class="mt-2 flex justify-between items-center text-[9px] text-[#c5a259]/60 font-sans">
+                          <span class="tracking-widest uppercase">Pure Origins</span>
+                          <span>6</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+
+                  {/* --- 8. BACK COVER --- */}
+                  {page.type === 'back-cover' && (
+                    <div class="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 md:p-10 bg-radial from-[#122e23] via-[#0b1c15] to-[#050e0a] border-l-2 border-white/5 overflow-hidden select-none">
+                      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a259_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+
+                      <!-- Book Spine Accent (Right Edge on Back Cover) -->
+                      <div class="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-black/80 via-black/40 to-transparent pointer-events-none"></div>
+                      <div class="absolute top-0 bottom-0 right-1 w-px bg-[#c5a259]/20 pointer-events-none"></div>
+
+                      <!-- Book Edge White Paper Stack Effect (Left Edge) -->
+                      <div class="absolute top-0 bottom-0 left-0 w-2.5 bg-gradient-to-r from-[#e6dfcb] via-[#a89f88] to-transparent pointer-events-none opacity-40 shadow-inner"></div>
+
+                      <div class="text-center pt-3 sm:pt-4 relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2 sm:mb-3 drop-shadow-[0_4px_16px_rgba(197,162,89,0.3)]">
+                          <img src={page.data?.logo?.src || defaultLogo.src} alt="Flourist Logo" class="w-full h-full object-contain pointer-events-none" />
+                        </div>
+                        <h2 class="font-sans text-lg sm:text-xl tracking-[0.3em] uppercase text-[#c5a259] font-medium">
+                          {page.data?.brandName || "FLOURIST"}
+                        </h2>
+                        <p class="font-serif text-xs tracking-[0.2em] text-[#c5a259]/80 mt-0.5">
+                          {page.data?.subBrand || "抹茶ハウス"}
+                        </p>
+                      </div>
+
+                      <div class="my-auto text-center relative z-10 px-4">
+                        <p class="font-serif text-xs sm:text-sm text-white/80 italic leading-relaxed">
+                          "{page.data?.tagline || "The Art of Ceremonial Matcha."}"
+                        </p>
+                        <div class="w-12 h-px bg-[#c5a259]/40 mx-auto my-3 sm:my-4"></div>
+                        <div class="space-y-1 text-[10px] sm:text-[11px] text-white/70 font-sans">
+                          {(page.data?.socials || [
+                            { label: "IG", value: "@flourist.matchahouse" },
+                            { label: "LINE", value: "@flourist.matcha" },
+                            { label: "TEL", value: "062-376-0586" },
+                          ]).map((s: any) => (
+                            <p><span class="text-[#c5a259] font-medium">{s.label}:</span> {s.value}</p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div class="text-center pb-2 relative z-10">
+                        <span class="font-sans text-[10px] tracking-[0.25em] text-[#c5a259]/70 uppercase">
+                          {page.data?.location || "BANGKOK, THAILAND"}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+            </div>
+          </div>
+        ))}
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Thumbnails Drawer (Slide-up Strip) -->
+  <div id="book-thumbs-drawer" class="w-full max-w-4xl px-4 mt-3 hidden transition-all duration-300">
+    <div class="p-3 rounded-2xl bg-[#09120d]/95 border border-[#c5a259]/30 shadow-2xl backdrop-blur-md">
+      <div class="flex items-center justify-between mb-2 px-1">
+        <span class="font-sans text-xs text-[#c5a259] tracking-wider uppercase font-medium">
+          เลือกหน้าที่ต้องการเปิด (All Pages)
+        </span>
+        <button id="btn-close-thumbs" class="text-xs text-white/50 hover:text-white transition">ปิด &times;</button>
+      </div>
+      <div class="flex items-center gap-3 overflow-x-auto pb-2 pt-1 scrollbar-thin">
+        {menuBookPages.map((page, index) => (
+          <button
+            class="thumb-item group relative flex-col items-center shrink-0 w-20 sm:w-24 rounded-lg overflow-hidden border border-[#c5a259]/30 hover:border-[#c5a259] transition-all bg-[#12221b] text-left active:scale-95"
+            data-target-page={index}
+          >
+            <div class="w-full h-28 sm:h-32 bg-[#060b08] overflow-hidden relative flex items-center justify-center">
+              {page.customImage ? (
+                <img src={page.customImage} alt={page.title} class="w-full h-full object-cover" />
+              ) : (
+                <div class="p-2 text-center flex flex-col items-center justify-center h-full">
+                  <div class="w-6 h-6 mb-1 opacity-85">
+                    <img src={page.data?.logo?.src || defaultLogo.src} alt="" class="w-full h-full object-contain" />
+                  </div>
+                  <span class="font-display text-[10px] text-[#c5a259] line-clamp-1">{page.title}</span>
+                  <span class="block text-[7px] text-white/50 font-serif">{page.subtitle || ''}</span>
+                </div>
+              )}
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+            </div>
+            <div class="p-1 text-center bg-[#0d1813] border-t border-[#c5a259]/20">
+              <span class="text-[10px] text-[#c5a259] font-medium tracking-wide">
+                {page.pageNumberLabel || index}
+              </span>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Zoom Lightbox Modal -->
+  <div id="book-zoom-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4">
+    <div class="absolute top-4 right-4 flex items-center gap-3 z-50">
+      <span class="text-xs text-white/70">กด Esc เพื่อปิด</span>
+      <button id="btn-close-zoom" class="px-3 py-1.5 rounded-lg bg-[#c5a259] text-black font-semibold text-xs hover:bg-white transition">
+        ปิดหน้าต่าง &times;
+      </button>
+    </div>
+    
+    <div class="relative max-w-4xl max-h-[85vh] w-full flex items-center justify-center overflow-auto p-2" id="zoom-container">
+      <div id="zoom-target-content" class="w-full h-full flex items-center justify-center">
+        <!-- Injected dynamically on zoom open -->
+      </div>
+    </div>
+    
+    <div class="mt-4 flex items-center gap-3 text-xs text-white/80">
+      <button id="btn-zoom-in" class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 transition">+ ซูมเข้า</button>
+      <button id="btn-zoom-out" class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 transition">- ซูมออก</button>
+      <button id="btn-zoom-reset" class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 transition">รีเซ็ต</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Component Styles -->
+<style is:global>
+  /* Center Transform Container: dynamic sizing with CSS variables */
+  #book-centering-container.centering-box,
+  #book-centering-container {
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: var(--book-spread-width, 820px);
+    height: var(--book-spread-height, 580px);
+    max-width: 96vw;
+    max-height: 100%;
+  }
+
+  /* StPageFlip Elements Style */
+  .flipbook-root {
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    border-radius: 6px;
+    background: transparent;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .stf__wrapper,
+  .stf__block {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .book-page-wrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #000000;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page-content-box {
+    box-shadow: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 100% Pure & Unaltered Natural Image Rendering - No color filters, no contrast tampering */
+  .menu-page-img,
+  .book-page-wrapper img {
+    filter: none !important;
+    -webkit-filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    image-rendering: auto !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Prevent 3D texture blur on resting pages */
+  .stf__item.--simple {
+    transform: none !important;
+    transform-style: flat !important;
+    will-change: auto !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Centering shifts & single-cover presentation on desktop landscape */
+  @media (min-width: 768px) {
+    /* FRONT COVER (PAGE 0): Shift left 25% to center the cover, clip out empty left 50% */
+    #book-centering-container.at-cover,
+    #book-centering-container[data-state="cover"] {
+      transform: translateX(-25%);
+    }
+    #book-centering-container.at-cover #flourist-flipbook,
+    #book-centering-container[data-state="cover"] #flourist-flipbook {
+      clip-path: inset(-100px -100px -100px 50%);
+    }
+
+    /* BACK COVER (PAGE 9): Shift right 25% to center the back cover, clip out empty right 50% */
+    #book-centering-container.at-back,
+    #book-centering-container[data-state="back"] {
+      transform: translateX(25%);
+    }
+    #book-centering-container.at-back #flourist-flipbook,
+    #book-centering-container[data-state="back"] #flourist-flipbook {
+      clip-path: inset(-100px 50% -100px -100px);
+    }
+
+    /* OPEN SPREAD (PAGES 1 - 8) & FLIPPING ANIMATION: Full 2-page view without clipping */
+    #book-centering-container.at-spread,
+    #book-centering-container[data-state="spread"],
+    #book-centering-container.at-flipping,
+    #book-centering-container[data-state="flipping"] {
+      transform: translateX(0);
+    }
+    #book-centering-container.at-spread #flourist-flipbook,
+    #book-centering-container[data-state="spread"] #flourist-flipbook,
+    #book-centering-container.at-flipping #flourist-flipbook,
+    #book-centering-container[data-state="flipping"] #flourist-flipbook {
+      clip-path: none;
+    }
+  }
+
+  /* Hover cursor on closed front cover */
+  #book-centering-container.at-cover [data-page-index="0"],
+  #book-centering-container[data-state="cover"] [data-page-index="0"] {
+    cursor: pointer;
+  }
+
+  /* Thumbnails active highlight */
+  .thumb-item.active {
+    border-color: #c5a259;
+    box-shadow: 0 0 12px rgba(197, 162, 89, 0.5);
+  }
+
+  /* Navigation Buttons Flanking the Book */
+  .book-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    width: 52px;
+    height: 52px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(13, 20, 17, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(197, 162, 89, 0.38);
+    color: #c5a259;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(197, 162, 89, 0.15);
+    cursor: pointer;
+    transition: left 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                right 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.3s ease,
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+    outline: none;
+    user-select: none;
+  }
+
+  .book-nav-btn:hover:not(:disabled) {
+    background-color: #c5a259;
+    color: #070b09;
+    border-color: #c5a259;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 30px rgba(197, 162, 89, 0.6), 0 10px 25px rgba(0, 0, 0, 0.8);
+  }
+
+  .book-nav-btn:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .book-nav-btn:disabled {
+    opacity: 0.18;
+    cursor: not-allowed;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.25);
+    box-shadow: none;
+  }
+
+  /* Default / Spread State Position */
+  .book-nav-prev {
+    left: max(16px, calc(50% - var(--book-spread-width, 820px) / 2 - 76px));
+  }
+  .book-nav-next {
+    right: max(16px, calc(50% - var(--book-spread-width, 820px) / 2 - 76px));
+  }
+
+  /* Desktop shifts when single cover is centered */
+  @media (min-width: 768px) {
+    #flourist-book-wrapper[data-book-state="cover"] .book-nav-prev {
+      left: max(16px, calc(50% - var(--book-spread-width, 820px) / 4 - 76px));
+    }
+    #flourist-book-wrapper[data-book-state="cover"] .book-nav-next {
+      right: max(16px, calc(50% - var(--book-spread-width, 820px) / 4 - 76px));
+    }
+
+    #flourist-book-wrapper[data-book-state="back"] .book-nav-prev {
+      left: max(16px, calc(50% - var(--book-spread-width, 820px) / 4 - 76px));
+    }
+    #flourist-book-wrapper[data-book-state="back"] .book-nav-next {
+      right: max(16px, calc(50% - var(--book-spread-width, 820px) / 4 - 76px));
+    }
+  }
+
+  /* Mobile Portrait Position */
+  @media (max-width: 767px) {
+    .book-nav-btn {
+      width: 42px;
+      height: 42px;
+      background-color: rgba(7, 11, 9, 0.85);
+    }
+    .book-nav-prev {
+      left: 8px !important;
+    }
+    .book-nav-next {
+      right: 8px !important;
+    }
+  }
+
+  /* Close / Return to First Page Button (Top-Right of Book) */
+  .book-close-btn {
+    position: absolute;
+    top: calc(50% - var(--book-spread-height, 580px) / 2 + 10px);
+    right: max(16px, calc(50% - var(--book-spread-width, 820px) / 2 - 64px));
+    z-index: 50;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(13, 20, 17, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(197, 162, 89, 0.4);
+    color: #c5a259;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(197, 162, 89, 0.15);
+    cursor: pointer;
+    transition: right 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.4s ease,
+                transform 0.4s ease,
+                visibility 0.4s ease,
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+    outline: none;
+    user-select: none;
+  }
+
+  .book-close-btn:hover {
+    background-color: #c5a259;
+    color: #070b09;
+    border-color: #c5a259;
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(197, 162, 89, 0.6), 0 10px 25px rgba(0, 0, 0, 0.8);
+  }
+
+  .book-close-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* When book is closed at Cover (not yet opened): hide close button completely */
+  #flourist-book-wrapper[data-book-state="cover"] .book-close-btn {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transform: scale(0.6) !important;
+  }
+
+  /* Desktop shifts when back cover is centered */
+  @media (min-width: 768px) {
+    #flourist-book-wrapper[data-book-state="back"] .book-close-btn {
+      right: max(16px, calc(50% - var(--book-spread-width, 820px) / 4 - 64px));
+    }
+  }
+
+  /* Mobile Portrait Position */
+  @media (max-width: 767px) {
+    .book-close-btn {
+      width: 38px;
+      height: 38px;
+      top: 12px !important;
+      right: 12px !important;
+    }
+  }
+</style>
+
+<!-- Client Script: PageFlip initialization & Controls -->
+<script>
+  import { PageFlip } from "page-flip";
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const bookEl = document.getElementById("flourist-flipbook");
+    const container = document.getElementById("book-centering-container");
+    const bookWrapper = document.getElementById("flourist-book-wrapper");
+    if (!bookEl || !container) return;
+
+    function getActualHeaderHeight(): number {
+      const headerEl = document.querySelector(".site-header") as HTMLElement;
+      if (headerEl) {
+        const rect = headerEl.getBoundingClientRect();
+        if (rect.height > 0) return Math.round(rect.height);
+      }
+      return window.innerWidth < 768 ? 112 : (window.innerWidth >= 1280 ? 128 : 124);
+    }
+
+    const actualHeaderHeight = getActualHeaderHeight();
+    const spacer = document.getElementById("menu-nav-spacer");
+    if (spacer) {
+      spacer.style.height = `${actualHeaderHeight}px`;
+    }
+
+    // Available height strictly in the visible space below the navbar
+    const availableHeight = window.innerHeight - actualHeaderHeight;
+    const isMobile = window.innerWidth < 768;
+    
+    // Scale book height to ~94% of available space below navbar (almost touching top & bottom edges)
+    // Leaves exactly equal small ~3% margin top and bottom (~25px each on 1080p)
+    let targetHeight = isMobile
+      ? Math.min(Math.round(availableHeight * 0.92), 680)
+      : Math.min(Math.round(availableHeight * 0.94), 920);
+
+    let targetPageWidth = Math.round(targetHeight / 1.414);
+    let targetSpreadWidth = isMobile ? targetPageWidth : targetPageWidth * 2;
+
+    const maxAllowedSpreadWidth = isMobile
+      ? Math.round(window.innerWidth * 0.94)
+      : Math.round(window.innerWidth * 0.94);
+
+    if (targetSpreadWidth > maxAllowedSpreadWidth) {
+      targetSpreadWidth = maxAllowedSpreadWidth;
+      targetPageWidth = isMobile ? targetSpreadWidth : Math.round(targetSpreadWidth / 2);
+      targetHeight = Math.round(targetPageWidth * 1.414);
+    }
+
+    const baseWidth = targetPageWidth;
+    const baseHeight = targetHeight;
+    const spreadWidth = targetSpreadWidth;
+    const spreadHeight = targetHeight;
+
+    // Set container & wrapper CSS variables so it fits the book dimensions down to the pixel
+    if (bookWrapper) {
+      bookWrapper.style.setProperty("--book-spread-width", `${spreadWidth}px`);
+      bookWrapper.style.setProperty("--book-spread-height", `${spreadHeight}px`);
+    }
+    container.style.setProperty("--book-spread-width", `${spreadWidth}px`);
+    container.style.setProperty("--book-spread-height", `${spreadHeight}px`);
+
+    // Initialize PageFlip instance configured for comfortable viewport fit
+    const pageFlip = new PageFlip(bookEl, {
+      startPage: 0, // เริ่มต้นที่หน้าปก (Front Cover)
+      width: baseWidth,
+      height: baseHeight,
+      size: "stretch",
+      minWidth: isMobile ? targetPageWidth : 180,
+      maxWidth: 900,
+      minHeight: isMobile ? Math.round(targetHeight * 0.8) : 250,
+      maxHeight: 1200,
+      drawShadow: false,
+      maxShadowOpacity: 0,
+      showCover: true,
+      mobileScrollSupport: false,
+      swipeDistance: 25,
+      usePortrait: isMobile,
+      flippingTime: 700,
+      useMouseEvents: true,
+      showPageCorners: true,
+    });
+
+    const pageElements = document.querySelectorAll(".book-page-wrapper");
+    pageFlip.loadFromHTML(pageElements as any);
+
+    // Dom Elements
+    const btnPrev = document.getElementById("btn-book-prev") as HTMLButtonElement;
+    const btnNext = document.getElementById("btn-book-next") as HTMLButtonElement;
+    const btnClose = document.getElementById("btn-book-close") as HTMLButtonElement;
+    const btnFirst = document.getElementById("btn-book-first") as HTMLButtonElement;
+    const btnLast = document.getElementById("btn-book-last") as HTMLButtonElement;
+    const pageLabel = document.getElementById("book-page-label");
+    const spreadLabel = document.getElementById("book-spread-label");
+    const thumbsBtn = document.getElementById("btn-book-thumbs");
+    const thumbsDrawer = document.getElementById("book-thumbs-drawer");
+    const closeThumbsBtn = document.getElementById("btn-close-thumbs");
+    const zoomBtn = document.getElementById("btn-book-zoom");
+    const zoomModal = document.getElementById("book-zoom-modal");
+    const closeZoomBtn = document.getElementById("btn-close-zoom");
+    const zoomTarget = document.getElementById("zoom-target-content");
+    const fullScreenBtn = document.getElementById("btn-book-fullscreen");
+
+    const totalPages = pageFlip.getPageCount();
+
+    // Update UI status on page change
+    function updateBookState(pageIndex: number) {
+      const orientation = pageFlip.getOrientation();
+      const isLandscape = orientation === "landscape";
+      const isAtEnd = pageIndex >= totalPages - 1;
+
+      // Desktop shift & clipping effect for closed cover / back cover
+      if (isLandscape) {
+        if (pageIndex === 0) {
+          container.setAttribute("data-state", "cover");
+          container.className = "centering-box at-cover";
+          if (bookWrapper) bookWrapper.setAttribute("data-book-state", "cover");
+        } else if (pageIndex >= totalPages - 1) {
+          container.setAttribute("data-state", "back");
+          container.className = "centering-box at-back";
+          if (bookWrapper) bookWrapper.setAttribute("data-book-state", "back");
+        } else {
+          container.setAttribute("data-state", "spread");
+          container.className = "centering-box at-spread";
+          if (bookWrapper) bookWrapper.setAttribute("data-book-state", "spread");
+        }
+      } else {
+        container.removeAttribute("data-state");
+        container.className = "centering-box";
+        if (bookWrapper) bookWrapper.setAttribute("data-book-state", "portrait");
+      }
+
+      // Update Label
+      if (pageIndex === 0) {
+        if (pageLabel) pageLabel.textContent = "ปกหน้า (Front Cover)";
+        if (spreadLabel) spreadLabel.textContent = `คลิกหรือลากมุมเพื่อเปิด • หน้า 1 จาก ${totalPages}`;
+        if (btnPrev) btnPrev.disabled = true;
+        if (btnFirst) btnFirst.disabled = true;
+        if (btnNext) btnNext.disabled = false;
+        if (btnLast) btnLast.disabled = false;
+        if (btnClose) {
+          btnClose.style.opacity = "0";
+          btnClose.style.pointerEvents = "none";
+          btnClose.style.visibility = "hidden";
+        }
+      } else if (isAtEnd) {
+        if (pageLabel) pageLabel.textContent = "ปกหลัง (Back Cover)";
+        if (spreadLabel) spreadLabel.textContent = `หน้า ${totalPages} จาก ${totalPages}`;
+        if (btnNext) btnNext.disabled = true;
+        if (btnLast) btnLast.disabled = true;
+        if (btnPrev) btnPrev.disabled = false;
+        if (btnFirst) btnFirst.disabled = false;
+        if (btnClose) {
+          btnClose.style.opacity = "1";
+          btnClose.style.pointerEvents = "auto";
+          btnClose.style.visibility = "visible";
+        }
+      } else {
+        if (isLandscape) {
+          const leftP = pageIndex;
+          const rightP = pageIndex + 1 < totalPages ? pageIndex + 1 : pageIndex;
+          if (pageLabel) pageLabel.textContent = `หน้า ${leftP} - ${rightP}`;
+          if (spreadLabel) spreadLabel.textContent = `จากทั้งหมด ${totalPages} หน้า`;
+        } else {
+          if (pageLabel) pageLabel.textContent = `หน้าที่ ${pageIndex}`;
+          if (spreadLabel) spreadLabel.textContent = `จาก ${totalPages} หน้า`;
+        }
+        if (btnPrev) btnPrev.disabled = false;
+        if (btnFirst) btnFirst.disabled = false;
+        if (btnNext) btnNext.disabled = false;
+        if (btnLast) btnLast.disabled = false;
+        if (btnClose) {
+          btnClose.style.opacity = "1";
+          btnClose.style.pointerEvents = "auto";
+          btnClose.style.visibility = "visible";
+        }
+      }
+
+      // Update thumbnail active states
+      document.querySelectorAll(".thumb-item").forEach((el) => {
+        const target = parseInt(el.getAttribute("data-target-page") || "0", 10);
+        if (target === pageIndex || (isLandscape && target === pageIndex + 1 && pageIndex > 0)) {
+          el.classList.add("active");
+        } else {
+          el.classList.remove("active");
+        }
+      });
+    }
+
+    // Event Listeners from PageFlip
+    pageFlip.on("init", (e: any) => {
+      updateBookState(e.data.page);
+    });
+
+    pageFlip.on("flip", (e: any) => {
+      updateBookState(e.data);
+    });
+
+    pageFlip.on("changeOrientation", () => {
+      updateBookState(pageFlip.getCurrentPageIndex());
+    });
+
+    // Unclip during page turns so the swinging page crosses the spine seamlessly
+    pageFlip.on("changeState", (e: any) => {
+      const state = e.data;
+      if (state === "flipping" || state === "user_fold") {
+        if (pageFlip.getOrientation() === "landscape") {
+          container.setAttribute("data-state", "flipping");
+          container.className = "centering-box at-flipping";
+          if (bookWrapper) bookWrapper.setAttribute("data-book-state", "spread");
+        }
+      } else if (state === "read") {
+        updateBookState(pageFlip.getCurrentPageIndex());
+      }
+    });
+
+    // Return to Cover / Close Button Action
+    btnClose?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      try {
+        pageFlip.flip(0);
+      } catch (err) {}
+    });
+
+    // Control Buttons
+    btnNext?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      try {
+        if (pageFlip.getCurrentPageIndex() < totalPages - 1) {
+          pageFlip.flipNext();
+        }
+      } catch (err) {}
+    });
+
+    btnPrev?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      try {
+        if (pageFlip.getCurrentPageIndex() > 0) {
+          pageFlip.flipPrev();
+        }
+      } catch (err) {}
+    });
+
+    btnFirst?.addEventListener("click", () => {
+      try {
+        pageFlip.flip(0);
+      } catch (err) {}
+    });
+
+    btnLast?.addEventListener("click", () => {
+      try {
+        pageFlip.flip(totalPages - 1);
+      } catch (err) {}
+    });
+
+    // Thumbnails Drawer
+    thumbsBtn?.addEventListener("click", () => {
+      thumbsDrawer?.classList.toggle("hidden");
+    });
+
+    closeThumbsBtn?.addEventListener("click", () => {
+      thumbsDrawer?.classList.add("hidden");
+    });
+
+    document.querySelectorAll(".thumb-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = parseInt(btn.getAttribute("data-target-page") || "0", 10);
+        try {
+          if (target >= 0 && target < totalPages) {
+            pageFlip.flip(target);
+          }
+        } catch (err) {}
+      });
+    });
+
+    // Fullscreen Toggle
+    fullScreenBtn?.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    });
+
+    // Zoom Lightbox Modal
+    let currentZoomScale = 1;
+    zoomBtn?.addEventListener("click", () => {
+      if (!zoomModal || !zoomTarget) return;
+      const currentIndex = pageFlip.getCurrentPageIndex();
+      const currentSpreadPages = document.querySelectorAll(".book-page-wrapper");
+      
+      zoomTarget.innerHTML = "";
+      currentZoomScale = 1;
+
+      // Clone active page for inspection
+      const pageToZoom = currentSpreadPages[currentIndex];
+      if (pageToZoom) {
+        const clone = pageToZoom.cloneNode(true) as HTMLElement;
+        clone.style.width = "480px";
+        clone.style.maxWidth = "90vw";
+        clone.style.height = "680px";
+        clone.style.maxHeight = "80vh";
+        clone.style.display = "block";
+        clone.style.position = "relative";
+        clone.style.transform = `scale(${currentZoomScale})`;
+        clone.style.transition = "transform 0.2s ease";
+        clone.id = "zoomed-clone";
+        zoomTarget.appendChild(clone);
+      }
+
+      zoomModal.classList.remove("hidden");
+    });
+
+    closeZoomBtn?.addEventListener("click", () => {
+      zoomModal?.classList.add("hidden");
+    });
+
+    document.getElementById("btn-zoom-in")?.addEventListener("click", () => {
+      const clone = document.getElementById("zoomed-clone");
+      if (clone && currentZoomScale < 2.5) {
+        currentZoomScale += 0.25;
+        clone.style.transform = `scale(${currentZoomScale})`;
+      }
+    });
+
+    document.getElementById("btn-zoom-out")?.addEventListener("click", () => {
+      const clone = document.getElementById("zoomed-clone");
+      if (clone && currentZoomScale > 0.75) {
+        currentZoomScale -= 0.25;
+        clone.style.transform = `scale(${currentZoomScale})`;
+      }
+    });
+
+    document.getElementById("btn-zoom-reset")?.addEventListener("click", () => {
+      const clone = document.getElementById("zoomed-clone");
+      if (clone) {
+        currentZoomScale = 1;
+        clone.style.transform = `scale(1)`;
+      }
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener("keydown", (e) => {
+      try {
+        if (e.key === "ArrowRight" || e.key === "PageDown") {
+          if (pageFlip.getCurrentPageIndex() < totalPages - 1) {
+            pageFlip.flipNext();
+          }
+        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          if (pageFlip.getCurrentPageIndex() > 0) {
+            pageFlip.flipPrev();
+          }
+        } else if (e.key === "Escape") {
+          zoomModal?.classList.add("hidden");
+          thumbsDrawer?.classList.add("hidden");
+        }
+      } catch (err) {}
+    });
+
+    function updateDimensions() {
+      const actH = getActualHeaderHeight();
+      const sp = document.getElementById("menu-nav-spacer");
+      if (sp) sp.style.height = `${actH}px`;
+
+      const isMob = window.innerWidth < 768;
+      const availH = window.innerHeight - actH;
+      let tH = isMob
+        ? Math.min(Math.round(availH * 0.92), 680)
+        : Math.min(Math.round(availH * 0.94), 920);
+
+      let tPW = Math.round(tH / 1.414);
+      let tSW = isMob ? tPW : tPW * 2;
+
+      const maxSW = Math.round(window.innerWidth * 0.94);
+      if (tSW > maxSW) {
+        tSW = maxSW;
+        tPW = isMob ? tSW : Math.round(tSW / 2);
+        tH = Math.round(tPW * 1.414);
+      }
+      if (bookWrapper) {
+        bookWrapper.style.setProperty("--book-spread-width", `${tSW}px`);
+        bookWrapper.style.setProperty("--book-spread-height", `${tH}px`);
+      }
+      container.style.setProperty("--book-spread-width", `${tSW}px`);
+      container.style.setProperty("--book-spread-height", `${tH}px`);
+    }
+
+    const headerElement = document.querySelector(".site-header");
+    if (headerElement && typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(() => updateDimensions());
+      ro.observe(headerElement);
+    }
+
+    let resizeTimer: any;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => updateDimensions(), 100);
+    });
+  });
+</script>
