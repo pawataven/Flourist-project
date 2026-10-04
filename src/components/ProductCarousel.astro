@@ -9,7 +9,8 @@ interface Props {
 const { products } = Astro.props;
 ---
 
-<div class="group relative">
+<div data-carousel-wrapper class="w-full">
+  <div class="group relative">
   <div
     data-product-carousel
     class="cursor-grab overflow-hidden select-none touch-pan-y active:cursor-grabbing px-1"
@@ -29,44 +30,40 @@ const { products } = Astro.props;
   </div>
 
   <!-- Navigation Buttons -->
-  <button
-    type="button"
-    data-carousel-prev
-    aria-label="Previous products"
-    class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
-  >
-    &lsaquo;
-  </button>
-  <button
-    type="button"
-    data-carousel-next
-    aria-label="Next products"
-    class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
-  >
-    &rsaquo;
-  </button>
+  {
+    products.length > 1 && (
+      <>
+        <button
+          type="button"
+          data-carousel-prev
+          aria-label="Previous products"
+          class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+        >
+          &lsaquo;
+        </button>
+        <button
+          type="button"
+          data-carousel-next
+          aria-label="Next products"
+          class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+        >
+          &rsaquo;
+        </button>
+      </>
+    )
+  }
 </div>
 
 <!-- Pagination Dots -->
-<div
-  class="mt-8 flex justify-center gap-2"
-  data-carousel-dots
-  aria-label="Choose product page"
->
-  {
-    Array.from({ length: 4 }).map((_, index) => (
-      <button
-        type="button"
-        data-carousel-dot={index}
-        aria-label={`Go to product page ${index + 1}`}
-        class:list={[
-          "size-2.5 rounded-full bg-[#d1d1d1] transition-colors",
-          index === 0 && "bg-[#333333]",
-          index >= 2 && "lg:hidden"
-        ]}
-      />
-    ))
-  }
+{
+  products.length > 1 && (
+    <div
+      class="mt-8 flex justify-center gap-2"
+      data-carousel-dots
+      aria-label="Choose product page"
+    />
+  )
+}
 </div>
 
 <script>
@@ -84,319 +81,363 @@ const { products } = Astro.props;
     hasMoved: boolean;
   }
 
-  const carousel = document.querySelector<HTMLElement>("[data-product-carousel]");
-  const track = document.querySelector<HTMLElement>("[data-product-track]");
-  const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
-  const previous = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
-  const next = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+  const lcm = (a: number, b: number): number =>
+    a === 0 || b === 0 ? 0 : Math.abs(a * b) / gcd(a, b);
 
-  if (carousel && track) {
-    const originalItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
-    const realCount = originalItems.length;
+  const initCarousels = () => {
+    const wrappers = document.querySelectorAll<HTMLElement>("[data-carousel-wrapper]");
+    wrappers.forEach((wrapper) => {
+      if (wrapper.dataset.carouselInit) return;
+      wrapper.dataset.carouselInit = "true";
 
-    if (realCount > 1) {
-      // Create 3-set infinite track ([Set 0][Set 1 (Home)][Set 2])
-      for (let i = realCount - 1; i >= 0; i--) {
-        const cloneBefore = originalItems[i].cloneNode(true) as HTMLElement;
-        cloneBefore.setAttribute("aria-hidden", "true");
-        track.prepend(cloneBefore);
-      }
-      for (let i = 0; i < realCount; i++) {
-        const cloneAfter = originalItems[i].cloneNode(true) as HTMLElement;
-        cloneAfter.setAttribute("aria-hidden", "true");
-        track.appendChild(cloneAfter);
-      }
+      const carousel = wrapper.querySelector<HTMLElement>("[data-product-carousel]");
+      const track = wrapper.querySelector<HTMLElement>("[data-product-track]");
+      const dotsContainer = wrapper.querySelector<HTMLElement>("[data-carousel-dots]");
+      const previous = wrapper.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+      const next = wrapper.querySelector<HTMLButtonElement>("[data-carousel-next]");
 
-      let cardStep = 0;
-      let cardsPerPage = 2;
-      let totalPages = 4;
-      let pageStep = 0;
-      let cycleWidth = 0;
-      let currentX = 0;
-      let targetX = 0;
-      let rafId: number | null = null;
+      if (carousel && track) {
+        const originalItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
+        const realCount = originalItems.length;
 
-      const measure = () => {
-        cardsPerPage = window.innerWidth >= 1024 ? 4 : window.innerWidth < 360 ? 1 : 2;
-        totalPages = Math.ceil(realCount / cardsPerPage);
+        if (realCount > 1) {
+          // Build seamless buffer: baseCycleCount is LCM(realCount, 4)
+          // Guarantees clean integer page steps on desktop (4 cards), tablet/mobile (2 cards), or small mobile (1 card)
+          const baseCycleCount = lcm(realCount, 4);
 
-        const allItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
-        if (allItems.length >= realCount * 2) {
-          const firstReal = allItems[realCount];
-
-          if (allItems.length > realCount + 1) {
-            // Use getBoundingClientRect for subpixel accuracy (offsetLeft rounds to integers)
-            cardStep = allItems[realCount + 1].getBoundingClientRect().left - firstReal.getBoundingClientRect().left;
-          } else {
-            const firstClone = allItems[0];
-            cardStep = (firstReal.getBoundingClientRect().left - firstClone.getBoundingClientRect().left) / realCount;
-          }
-        } else {
-          const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
-          const gap = parseFloat(window.getComputedStyle(track).gap) || (window.innerWidth >= 640 ? 20 : 16);
-          cardStep = (firstItem?.offsetWidth ?? 0) + gap;
-        }
-
-        // Derive cycleWidth from cardStep so totalPages * pageStep === cycleWidth exactly.
-        // This prevents position drift when normalizeBounds wraps around.
-        cycleWidth = realCount * cardStep;
-        pageStep = cardsPerPage * cardStep;
-      };
-
-      measure();
-      currentX = -cycleWidth;
-      targetX = -cycleWidth;
-      track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-
-      // Continuous modulo boundary normalizer: keep currentX and targetX inside [-2 * cycleWidth, -cycleWidth)
-      const normalizeBounds = () => {
-        while (currentX <= -2 * cycleWidth) {
-          currentX += cycleWidth;
-          targetX += cycleWidth;
-        }
-        while (currentX > -cycleWidth) {
-          currentX -= cycleWidth;
-          targetX -= cycleWidth;
-        }
-      };
-
-      const updateDots = () => {
-        if (!dots.length || pageStep === 0) return;
-        const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
-        const activePage = Math.min(
-          totalPages - 1,
-          Math.max(0, Math.round(normPos / pageStep) % totalPages)
-        );
-
-        dots.forEach((dot, i) => {
-          if (i < totalPages) {
-            dot.style.display = "";
-            if (i === activePage) {
-              dot.classList.add("bg-[#333333]");
-              dot.classList.remove("bg-[#d1d1d1]");
-            } else {
-              dot.classList.remove("bg-[#333333]");
-              dot.classList.add("bg-[#d1d1d1]");
+          const createCycleFragment = (ariaHidden: boolean) => {
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < baseCycleCount; i++) {
+              const clone = originalItems[i % realCount].cloneNode(true) as HTMLElement;
+              if (ariaHidden) {
+                clone.setAttribute("aria-hidden", "true");
+              } else {
+                clone.removeAttribute("aria-hidden");
+              }
+              fragment.appendChild(clone);
             }
-          } else {
-            dot.style.display = "none";
-          }
-        });
-      };
+            return fragment;
+          };
 
-      // Fluid Spring/Lerp Physics Loop
-      const tick = () => {
-        const dist = targetX - currentX;
-        if (Math.abs(dist) > 0.3) {
-          currentX += dist * 0.18;
-          normalizeBounds();
+          track.innerHTML = "";
+          track.appendChild(createCycleFragment(true));  // Set 0 (Clone before)
+          track.appendChild(createCycleFragment(false)); // Set 1 (Center home set)
+          track.appendChild(createCycleFragment(true));  // Set 2 (Clone after)
+
+          const homeIndex = baseCycleCount;
+
+          let cardStep = 0;
+          let cardsPerPage = 2;
+          let activeCycleCount = baseCycleCount;
+          let totalPages = 4;
+          let pageStep = 0;
+          let cycleWidth = 0;
+          let homeX = 0;
+          let currentX = 0;
+          let targetX = 0;
+          let rafId: number | null = null;
+          let dots: HTMLButtonElement[] = [];
+
+          const measure = () => {
+            cardsPerPage = window.innerWidth >= 1024 ? 4 : window.innerWidth < 360 ? 1 : 2;
+            activeCycleCount = lcm(realCount, cardsPerPage);
+            totalPages = activeCycleCount / cardsPerPage;
+
+            const allItems = Array.from(track.querySelectorAll<HTMLElement>("[data-product-item]"));
+            if (allItems.length > homeIndex + 1) {
+              cardStep = allItems[homeIndex + 1].getBoundingClientRect().left - allItems[homeIndex].getBoundingClientRect().left;
+            } else {
+              const firstItem = track.querySelector<HTMLElement>("[data-product-item]");
+              const gap = parseFloat(window.getComputedStyle(track).gap) || (window.innerWidth >= 640 ? 20 : 16);
+              cardStep = (firstItem?.offsetWidth ?? 0) + gap;
+            }
+
+            cycleWidth = activeCycleCount * cardStep;
+            pageStep = cardsPerPage * cardStep;
+            homeX = -homeIndex * cardStep;
+          };
+
+          const renderDots = () => {
+            if (!dotsContainer) return;
+            if (totalPages <= 1) {
+              dotsContainer.style.display = "none";
+              return;
+            }
+            dotsContainer.style.display = "flex";
+            dotsContainer.innerHTML = "";
+            dots = [];
+
+            for (let i = 0; i < totalPages; i++) {
+              const dot = document.createElement("button");
+              dot.type = "button";
+              dot.setAttribute("data-carousel-dot", String(i));
+              dot.setAttribute("aria-label", `Go to product page ${i + 1}`);
+              dot.className = `size-2.5 rounded-full transition-colors ${
+                i === 0 ? "bg-[#333333]" : "bg-[#d1d1d1]"
+              }`;
+              dot.addEventListener("click", () => {
+                goToPage(i);
+              });
+              dotsContainer.appendChild(dot);
+              dots.push(dot);
+            }
+          };
+
+          measure();
+          renderDots();
+          currentX = homeX;
+          targetX = homeX;
           track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-          updateDots();
-          rafId = requestAnimationFrame(tick);
-        } else {
-          currentX = targetX;
-          normalizeBounds();
-          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-          updateDots();
-          rafId = null;
-        }
-      };
 
-      const startAnimation = () => {
-        if (rafId === null) {
-          rafId = requestAnimationFrame(tick);
-        }
-      };
+          const normalizeBounds = () => {
+            const minX = homeX - cycleWidth;
+            const maxX = homeX;
+            while (currentX <= minX) {
+              currentX += cycleWidth;
+              targetX += cycleWidth;
+            }
+            while (currentX > maxX) {
+              currentX -= cycleWidth;
+              targetX -= cycleWidth;
+            }
+          };
 
-      // Advance by exactly 1 page (columns per screen)
-      const goNext = () => {
-        const currentPage = Math.round((-targetX - cycleWidth) / pageStep);
-        targetX = -(cycleWidth + (currentPage + 1) * pageStep);
-        startAnimation();
-      };
+          const updateDots = () => {
+            if (!dots.length || pageStep === 0) return;
+            const normOffset = ((homeX - currentX) % cycleWidth + cycleWidth) % cycleWidth;
+            const activePage = Math.min(
+              totalPages - 1,
+              Math.max(0, Math.round(normOffset / pageStep) % totalPages)
+            );
 
-      const goPrev = () => {
-        const currentPage = Math.round((-targetX - cycleWidth) / pageStep);
-        targetX = -(cycleWidth + (currentPage - 1) * pageStep);
-        startAnimation();
-      };
+            dots.forEach((dot, i) => {
+              if (i === activePage) {
+                dot.classList.add("bg-[#333333]");
+                dot.classList.remove("bg-[#d1d1d1]");
+              } else {
+                dot.classList.remove("bg-[#333333]");
+                dot.classList.add("bg-[#d1d1d1]");
+              }
+            });
+          };
 
-      next?.addEventListener("click", goNext);
-      previous?.addEventListener("click", goPrev);
+          const tick = () => {
+            const dist = targetX - currentX;
+            if (Math.abs(dist) > 0.3) {
+              currentX += dist * 0.18;
+              normalizeBounds();
+              track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+              updateDots();
+              rafId = requestAnimationFrame(tick);
+            } else {
+              currentX = targetX;
+              normalizeBounds();
+              track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+              updateDots();
+              rafId = null;
+            }
+          };
 
-      dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => {
-          const normPos = ((-targetX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
-          const currentTargetPage = Math.round(normPos / pageStep) % totalPages;
-          let diff = i - currentTargetPage;
-          if (diff > totalPages / 2) diff -= totalPages;
-          if (diff < -totalPages / 2) diff += totalPages;
+          const startAnimation = () => {
+            if (rafId === null) {
+              rafId = requestAnimationFrame(tick);
+            }
+          };
 
-          const continuousTargetPage = Math.round((-targetX - cycleWidth) / pageStep);
-          targetX = -(cycleWidth + (continuousTargetPage + diff) * pageStep);
-          startAnimation();
-        });
-      });
+          const goNext = () => {
+            const currentPage = Math.round((homeX - targetX) / pageStep);
+            targetX = homeX - (currentPage + 1) * pageStep;
+            startAnimation();
+          };
 
-      const handleResizeOrLoad = () => {
-        let activePage = 0;
-        if (pageStep > 0 && cycleWidth > 0) {
-          const normPos = ((-currentX - cycleWidth) % cycleWidth + cycleWidth) % cycleWidth;
-          activePage = Math.round(normPos / pageStep) % totalPages;
-        }
-        measure();
-        const clampedPage = Math.min(totalPages - 1, Math.max(0, activePage));
-        currentX = -(cycleWidth + clampedPage * pageStep);
-        targetX = currentX;
-        normalizeBounds();
-        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-        updateDots();
-      };
+          const goPrev = () => {
+            const currentPage = Math.round((homeX - targetX) / pageStep);
+            targetX = homeX - (currentPage - 1) * pageStep;
+            startAnimation();
+          };
 
-      window.addEventListener("resize", handleResizeOrLoad);
-      window.addEventListener("load", handleResizeOrLoad);
-      document.fonts?.ready?.then(handleResizeOrLoad);
+          const goToPage = (i: number) => {
+            const normOffset = ((homeX - targetX) % cycleWidth + cycleWidth) % cycleWidth;
+            const currentTargetPage = Math.round(normOffset / pageStep) % totalPages;
+            let diff = i - currentTargetPage;
+            if (diff > totalPages / 2) diff -= totalPages;
+            if (diff < -totalPages / 2) diff += totalPages;
 
-      // Encapsulated Drag Gesture Engine (Exact 1 Page/Column set per Swipe)
-      const gestureState: PointerDragState = {
-        active: false,
-        isHorizontal: undefined,
-        startX: 0,
-        startY: 0,
-        startPage: 0,
-        startCurrentX: 0,
-        lastX: 0,
-        lastTime: 0,
-        velocity: 0,
-        lastDx: 0,
-        hasMoved: false,
-      };
+            const continuousPage = Math.round((homeX - targetX) / pageStep);
+            targetX = homeX - (continuousPage + diff) * pageStep;
+            startAnimation();
+          };
 
-      const handlePointerStart = (clientX: number, clientY: number) => {
-        if (rafId !== null) {
-          cancelAnimationFrame(rafId);
-          rafId = null;
-        }
+          next?.addEventListener("click", goNext);
+          previous?.addEventListener("click", goPrev);
 
-        normalizeBounds();
-        track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+          const handleResizeOrLoad = () => {
+            let activePage = 0;
+            if (pageStep > 0 && cycleWidth > 0) {
+              const normOffset = ((homeX - currentX) % cycleWidth + cycleWidth) % cycleWidth;
+              activePage = Math.round(normOffset / pageStep) % totalPages;
+            }
+            const prevTotalPages = totalPages;
+            measure();
+            if (prevTotalPages !== totalPages) {
+              renderDots();
+            }
+            const clampedPage = Math.min(totalPages - 1, Math.max(0, activePage));
+            currentX = homeX - clampedPage * pageStep;
+            targetX = currentX;
+            normalizeBounds();
+            track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+            updateDots();
+          };
 
-        gestureState.active = true;
-        gestureState.hasMoved = false;
-        gestureState.isHorizontal = undefined;
-        gestureState.startX = clientX;
-        gestureState.startY = clientY;
-        gestureState.lastX = clientX;
-        gestureState.lastTime = performance.now();
-        gestureState.startCurrentX = currentX;
-        gestureState.startPage = Math.round((-currentX - cycleWidth) / pageStep);
-        gestureState.velocity = 0;
-        gestureState.lastDx = 0;
-      };
+          window.addEventListener("resize", handleResizeOrLoad);
+          window.addEventListener("load", handleResizeOrLoad);
+          document.fonts?.ready?.then(handleResizeOrLoad);
 
-      const handlePointerMove = (clientX: number, clientY: number, preventDefault?: () => void) => {
-        if (!gestureState.active) return;
+          const gestureState: PointerDragState = {
+            active: false,
+            isHorizontal: undefined,
+            startX: 0,
+            startY: 0,
+            startPage: 0,
+            startCurrentX: 0,
+            lastX: 0,
+            lastTime: 0,
+            velocity: 0,
+            lastDx: 0,
+            hasMoved: false,
+          };
 
-        const dx = clientX - gestureState.startX;
-        const dy = clientY - gestureState.startY;
+          const handlePointerStart = (clientX: number, clientY: number) => {
+            if (rafId !== null) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
 
-        if (gestureState.isHorizontal === undefined) {
-          const absX = Math.abs(dx);
-          const absY = Math.abs(dy);
-          if (absX > 5 || absY > 5) {
-            gestureState.isHorizontal = absX > absY;
-          }
-        }
+            normalizeBounds();
+            track.style.transform = `translate3d(${currentX}px, 0, 0)`;
 
-        if (gestureState.isHorizontal === false) {
-          gestureState.active = false;
-          return;
-        }
-
-        if (gestureState.isHorizontal === true) {
-          preventDefault?.();
-          gestureState.hasMoved = true;
-          gestureState.lastDx = dx;
-
-          const now = performance.now();
-          const dt = now - gestureState.lastTime;
-          if (dt > 0) {
-            const instantV = (clientX - gestureState.lastX) / dt;
-            gestureState.velocity = 0.7 * gestureState.velocity + 0.3 * instantV;
-          }
-          gestureState.lastX = clientX;
-          gestureState.lastTime = now;
-
-          currentX = gestureState.startCurrentX + dx;
-          targetX = currentX;
-
-          track.style.transform = `translate3d(${currentX}px, 0, 0)`;
-          updateDots();
-        }
-      };
-
-      const handlePointerEnd = () => {
-        if (!gestureState.active) return;
-        gestureState.active = false;
-
-        if (!gestureState.hasMoved) return;
-
-        const threshold = pageStep * 0.18;
-        let pageDiff = 0;
-
-        if (gestureState.velocity < -0.22 || gestureState.lastDx < -threshold) {
-          pageDiff = 1;
-        } else if (gestureState.velocity > 0.22 || gestureState.lastDx > threshold) {
-          pageDiff = -1;
-        }
-
-        const targetPage = gestureState.startPage + pageDiff;
-        targetX = -(cycleWidth + targetPage * pageStep);
-        startAnimation();
-      };
-
-      // Touch Listeners
-      carousel.addEventListener(
-        "touchstart",
-        (e) => handlePointerStart(e.touches[0].clientX, e.touches[0].clientY),
-        { passive: false }
-      );
-
-      carousel.addEventListener(
-        "touchmove",
-        (e) => handlePointerMove(e.touches[0].clientX, e.touches[0].clientY, () => e.cancelable && e.preventDefault()),
-        { passive: false }
-      );
-
-      carousel.addEventListener("touchend", handlePointerEnd, { passive: true });
-      carousel.addEventListener("touchcancel", handlePointerEnd, { passive: true });
-
-      // Mouse Listeners
-      carousel.addEventListener("mousedown", (e) => {
-        if (e.button !== 0 || (e.target as HTMLElement).closest("button, a")) return;
-        handlePointerStart(e.pageX, e.pageY);
-      });
-
-      window.addEventListener("mousemove", (e) => {
-        if (!gestureState.active) return;
-        handlePointerMove(e.pageX, e.pageY, () => e.preventDefault());
-      });
-
-      window.addEventListener("mouseup", handlePointerEnd);
-
-      carousel.addEventListener(
-        "click",
-        (e) => {
-          if (gestureState.hasMoved) {
-            e.preventDefault();
-            e.stopPropagation();
+            gestureState.active = true;
             gestureState.hasMoved = false;
-          }
-        },
-        true
-      );
+            gestureState.isHorizontal = undefined;
+            gestureState.startX = clientX;
+            gestureState.startY = clientY;
+            gestureState.lastX = clientX;
+            gestureState.lastTime = performance.now();
+            gestureState.startCurrentX = currentX;
+            gestureState.startPage = Math.round((homeX - currentX) / pageStep);
+            gestureState.velocity = 0;
+            gestureState.lastDx = 0;
+          };
 
-    }
-  }
+          const handlePointerMove = (clientX: number, clientY: number, preventDefault?: () => void) => {
+            if (!gestureState.active) return;
+
+            const dx = clientX - gestureState.startX;
+            const dy = clientY - gestureState.startY;
+
+            if (gestureState.isHorizontal === undefined) {
+              const absX = Math.abs(dx);
+              const absY = Math.abs(dy);
+              if (absX > 5 || absY > 5) {
+                gestureState.isHorizontal = absX > absY;
+              }
+            }
+
+            if (gestureState.isHorizontal === false) {
+              gestureState.active = false;
+              return;
+            }
+
+            if (gestureState.isHorizontal === true) {
+              preventDefault?.();
+              gestureState.hasMoved = true;
+              gestureState.lastDx = dx;
+
+              const now = performance.now();
+              const dt = now - gestureState.lastTime;
+              if (dt > 0) {
+                const instantV = (clientX - gestureState.lastX) / dt;
+                gestureState.velocity = 0.7 * gestureState.velocity + 0.3 * instantV;
+              }
+              gestureState.lastX = clientX;
+              gestureState.lastTime = now;
+
+              currentX = gestureState.startCurrentX + dx;
+              targetX = currentX;
+
+              track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+              updateDots();
+            }
+          };
+
+          const handlePointerEnd = () => {
+            if (!gestureState.active) return;
+            gestureState.active = false;
+
+            if (!gestureState.hasMoved) return;
+
+            const threshold = pageStep * 0.18;
+            let pageDiff = 0;
+
+            if (gestureState.velocity < -0.22 || gestureState.lastDx < -threshold) {
+              pageDiff = 1;
+            } else if (gestureState.velocity > 0.22 || gestureState.lastDx > threshold) {
+              pageDiff = -1;
+            }
+
+            const targetPage = gestureState.startPage + pageDiff;
+            targetX = homeX - targetPage * pageStep;
+            startAnimation();
+          };
+
+          // Touch Listeners
+          carousel.addEventListener(
+            "touchstart",
+            (e) => handlePointerStart(e.touches[0].clientX, e.touches[0].clientY),
+            { passive: false }
+          );
+
+          carousel.addEventListener(
+            "touchmove",
+            (e) => handlePointerMove(e.touches[0].clientX, e.touches[0].clientY, () => e.cancelable && e.preventDefault()),
+            { passive: false }
+          );
+
+          carousel.addEventListener("touchend", handlePointerEnd, { passive: true });
+          carousel.addEventListener("touchcancel", handlePointerEnd, { passive: true });
+
+          // Mouse Listeners
+          carousel.addEventListener("mousedown", (e) => {
+            if (e.button !== 0 || (e.target as HTMLElement).closest("button, a")) return;
+            handlePointerStart(e.pageX, e.pageY);
+          });
+
+          window.addEventListener("mousemove", (e) => {
+            if (!gestureState.active) return;
+            handlePointerMove(e.pageX, e.pageY, () => e.preventDefault());
+          });
+
+          window.addEventListener("mouseup", handlePointerEnd);
+
+          carousel.addEventListener(
+            "click",
+            (e) => {
+              if (gestureState.hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+                gestureState.hasMoved = false;
+              }
+            },
+            true
+          );
+        }
+      }
+    });
+  };
+
+  initCarousels();
+  document.addEventListener("astro:page-load", initCarousels);
 </script>
 

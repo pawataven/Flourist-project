@@ -25,12 +25,12 @@ export interface Product {
   image?: ImageMetadata;
   descriptionImage?: ImageMetadata;
   title: string;
-  description: string;
+  description?: string;
   note?: string;
   prices: ProductPrice[];
 }
 
-export const products: Product[] = [
+export const productsSignature: Product[] = [
   {
     image: Hawaii,
     descriptionImage: HawaiiDescription,
@@ -104,3 +104,5 @@ export const products: Product[] = [
     ],
   },
 ];
+
+export const products = productsSignature;

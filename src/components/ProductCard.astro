@@ -7,7 +7,9 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const description = product.description.replace(/ท็อปด้วย Umi/g, "ท็อปด้วย\u00A0Umi").replace(/ท็อป/g, "ท็อ\u2060ป");
+const description = product.description
+  ? product.description.replace(/ท็อปด้วย Umi/g, "ท็อปด้วย\u00A0Umi").replace(/ท็อป/g, "ท็อ\u2060ป")
+  : "";
 ---
 
 <article data-product-card class="group min-w-0 w-full select-none">

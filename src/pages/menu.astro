@@ -3,32 +3,57 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../layouts/Navbar.astro";
 import MenuBook from "../components/menu/MenuBook.astro";
 import ProductCarousel from "../components/ProductCarousel.astro";
-import { products } from "../data/Bestsellerdata";
+import { productsSignature } from "../data/Bestsellerdata";
+import { productsDessert } from "../data/DessertData";
 ---
 
 <Layout>
   <Navbar />
 
   <!-- Fullscreen viewport layout containing Navbar spacer and Book stage -->
-  <div class="relative h-[100dvh] w-full flex flex-col bg-[#080a09] text-white overflow-hidden box-border">
+  <div
+    class="relative h-[100dvh] w-full flex flex-col bg-[#080a09] text-white overflow-hidden box-border"
+  >
     <!-- Navbar Spacer: dynamically matches the fixed header height so book is guaranteed to sit BELOW navbar -->
-    <div id="menu-nav-spacer" class="w-full shrink-0 h-[112px] sm:h-[124px] xl:h-[64px] transition-all pointer-events-none"></div>
+    <div
+      id="menu-nav-spacer"
+      class="w-full shrink-0 h-[112px] sm:h-[124px] xl:h-[64px] transition-all pointer-events-none"
+    >
+    </div>
 
     <!-- Centered Book Stage within remaining space strictly below navbar (explicit 0 padding to override global main pb-24) -->
-    <main id="menu-stage-container" class="w-full flex-1 min-h-0 flex items-center justify-center relative !p-0 !pb-0 overflow-hidden box-border">
+    <main
+      id="menu-stage-container"
+      class="w-full flex-1 min-h-0 flex items-center justify-center relative !p-0 !pb-0 overflow-hidden box-border"
+    >
       <MenuBook />
     </main>
   </div>
 
-      <section
-      id="best-sellers"
-      class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-24"
+  <section
+    id="signature"
+    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:pt-20"
+  >
+    <h2
+      class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap"
     >
-      <h2 class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap">
-        Best Sellers
-      </h2>
-      <ProductCarousel products={products} />
-    </section>
+      Signature
+    </h2>
+    <ProductCarousel products={productsSignature} />
+  </section>
+
+  <section
+    id="dessert"
+    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:mb-20"
+  >
+    <h2
+      class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap"
+    >
+      Dessert
+    </h2>
+    <ProductCarousel products={productsDessert} />
+  </section>
+
 </Layout>
 
 <style>
