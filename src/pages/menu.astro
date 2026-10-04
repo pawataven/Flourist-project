@@ -28,11 +28,25 @@ import { productsDessert } from "../data/DessertData";
     >
       <MenuBook />
     </main>
+
+    <!-- Mobile / Tablet Quick Scroll Indicator to Carousels -->
+    <div class="xl:hidden absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
+      <a
+        href="#signature"
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs font-sans tracking-wider shadow-lg hover:bg-[#c5a259] hover:text-black transition-all active:scale-95"
+        aria-label="เลื่อนลงเพื่อดูรายการสินค้า"
+      >
+        <span>เลื่อนดูสินค้า</span>
+        <svg class="w-3.5 h-3.5 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+    </div>
   </div>
 
   <section
     id="signature"
-    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:pt-20"
+    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:pt-20 scroll-mt-20 sm:scroll-mt-24"
   >
     <h2
       class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap"
@@ -44,7 +58,7 @@ import { productsDessert } from "../data/DessertData";
 
   <section
     id="dessert"
-    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:mb-20"
+    class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:mb-20 scroll-mt-20 sm:scroll-mt-24"
   >
     <h2
       class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap"

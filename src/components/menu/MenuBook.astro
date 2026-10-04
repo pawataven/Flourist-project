@@ -576,6 +576,14 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
 
 <!-- Component Styles -->
 <style is:global>
+  /* Allow vertical touch gesture for scrolling on mobile/tablet */
+  #flourist-book-wrapper,
+  .book-stage,
+  #book-centering-container,
+  .flipbook-root {
+    touch-action: pan-y;
+  }
+
   /* Center Transform Container: dynamic sizing with CSS variables */
   #book-centering-container.centering-box,
   #book-centering-container {
@@ -1012,7 +1020,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       drawShadow: false,
       maxShadowOpacity: 0,
       showCover: true,
-      mobileScrollSupport: false,
+      mobileScrollSupport: true,
       swipeDistance: 25,
       usePortrait: isMobile,
       flippingTime: 700,

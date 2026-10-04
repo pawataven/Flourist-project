@@ -76,6 +76,10 @@
   padding-inline: var(--page-gutter);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   background-color: #080a09;
