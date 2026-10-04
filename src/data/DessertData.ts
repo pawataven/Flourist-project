@@ -21,7 +21,6 @@ export const productsDessert: Product[] = [
     image: ChewyDubaiImg,
     descriptionImage: ChewyDubaiDesc,
     title: "Chewy Dubai",
-    note: "Matcha / Choco",
     description: "Matcha / Choco เนื้อแป้งสัมผัสนุ่มหนึบ รสต้นตำรับมาจากดูไบ หอมถั่วพิสตาชิโอ",
     prices: [
       { size: "ราคา", price: "240 บาท" },
