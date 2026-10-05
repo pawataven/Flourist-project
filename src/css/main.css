@@ -97,6 +97,17 @@ main {
   padding-bottom: 6rem;
 }
 
+/* Global Gold Text Selection */
+::selection {
+  background-color: #c5a259;
+  color: #080a09;
+}
+
+::-moz-selection {
+  background-color: #c5a259;
+  color: #080a09;
+}
+
 /* Custom Thin Gold Scrollbar */
 * {
   scrollbar-width: thin;
