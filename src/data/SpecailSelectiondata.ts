@@ -18,7 +18,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     eyebrow: "Flourist / Special Selection",
     title: ["Cocoa", "Dutch"],
     description:
-      "โกโก้ดัตช์แท้เข้มข้น รินช้าๆ อย่างพิถีพิถัน สัมผัสรสชาติอันนุ่มละมุน เมนูพิเศษประจำร้านสำหรับช่วงเวลาผ่อนคลายที่ไม่ต้องเร่งรีบ",
+      "โกโก้ดัตช์แท้เข้มข้น รินช้าๆ อย่างพิถีพิถัน สัมผัสรสชาติอันนุ่มละมุน เมนูพิเศษประจำร้านสำหรับช่วงเวลาผ่อนคลายที่ไม่ต้องเร่ง\u2060รีบ",
     price: "100.-",
     availability: "Available at all branches",
     image: cocoaDutch,
@@ -29,7 +29,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     eyebrow: "Flourist / Special Selection",
     title: ["Motoro", ""],
     description:
-      "มัทฉะโทนถั่วเข้มข้น ผสานความนุ่มละมุนของเผือกหอมแท้ และโมจิข้าวญี่ปุ่นหนุบหนับ",
+      "มัทฉะโทนถั่วเข้มข้น ผสานความนุ่มละมุนของเผือกหอมแท้ และ\u2060โม\u2060จิข้าวญี่ปุ่นหนุบหนับ",
     price: "280.-",
     availability: "Available at all branches",
     image: motoro,
@@ -40,7 +40,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     eyebrow: "Flourist / Selection",
     title: ["Iwa", "Latte"],
     description:
-      "รังสรรค์จากมัทฉะเกรดพิธีการระดับพรีเมียม IWA ผสานความกลมกล่อมละมุนของนมสดแท้",
+      "รังสรรค์จากมัทฉะเกรดพิธีการระดับพรีเมียม IWA ผสาน\u2060ความ\u2060กลม\u2060กล่อมละมุนของนมสดแท้",
     price: "190.-",
     availability: "Available at all branches",
     image: iwa,
