@@ -1,0 +1,173 @@
+---
+// BackToTop.astro - Minimalist, luxury gold & dark matcha scroll-to-top button with silky smooth animation
+---
+
+<button
+  id="back-to-top"
+  type="button"
+  aria-label="เลื่อนขึ้นด้านบน • Back to top"
+  class="fixed bottom-8 right-6 sm:bottom-12 sm:right-8 md:bottom-14 md:right-10 z-40 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-transparent backdrop-blur-sm border border-[#c5a259]/70 text-[#c5a259] opacity-0 pointer-events-none translate-y-3 transition-all duration-300 ease-out hover:border-[#c5a259] hover:bg-[#c5a259]/15 hover:shadow-[0_0_16px_rgba(197,162,89,0.35)] hover:-translate-y-0.5 active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c5a259] cursor-pointer"
+>
+  <!-- Subtle expanding golden pulse ring on click -->
+  <span class="scroll-pulse-ring absolute inset-0 rounded-full border border-[#c5a259] pointer-events-none opacity-0"></span>
+
+  <svg
+    class="w-4 h-4 sm:w-4.5 sm:h-4.5 transition-transform duration-200 group-hover:-translate-y-0.5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M18 15l-6-6-6 6" />
+  </svg>
+</button>
+
+<style>
+  /* Arrow takeoff micro-animation when clicked */
+  :global(#back-to-top.is-scrolling) svg {
+    animation: arrow-takeoff 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes arrow-takeoff {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    40% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    45% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Golden ripple pulse ring when clicked */
+  :global(#back-to-top.is-scrolling) .scroll-pulse-ring {
+    animation: gold-pulse 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes gold-pulse {
+    0% {
+      transform: scale(0.9);
+      opacity: 0.85;
+    }
+    100% {
+      transform: scale(1.65);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  function setupBackToTop() {
+    const btn = document.getElementById("back-to-top");
+    if (!btn) return;
+
+    let ticking = false;
+    let animId: number | null = null;
+    const threshold = 320; // Show after scrolling 320px down
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+          if (currentScroll > threshold) {
+            btn.classList.remove("opacity-0", "pointer-events-none", "translate-y-3");
+            btn.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+          } else {
+            btn.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+            btn.classList.add("opacity-0", "pointer-events-none", "translate-y-3");
+            btn.classList.remove("is-scrolling");
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Initial check in case page is refreshed while scrolled
+    onScroll();
+
+    // Silky Smooth Cinematic Scroll to Top with Ease-in-out Cubic easing
+    function scrollToTopSmoothly() {
+      const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+      if (startPosition <= 0) return;
+
+      // Cancel any ongoing scroll animation
+      if (animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+
+      // Add visual feedback class on button
+      btn.classList.add("is-scrolling");
+      setTimeout(() => {
+        btn.classList.remove("is-scrolling");
+      }, 750);
+
+      // Duration dynamically scaled by distance: min 650ms, max 1000ms
+      const duration = Math.min(1000, Math.max(650, Math.round(startPosition * 0.4)));
+      const startTime = performance.now();
+
+      // EaseInOutCubic: Soft start, smooth glide, ultra-soft decelerating finish
+      const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      // Allow user manual scroll or touch to interrupt gracefully
+      const cancelOnUserInput = () => {
+        if (animId !== null) {
+          cancelAnimationFrame(animId);
+          animId = null;
+          cleanUpListeners();
+        }
+      };
+
+      const cleanUpListeners = () => {
+        window.removeEventListener("wheel", cancelOnUserInput);
+        window.removeEventListener("touchstart", cancelOnUserInput);
+      };
+
+      window.addEventListener("wheel", cancelOnUserInput, { passive: true });
+      window.addEventListener("touchstart", cancelOnUserInput, { passive: true });
+
+      function step(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = easeInOutCubic(progress);
+
+        window.scrollTo(0, Math.round(startPosition * (1 - ease)));
+
+        if (progress < 1) {
+          animId = window.requestAnimationFrame(step);
+        } else {
+          animId = null;
+          cleanUpListeners();
+          window.scrollTo(0, 0);
+        }
+      }
+
+      animId = window.requestAnimationFrame(step);
+    }
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollToTopSmoothly();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupBackToTop);
+  } else {
+    setupBackToTop();
+  }
+</script>
