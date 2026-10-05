@@ -1,13 +1,136 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../layouts/Navbar.astro";
+import { Image } from "astro:assets";
+import matchaPic from "../assets/contactUs/S__78217219.png";
 ---
 
 <Layout>
   <Navbar />
-  <main class="pt-50 min-h-screen text-white">
-    <div class="page-container mx-auto max-w-7xl">
-      <h1>Contact Us</h1>
+  <main class="min-h-screen bg-[#080a09] text-white pt-36 sm:pt-44 lg:pt-48 pb-24 sm:pb-32 selection:bg-[#c5a259] selection:text-[#080a09]">
+    <div class="page-container mx-auto max-w-6xl">
+      
+      <!-- Top Title & Subtitle -->
+      <header class="text-center max-w-3xl mx-auto">
+        <h1 class="font-sans font-light text-2xl sm:text-3xl md:text-[34px] leading-snug sm:leading-relaxed text-white tracking-wide">
+          วิธีติดต่อศูนย์บริการลูกค้าของ <span class="font-normal text-white">FLOURIST</span>
+        </h1>
+        <p class="font-sans text-xs sm:text-sm text-white/60 mt-3 sm:mt-4 tracking-wider font-light">
+          เลือกวิธีการติดต่อที่คุณต้องการและติดต่อกับเรา
+        </p>
+      </header>
+
+      <!-- Contact Channels (Grid on desktop, vertical stack on mobile) -->
+      <div class="mt-14 sm:mt-20 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-14 text-center">
+        
+        <!-- Phone -->
+        <div class="flex flex-col items-center h-full">
+          <h2 class="font-sans text-sm sm:text-base font-medium text-white tracking-wider">
+            โทรศัพท์
+          </h2>
+          <p class="mt-2.5 sm:mt-3 font-sans font-light text-xs sm:text-[13px] leading-relaxed text-white/60 max-w-[280px]">
+            ผู้เชี่ยวชาญของเราพร้อมให้คำแนะนำและบริการ ในวันจันทร์ถึงวันอาทิตย์ เวลา 10:00 น. - 20:00 น.
+          </p>
+          <div class="mt-auto pt-5 flex items-center justify-center">
+            <a
+              href="tel:0615120465"
+              class="inline-flex items-center gap-2 min-h-[28px] text-xs sm:text-sm text-white hover:text-[#c5a259] transition-colors underline underline-offset-8 decoration-1 decoration-white/40 hover:decoration-[#c5a259]"
+            >
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              <span>โทรติดต่อเรา 061 512 0465</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- LINE OFFICIAL -->
+        <div class="flex flex-col items-center h-full">
+          <h2 class="font-sans text-sm sm:text-base font-medium text-white tracking-wider">
+            LINE OFFICIAL
+          </h2>
+          <p class="mt-2.5 sm:mt-3 font-sans font-light text-xs sm:text-[13px] leading-relaxed text-white/60 max-w-[280px]">
+            ทีมดูแลลูกค้าของเราพร้อมให้บริการตอบข้อความและรับการสั่งซื้อล่วงหน้าผ่าน LINE ที่ LINE ID @737nbfqd
+          </p>
+          <div class="mt-auto pt-5 flex items-center justify-center">
+            <a
+              href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 min-h-[28px] text-xs sm:text-sm text-white hover:text-[#c5a259] transition-colors underline underline-offset-8 decoration-1 decoration-white/40 hover:decoration-[#c5a259]"
+            >
+              <span class="inline-block w-2 h-2 rounded-full bg-[#c5a259] shrink-0"></span>
+              <span>ติดต่อสอบถาม</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="flex flex-col items-center h-full">
+          <h2 class="font-sans text-sm sm:text-base font-medium text-white tracking-wider">
+            อีเมล
+          </h2>
+          <p class="mt-2.5 sm:mt-3 font-sans font-light text-xs sm:text-[13px] leading-relaxed text-white/60 max-w-[280px]">
+            คำถามและข้อเสนอแนะของคุณจะได้รับการตอบกลับจากทีมดูแลลูกค้าของเราโดยเร็วที่สุด
+          </p>
+          <div class="mt-auto pt-5 flex items-center justify-center">
+            <a
+              href="mailto:flourist.bakehouse@gmail.com"
+              class="inline-flex items-center gap-2 min-h-[28px] text-xs sm:text-sm text-white hover:text-[#c5a259] transition-colors underline underline-offset-8 decoration-1 decoration-white/40 hover:decoration-[#c5a259]"
+            >
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+              <span>เขียนถึงเรา flourist.bakehouse@gmail.com</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Section 2: Visit Our Matcha House -->
+      <section class="mt-24 sm:mt-36 lg:mt-40 border-t border-white/10 pt-20 sm:pt-28 text-center">
+        <h2 class="font-sans uppercase text-lg sm:text-2xl md:text-[26px] font-light tracking-[0.2em] text-white">
+          VISIT OUR MATCHA HOUSE
+        </h2>
+
+        <p class="font-sans font-light text-xs sm:text-sm text-white/70 max-w-2xl mx-auto mt-4 sm:mt-5 leading-relaxed px-4">
+          ไปที่หน้าร้าน Flourist ด้วยตนเองเพื่อรับคำแนะนำเกี่ยวกับทุกสิ่ง ตั้งแต่การเลือกสายพันธุ์ชาและการจัดเซ็ตของขวัญ ไปจนถึงบริการแนะนำเมนูจับคู่ขนม
+        </p>
+
+        <!-- Centered image matching reference -->
+        <div class="mt-10 sm:mt-14 mx-auto w-full max-w-[520px] px-4">
+          <div class="relative overflow-hidden rounded-md border border-white/10 shadow-2xl bg-[#121915]">
+            <Image
+              src={matchaPic}
+              alt="บรรยากาศหน้าร้านและขนมชาเขียว Flourist Matchahouse"
+              quality={100}
+              class="w-full h-auto object-cover max-h-[640px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Description below image -->
+        <p class="font-sans font-light text-xs sm:text-sm text-white/70 max-w-xl mx-auto mt-8 sm:mt-10 leading-relaxed px-4">
+          เพลิดเพลินไปกับการเข้าใช้บริการร้านสาขาที่คุณเลือก ในช่วงเวลาและวันที่คุณต้องการ เมื่อคุณมาถึง ผู้เชี่ยวชาญของเราจะแนะนำเกี่ยวกับซีเล็คชั่นมัทฉะและขนมอบที่คัดสรรมาให้คุณได้ลิ้มลอง
+        </p>
+
+        <!-- View Map Action Link -->
+        <div class="mt-6 sm:mt-8">
+          <a
+            href="/map"
+            class="inline-flex items-center gap-2 text-xs sm:text-sm text-white hover:text-[#c5a259] transition-colors underline underline-offset-8 decoration-1 decoration-[#c5a259] hover:decoration-white"
+          >
+            <svg class="w-4 h-4 text-[#c5a259] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+            <span>ดูสาขาของเรา</span>
+          </a>
+        </div>
+      </section>
+
     </div>
   </main>
 </Layout>
