@@ -8,6 +8,12 @@ import { productsDessert } from "../data/DessertData";
 ---
 
 <Layout>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href="/menu-pages/page-1-cover.svg" type="image/svg+xml" fetchpriority="high" />
+    <link rel="preload" as="image" href="/menu-pages/page-2.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="/menu-pages/page-3.svg" type="image/svg+xml" />
+  </Fragment>
+
   <Navbar />
 
   <!-- Fullscreen viewport layout containing Navbar spacer and Book stage -->

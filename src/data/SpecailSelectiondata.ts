@@ -19,10 +19,10 @@ export const specialSelections: SpecialSelectionItem[] = [
     title: ["Cocoa", "Dutch"],
     description:
       "โกโก้ดัตช์แท้เข้มข้น รินช้าๆ อย่างพิถีพิถัน สัมผัสรสชาติอันนุ่มละมุน เมนูพิเศษประจำร้านสำหรับช่วงเวลาผ่อนคลายที่ไม่ต้องเร่งรีบ",
-    price: "100 THB",
+    price: "100.-",
     availability: "Available at all branches",
     image: cocoaDutch,
-    imageAlt: "Cocoa Dutch by Flourist, a Dutch cocoa drink priced at 100 THB",
+    imageAlt: "Cocoa Dutch by Flourist, a Dutch cocoa drink priced at 100.-",
     branchHref: "/map",
   },
   {
@@ -30,10 +30,10 @@ export const specialSelections: SpecialSelectionItem[] = [
     title: ["Motoro", ""],
     description:
       "มัทฉะโทนถั่วเข้มข้น ผสานความนุ่มละมุนของเผือกหอมแท้ และโมจิข้าวญี่ปุ่นหนุบหนับ",
-    price: "280 THB",
+    price: "280.-",
     availability: "Available at all branches",
     image: motoro,
-    imageAlt: "Matcha with bean tones, taro and delicate rice mochi by Flourist, a special selection priced at 280 THB",
+    imageAlt: "Matcha with bean tones, taro and delicate rice mochi by Flourist, a special selection priced at 280.-",
     branchHref: "/map",
   },
   {
@@ -41,10 +41,10 @@ export const specialSelections: SpecialSelectionItem[] = [
     title: ["Iwa", "Latte"],
     description:
       "รังสรรค์จากมัทฉะเกรดพิธีการระดับพรีเมียม IWA ผสานความกลมกล่อมละมุนของนมสดแท้",
-    price: "190 THB",
+    price: "190.-",
     availability: "Available at all branches",
     image: iwa,
-    imageAlt: "Iwa matcha Latte by Flourist, a special selection priced at 280 THB",
+    imageAlt: "Iwa matcha Latte by Flourist, a special selection priced at 190.-",
     branchHref: "/map",
   },
 ];

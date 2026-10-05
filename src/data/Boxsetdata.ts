@@ -20,7 +20,7 @@ export const boxsets: Boxset[] = [
     title: "THE FLOURIST COLLECTION",
     description: "The Ultimate Ceremonial Matcha Experience สัมผัสสุนทรียภาพแห่งการชงชาชั้นสูง ผ่านบรรจุภัณฑ์ที่ได้รับแรงบันดาลใจจาก โซคุไต (Sokutai) เครื่องแต่งกายชั้นสูงในราชสำนักญี่ปุ่นโบราณ ถอดรหัสโครงสร้างการซ้อนทับของเลเยอร์ผ้าทอมือและลวดลายมงคล สู่ดีไซน์ร่วมสมัยสไตล์ Quiet Luxury ที่รวบรวมอุปกรณ์ชงชาพิถีพิถันไว้ในกล่องเดียว",
     prices: [
-      { size: "ราคา", price: "3500 บาท" },
+      { size: "ราคา", price: "3500.-" },
     ],
   },
 ];

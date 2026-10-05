@@ -23,7 +23,7 @@ export const productsDessert: Product[] = [
     title: "Chewy Dubai",
     description: "Matcha / Choco เนื้อแป้งสัมผัสนุ่มหนึบ รสต้นตำรับมาจากดูไบ หอมถั่วพิสตาชิโอ",
     prices: [
-      { size: "ราคา", price: "240 บาท" },
+      { size: "ราคา", price: "240.-" },
     ],
   },
   {
@@ -32,7 +32,7 @@ export const productsDessert: Product[] = [
     title: "Yame Eclair",
     description: "รสชาตินัตตี้ละมุน เนื้อนุ่ม ใช้มัทฉะสายพันธุ์ IWA ระดับพิธีการ จากเมือง ยาเมะ ประเทศญี่ปุ่น",
     prices: [
-      { size: "ราคา", price: "189 บาท" },
+      { size: "ราคา", price: "189.-" },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const productsDessert: Product[] = [
     title: "Butter Tteok",
     description: "กลิ่นหอมของเนย ครีมชีส และมัทฉะ สัมผัสด้านนอกกรอบอย่างพอดี ตัดกับเนื้อด้านในที่นุ่มหนึบได้อย่างลงตัว",
     prices: [
-      { size: "ราคา", price: "155 บาท" },
+      { size: "ราคา", price: "155.-" },
     ],
   },
   {
@@ -50,7 +50,7 @@ export const productsDessert: Product[] = [
     title: "Tiramisu",
     description: "ขนมทิรามิสุกรอบ ผสมผสานกับครีมมัทฉะได้อย่างลงตัว สัมผัสเนียนนุ่ม ตามด้วยการโรยผงมัทฉะปิดท้าย",
     prices: [
-      { size: "ราคา", price: "250 บาท" },
+      { size: "ราคา", price: "250.-" },
     ],
   },
   {
@@ -59,7 +59,7 @@ export const productsDessert: Product[] = [
     title: "Banoffee",
     description: "กล้วยน้ำหว้า ที่ผสมผสานกับครีมชีสมัทฉะสูตรพิเศษของทางร้าน สัมผัสเนียนนุ่ม ตามด้วยการโรยผงมัทฉะปิดท้าย",
     prices: [
-      { size: "ราคา", price: "315 บาท" },
+      { size: "ราคา", price: "315.-" },
     ],
   },
   {
@@ -68,7 +68,7 @@ export const productsDessert: Product[] = [
     title: "Cheesecake",
     description: "ครีมชีสฝรั่งเศส Kiri เนื้อเค้กละลายในปาก ฐานครัมเบิ้ล ดาร์กโกโก้ อัลมอนด์ กรุบกรอบ แทรกแมคคาเดเมีย",
     prices: [
-      { size: "ราคา", price: "290 บาท" },
+      { size: "ราคา", price: "290.-" },
     ],
   },
 ];

@@ -34,23 +34,26 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       </svg>
     </button>
 
-    <!-- Return to Cover / Close Button (Top-Right of Book) -->
+    <!-- Return to Cover / Reset Button (Top-Right of Book) -->
     <button
       id="btn-book-close"
       type="button"
-      aria-label="กลับเมนูหน้าแรก (Return to Cover)"
-      title="กลับเมนูหน้าแรก (Return to Cover)"
+      aria-label="กลับไปหน้าแรก (Return to Cover)"
+      title="กลับไปหน้าแรก (Return to Cover)"
       class="book-close-btn group opacity-0 pointer-events-none invisible"
     >
-      <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
+      <svg class="w-5 h-5 transition-transform duration-500 group-hover:-rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 4 1 10 7 10"></polyline>
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
       </svg>
     </button>
 
     <!-- Book Transform Container (Shifts to center cover on desktop) -->
     <div id="book-centering-container" data-state="cover" class="at-cover centering-box">
       
+      <!-- Hardware-Accelerated Ambient Shadow (Composited on GPU, eliminates filter: drop-shadow lag) -->
+      <div id="book-ambient-shadow" class="book-ambient-shadow pointer-events-none" aria-hidden="true"></div>
+
       <!-- StPageFlip Target Element without leftover shadows -->
       <div id="flourist-flipbook" class="flipbook-root">
         
@@ -70,8 +73,9 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                     src={page.customImage}
                     alt={page.title}
                     class="menu-page-img w-full h-full object-cover select-none pointer-events-none"
-                    loading={index <= 2 ? "eager" : "lazy"}
+                    loading="eager"
                     decoding="async"
+                    fetchpriority={index <= 3 ? "high" : "auto"}
                   />
                   <!-- Click to open hint pill on Front Cover -->
                   {index === 0 && (
@@ -265,7 +269,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                         <div class="mt-2 inline-flex items-center gap-1.5 px-4 py-1 rounded border border-[#c5a259] bg-[#0c1913]/90 shadow-[0_0_15px_rgba(197,162,89,0.2)]">
                           <span class="font-sans text-[10px] tracking-widest text-[#c5a259] uppercase font-light">PRICE</span>
                           <span class="font-serif text-lg sm:text-xl font-bold text-[#c5a259]">{page.data.price}</span>
-                          <span class="font-sans text-[10px] text-[#c5a259]/80">THB</span>
+                          <span class="font-sans text-[10px] text-[#c5a259]/80">.-</span>
                         </div>
                       </div>
 
@@ -322,7 +326,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                             <div class="flex-1 min-w-0">
                               <div class="flex items-baseline justify-between gap-2">
                                 <h4 class="font-sans text-xs sm:text-sm font-semibold tracking-wider text-white truncate">{item.name}</h4>
-                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price} ฿</span>
+                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price}.-</span>
                               </div>
                               <p class="font-sans text-[10px] sm:text-[10.5px] text-white/70 line-clamp-2 mt-0.5 leading-snug">{item.desc}</p>
                             </div>
@@ -358,7 +362,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                             <div class="flex-1 min-w-0">
                               <div class="flex items-baseline justify-between gap-2">
                                 <h4 class="font-sans text-xs sm:text-sm font-semibold tracking-wider text-white truncate">{item.name}</h4>
-                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price} ฿</span>
+                                <span class="font-serif text-xs sm:text-sm font-bold text-[#c5a259] shrink-0">{item.price}.-</span>
                               </div>
                               <p class="font-sans text-[10px] sm:text-[10.5px] text-white/70 line-clamp-2 mt-0.5 leading-snug">{item.desc}</p>
                             </div>
@@ -397,7 +401,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                               <p class="font-sans text-xs font-medium text-white tracking-wide">{item.name}</p>
                               <p class="font-sans text-[9.5px] text-white/60">{item.thaiName} &bull; {item.desc}</p>
                             </div>
-                            <span class="font-serif text-xs font-bold text-[#c5a259] shrink-0 ml-2">{item.price} ฿</span>
+                            <span class="font-serif text-xs font-bold text-[#c5a259] shrink-0 ml-2">{item.price}.-</span>
                           </div>
                         ))}
                       </div>
@@ -436,8 +440,8 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                               <span class="text-[9px] text-white/50 block font-serif">{c.region}</span>
                               <span class="text-[9px] text-white/70 block leading-tight">{c.notes}</span>
                             </div>
-                            <span class="w-1/4 text-right font-serif font-semibold text-white/90">{c.lattePrice} ฿</span>
-                            <span class="w-1/4 text-right font-serif font-semibold text-[#c5a259]">{c.clearPrice !== '-' ? `${c.clearPrice} ฿` : '-'}</span>
+                            <span class="w-1/4 text-right font-serif font-semibold text-white/90">{c.lattePrice}.-</span>
+                            <span class="w-1/4 text-right font-serif font-semibold text-[#c5a259]">{c.clearPrice !== '-' ? `${c.clearPrice}.-` : '-'}</span>
                           </div>
                         ))}
                       </div>
@@ -585,8 +589,10 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
   /* Center Transform Container: dynamic sizing with CSS variables */
   #book-centering-container.centering-box,
   #book-centering-container {
-    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: transform;
+    position: relative;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.25s ease;
+    will-change: transform, opacity;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -595,6 +601,25 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     height: var(--book-spread-height, 580px);
     max-width: 96vw;
     max-height: 100%;
+    /* GPU-accelerated: eliminated filter: drop-shadow repaint passes on 3D flipping subtree */
+    filter: none !important;
+  }
+
+  /* Hardware-Accelerated Ambient Shadow Layer: zero-cost GPU compositing */
+  .book-ambient-shadow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 4px;
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.95),
+                0 6px 18px rgba(0, 0, 0, 0.75),
+                0 0 25px rgba(197, 162, 89, 0.1);
+    transition: left 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                width 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.25s ease;
+    will-change: left, width, opacity;
+    transform: translateZ(0);
   }
 
   /* StPageFlip Elements Style */
@@ -606,12 +631,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     background: transparent;
     width: 100% !important;
     height: 100% !important;
-    filter: none !important;
-    /* Controlled book edge shadow — tight & no bleed */
-    box-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.6),
-      0 8px 28px rgba(0, 0, 0, 0.45),
-      0 0 0 1px rgba(0, 0, 0, 0.25);
+    box-shadow: none !important;
   }
 
   /* Book Spine — vertical center crease & dimensional gutter shadow */
@@ -706,13 +726,18 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .page-content-box {
-    box-shadow: none !important;
+    box-shadow: inset 0 0 0 1px rgba(197, 162, 89, 0.22);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    transform: translateZ(0);
   }
 
   /* 100% Pure & Unaltered Natural Image Rendering - No color filters, no contrast tampering */
@@ -725,6 +750,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     image-rendering: auto !important;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   /* Prevent 3D texture blur on resting pages */
@@ -746,6 +772,11 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     #book-centering-container[data-state="cover"] #flourist-flipbook {
       clip-path: inset(0 0 0 50%);
     }
+    #book-centering-container.at-cover .book-ambient-shadow,
+    #book-centering-container[data-state="cover"] .book-ambient-shadow {
+      left: 50%;
+      width: 50%;
+    }
 
     /* BACK COVER (PAGE 9): Shift right 25% to center the back cover, clip out empty right 50% */
     #book-centering-container.at-back,
@@ -755,6 +786,11 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     #book-centering-container.at-back #flourist-flipbook,
     #book-centering-container[data-state="back"] #flourist-flipbook {
       clip-path: inset(0 50% 0 0);
+    }
+    #book-centering-container.at-back .book-ambient-shadow,
+    #book-centering-container[data-state="back"] .book-ambient-shadow {
+      left: 0;
+      width: 50%;
     }
 
     /* OPEN SPREAD (PAGES 1 - 8) & FLIPPING ANIMATION: Full 2-page view without clipping */
@@ -769,6 +805,13 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     #book-centering-container.at-flipping #flourist-flipbook,
     #book-centering-container[data-state="flipping"] #flourist-flipbook {
       clip-path: none;
+    }
+    #book-centering-container.at-spread .book-ambient-shadow,
+    #book-centering-container[data-state="spread"] .book-ambient-shadow,
+    #book-centering-container.at-flipping .book-ambient-shadow,
+    #book-centering-container[data-state="flipping"] .book-ambient-shadow {
+      left: 0;
+      width: 100%;
     }
   }
 
@@ -1029,6 +1072,22 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     const pageElements = document.querySelectorAll(".book-page-wrapper");
     pageFlip.loadFromHTML(pageElements as any);
 
+    // Pre-decode all book images into GPU memory for instant, zero-stutter page turning
+    function preDecodeBookImages() {
+      const bookImages = bookEl?.querySelectorAll<HTMLImageElement>(".menu-page-img");
+      if (!bookImages) return;
+      bookImages.forEach((img) => {
+        if (img.complete) {
+          img.decode().catch(() => {});
+        } else {
+          img.addEventListener("load", () => {
+            img.decode().catch(() => {});
+          }, { once: true });
+        }
+      });
+    }
+    preDecodeBookImages();
+
     // Dom Elements
     const btnPrev = document.getElementById("btn-book-prev") as HTMLButtonElement;
     const btnNext = document.getElementById("btn-book-next") as HTMLButtonElement;
@@ -1159,12 +1218,36 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       }
     });
 
-    // Return to Cover / Close Button Action
+    // Return to Cover / Reset Action with Luxury Fade & Reset
+    function returnToCoverSmoothly() {
+      const currentIndex = pageFlip.getCurrentPageIndex();
+      if (currentIndex === 0) return;
+
+      if (container) {
+        container.style.transition = "opacity 0.25s ease, transform 0.3s ease";
+        container.style.opacity = "0";
+
+        setTimeout(() => {
+          try {
+            pageFlip.turnToPage(0);
+          } catch (_) {}
+          updateBookState(0);
+
+          setTimeout(() => {
+            if (container) container.style.opacity = "1";
+          }, 60);
+        }, 260);
+      } else {
+        try {
+          pageFlip.turnToPage(0);
+        } catch (_) {}
+        updateBookState(0);
+      }
+    }
+
     btnClose?.addEventListener("click", (e) => {
       e.stopPropagation();
-      try {
-        pageFlip.flip(0);
-      } catch (err) {}
+      returnToCoverSmoothly();
     });
 
     // Control Buttons
@@ -1187,9 +1270,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     });
 
     btnFirst?.addEventListener("click", () => {
-      try {
-        pageFlip.flip(0);
-      } catch (err) {}
+      returnToCoverSmoothly();
     });
 
     btnLast?.addEventListener("click", () => {
