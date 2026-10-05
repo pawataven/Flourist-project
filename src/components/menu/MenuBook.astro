@@ -64,18 +64,27 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
             data-page-index={index}
             data-title={page.title}
           >
-            <div class="page-content-box w-full h-full relative overflow-hidden bg-black text-white">
+            <div class="page-content-box w-full h-full relative overflow-hidden bg-[#07110c] text-white">
               
               {/* IF CUSTOM IMAGE PROVIDED */}
               {page.customImage ? (
-                <div class="w-full h-full relative bg-black">
+                <div class="menu-page-holder w-full h-full relative bg-[#07110c] overflow-hidden">
+                  <!-- Luxury Matcha Loading Skeleton (prevents black screen while loading) -->
+                  <div class="page-skeleton absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-none transition-opacity duration-300 bg-radial from-[#12281e] via-[#091510] to-[#040907] z-0">
+                    <div class="w-8 h-8 rounded-full border-2 border-[#c5a259]/20 border-t-[#c5a259] animate-spin mb-3"></div>
+                    <p class="font-serif text-[10px] tracking-[0.28em] text-[#c5a259]/70 uppercase font-light">FLOURIST</p>
+                    <p class="font-sans text-[8px] tracking-[0.2em] text-[#c5a259]/40 uppercase mt-0.5">Ritual Loading...</p>
+                  </div>
+
                   <img
                     src={page.customImage}
                     alt={page.title}
-                    class="menu-page-img w-full h-full object-cover select-none pointer-events-none"
-                    loading="eager"
+                    class="menu-page-img relative z-10 w-full h-full object-cover select-none pointer-events-none opacity-0 transition-opacity duration-300"
+                    loading={index <= 3 ? "eager" : "lazy"}
                     decoding="async"
-                    fetchpriority={index <= 3 ? "high" : "auto"}
+                    fetchpriority={index <= 1 ? "high" : (index <= 3 ? "auto" : "low")}
+                    onload="this.classList.remove('opacity-0'); const sk = this.previousElementSibling; if(sk) sk.style.opacity='0';"
+                    onerror="this.onerror=null; console.warn('Retry image:', this.src); setTimeout(() => { this.src = this.src.split('?')[0] + '?r=' + Date.now(); }, 1200);"
                   />
                   <!-- Click to open hint pill on Front Cover -->
                   {index === 0 && (
@@ -746,7 +755,6 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     filter: none !important;
     -webkit-filter: none !important;
     mix-blend-mode: normal !important;
-    opacity: 1 !important;
     image-rendering: auto !important;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
@@ -1072,15 +1080,22 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     const pageElements = document.querySelectorAll(".book-page-wrapper");
     pageFlip.loadFromHTML(pageElements as any);
 
-    // Pre-decode all book images into GPU memory for instant, zero-stutter page turning
+    // Pre-decode and reveal book images with zero stutter and instant cache check
     function preDecodeBookImages() {
       const bookImages = bookEl?.querySelectorAll<HTMLImageElement>(".menu-page-img");
       if (!bookImages) return;
       bookImages.forEach((img) => {
-        if (img.complete) {
+        const reveal = () => {
+          img.classList.remove("opacity-0");
+          const sk = img.previousElementSibling as HTMLElement | null;
+          if (sk) sk.style.opacity = "0";
+        };
+        if (img.complete && img.naturalWidth > 0) {
+          reveal();
           img.decode().catch(() => {});
         } else {
           img.addEventListener("load", () => {
+            reveal();
             img.decode().catch(() => {});
           }, { once: true });
         }
@@ -1187,6 +1202,23 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
           el.classList.add("active");
         } else {
           el.classList.remove("active");
+        }
+      });
+
+      // Preload next upcoming pages so they are already decoded before flip
+      const upcoming = [pageIndex, pageIndex + 1, pageIndex + 2, pageIndex + 3];
+      upcoming.forEach((idx) => {
+        if (idx >= 0 && idx < totalPages) {
+          const wrapper = document.querySelector(`[data-page-index="${idx}"]`);
+          const img = wrapper?.querySelector(".menu-page-img") as HTMLImageElement | null;
+          if (img) {
+            if (img.loading === "lazy") {
+              img.loading = "eager";
+            }
+            if (img.decode) {
+              img.decode().catch(() => {});
+            }
+          }
         }
       });
     }
