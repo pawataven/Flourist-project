@@ -1,6 +1,6 @@
 import cocoaDutch from "../assets/SpecailSelection/Cocoa-Dutch.jpg";
 import motoro from "../assets/SpecailSelection/Motoro.jpg";
-import iwa from "../assets/SpecailSelection/iwa.jpg";
+import iwa from "../assets/SpecailSelection/iwav2.jpg";
 
 export interface SpecialSelectionItem {
   eyebrow: string;
