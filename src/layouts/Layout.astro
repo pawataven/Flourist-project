@@ -1,5 +1,6 @@
 ---
 import '../css/main.css';
+import Footer from '../components/Footer.astro';
 ---
 
 <!doctype html>
@@ -12,7 +13,10 @@ import '../css/main.css';
 		<meta name="generator" content={Astro.generator} />
 		<title>Flourist matchahouse</title>
 	</head>
-	<body>
-		<slot />
+	<body class="flex flex-col min-h-screen bg-[#080a09]">
+		<div class="flex-1 w-full">
+			<slot />
+		</div>
+		<Footer />
 	</body>
 </html>

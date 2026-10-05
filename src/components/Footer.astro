@@ -1,0 +1,244 @@
+---
+// src/components/Footer.astro
+import { Image } from "astro:assets";
+import logo from "../assets/Asset 2-8.png";
+---
+
+<footer class="bg-[#080a09] text-white border-t border-white/10 selection:bg-[#c5a259] selection:text-[#080a09]">
+  <!-- Main Footer Content -->
+  <div class="page-container mx-auto max-w-7xl pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16">
+    
+    <!-- Top Brand Statement -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 sm:pb-16 border-b border-white/10">
+      <div>
+        <a href="/" class="inline-block focus-visible:outline-none" aria-label="FLOURIST Matchahouse Home">
+          <Image
+            src={logo}
+            alt="FLOURIST Matchahouse"
+            class="h-11 sm:h-13 md:h-14 lg:h-16 w-auto object-contain"
+          />
+        </a>
+        <p class="font-sans font-light text-xs sm:text-sm text-white/60 mt-3.5 sm:mt-4 tracking-wide max-w-md">
+          A little pause. A finer daily ritual. จากแหล่งปลูกชาชั้นนำในญี่ปุ่น<br />สู่สุนทรียภาพแห่งการดื่มมัทฉะในทุกวันของคุณ
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3 text-[clamp(9.5px,2.6vw,14px)] text-[#c5a259] font-light tracking-wider sm:tracking-widest uppercase whitespace-nowrap">
+        <span>Flourist Matchahouse</span>
+        <span class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#c5a259] shrink-0" aria-hidden="true"></span>
+        <span>Made for slow moments</span>
+      </div>
+    </div>
+
+    <!-- Navigation Columns Grid -->
+    <div class="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 lg:gap-8">
+      
+      <!-- Col 1: Explore & Menu -->
+      <div class="col-span-1">
+        <h3 class="font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5">
+          Explore
+        </h3>
+        <ul class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70">
+          <li>
+            <a href="/" class="hover:text-[#c5a259] transition-colors">
+              หน้าแรก (Home)
+            </a>
+          </li>
+          <li>
+            <a href="/menu" class="hover:text-[#c5a259] transition-colors">
+              เมนูมัทฉะ (Matcha Menu)
+            </a>
+          </li>
+          <li>
+            <a href="/menu#signature" class="hover:text-[#c5a259] transition-colors">
+              ซิกเนเจอร์ (Signature)
+            </a>
+          </li>
+          <li>
+            <a href="/menu#dessert" class="hover:text-[#c5a259] transition-colors">
+              ขนมและเบเกอรี (Desserts)
+            </a>
+          </li>
+          <li>
+            <a href="/#best-sellers" class="hover:text-[#c5a259] transition-colors">
+              สินค้าขายดี (Best Sellers)
+            </a>
+          </li>
+          <li>
+            <a href="/#flourist-collection" class="hover:text-[#c5a259] transition-colors">
+              เซ็ตของขวัญ (Gift Boxset)
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 2: About & Philosophy -->
+      <div class="col-span-1">
+        <h3 class="font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5">
+          Philosophy
+        </h3>
+        <ul class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70">
+          <li>
+            <a href="/about" class="hover:text-[#c5a259] transition-colors">
+              เรื่องราวของเรา (Our Story)
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="hover:text-[#c5a259] transition-colors">
+              ที่มาของชื่อแบรนด์ (Meaning)
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="hover:text-[#c5a259] transition-colors">
+              ปรัชญาและความใส่ใจ (Core Values)
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="hover:text-[#c5a259] transition-colors">
+              แหล่งวัตถุดิบ (Terroir &amp; Origin)
+            </a>
+          </li>
+          <li>
+            <a href="/events" class="hover:text-[#c5a259] transition-colors">
+              กิจกรรมและป๊อปอัป (Events)
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Locations & Delivery -->
+      <div class="col-span-1">
+        <h3 class="font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5">
+          Locations
+        </h3>
+        <ul class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70">
+          <li>
+            <a href="/map" class="hover:text-[#c5a259] transition-colors">
+              ค้นหาสาขาทั้งหมด (All Stores)
+            </a>
+          </li>
+          <li>
+            <a href="/map" class="hover:text-[#c5a259] transition-colors">
+              สาขาวิทยุ (Witthayu)
+            </a>
+          </li>
+          <li>
+            <a href="/map" class="hover:text-[#c5a259] transition-colors">
+              สาขาราชปรารภ (Ratchaprarop)
+            </a>
+          </li>
+          <li>
+            <a href="/map" class="hover:text-[#c5a259] transition-colors">
+              สาขาราชพฤกษ์ (Ratchaphruek)
+            </a>
+          </li>
+          <li>
+            <a href="/map" class="hover:text-[#c5a259] transition-colors">
+              สาขาเอกมัย (Ekkamai)
+            </a>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="delivery-trigger text-left hover:text-[#c5a259] transition-colors cursor-pointer bg-transparent border-0 p-0 text-inherit font-light"
+            >
+              สั่งซื้อเดลิเวอรี (Delivery)
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Customer Care -->
+      <div class="col-span-1">
+        <h3 class="font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5">
+          Customer Care
+        </h3>
+        <ul class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70">
+          <li>
+            <a href="/contactUs" class="hover:text-[#c5a259] transition-colors">
+              ศูนย์บริการลูกค้า (Contact Us)
+            </a>
+          </li>
+          <li>
+            <a
+              href="tel:0615120465"
+              class="hover:text-[#c5a259] transition-colors"
+            >
+              061 512 0465
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#c5a259] transition-colors"
+            >
+              LINE: @737nbfqd
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:flourist.bakehouse@gmail.com"
+              class="hover:text-[#c5a259] transition-colors break-all"
+            >
+              flourist.bakehouse@gmail.com
+            </a>
+          </li>
+          <li class="pt-1 text-white/50 text-[11px] sm:text-xs">
+            ทุกวัน 10:00 – 20:00 น.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 5: Operating Hours & Slow Living -->
+      <div class="col-span-2 md:col-span-4 lg:col-span-1 pt-6 lg:pt-0 border-t border-white/5 lg:border-0">
+        <h3 class="font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5">
+          Ritual &amp; Hours
+        </h3>
+        <div class="space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70">
+          <p class="leading-relaxed">
+            <span class="text-white font-normal">เปิดให้บริการ:</span><br />
+            วันจันทร์ &ndash; วันอาทิตย์<br />
+            เวลา 10:00 น. &ndash; 20:00 น.
+          </p>
+          <p class="text-white/50 text-[11px] leading-relaxed pt-1">
+            พร้อมต้อนรับคุณเข้าสู่สุนทรียภาพแห่งความสงบและการชงชามัทฉะอันพิถีพิถันทุกสาขา
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Legal & Copyright Bar -->
+    <div class="mt-16 sm:mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] sm:text-[11px] font-sans font-light text-white/50">
+      
+      <!-- Copyright -->
+      <div>
+        <p>
+          &copy; {new Date().getFullYear()} FLOURIST Matchahouse. All rights reserved.
+        </p>
+      </div>
+
+      <!-- Tagline -->
+      <div class="text-white/40">
+        <span>From Japan’s Finest Terroir to Your Daily Ritual</span>
+      </div>
+
+      <!-- Legal Links -->
+      <div class="flex items-center gap-6">
+        <a href="/contactUs" class="hover:text-white transition-colors">
+          Customer Care
+        </a>
+        <a href="/map" class="hover:text-white transition-colors">
+          Store Locator
+        </a>
+        <span class="cursor-default text-white/30">
+          Bangkok, Thailand
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>

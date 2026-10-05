@@ -34,18 +34,24 @@ const { boxset } = Astro.props;
           />
         )
       }
+      <!-- Title Overlay inside the image -->
+      <div
+        class="absolute inset-x-0 top-[6%] sm:top-[6.5%] z-10 flex justify-center px-4 pointer-events-none"
+      >
+        <h3
+          class="text-center font-display uppercase text-[clamp(14px,3.8vw,22px)] tracking-[0.08em] sm:tracking-[0.14em] lg:tracking-[0.18em] text-[#c5a259] drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+        >
+          {boxset.title}
+        </h3>
+      </div>
     </div>
   </div>
 
   <!-- Product Details & Description (Equal to ProductCard) -->
-  <div class="w-full max-w-xl sm:max-w-2xl mx-auto min-w-0 pt-4 text-white sm:pt-6 px-4 sm:px-0">
-    <h3
-      class="whitespace-nowrap font-display pt-2 text-[14px] uppercase sm:text-[12px] font-bold leading-snug tracking-[0.12em] sm:tracking-[0.25em]"
-    >
-      {boxset.title}
-    </h3>
-
-    <dl class="mt-2 space-y-1 font-sans">
+  <div
+    class="w-full max-w-xl sm:max-w-2xl mx-auto min-w-0 pt-4 text-white sm:pt-16"
+  >
+    <dl class="space-y-1 font-sans">
       {
         boxset.prices.map(({ size, price }) => (
           <div class="flex items-baseline justify-between gap-1">
@@ -87,7 +93,7 @@ const { boxset } = Astro.props;
 
     <div class="mt-5 sm:mt-7 flex justify-center pt-1">
       <a
-        href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&amp;oat_content=url"
+        href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
         target="_blank"
         rel="noopener noreferrer"
         class="w-full max-w-[260px] sm:max-w-[300px] cursor-pointer flex items-center justify-center rounded-md bg-[#c5a259] px-8 py-3 sm:py-3.5 font-sans text-sm sm:text-base font-bold text-[#12221b] transition-all hover:bg-[#b08d4a] active:scale-[0.99] shadow-md"

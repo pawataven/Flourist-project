@@ -34,7 +34,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "The Art of Ceremonial Matcha",
     density: "hard",
     type: "cover",
-    customImage: "/menu-pages/page-1-cover.jpg",
+    customImage: "/menu-pages/page-1-cover.svg",
     data: {
       brandName: "FLOURIST",
       subBrand: "抹茶ハウス",
@@ -55,7 +55,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "To Your Daily Ritual",
     density: "soft",
     type: "story",
-    customImage: "/menu-pages/page-2.jpg?v=hd",
+    customImage: "/menu-pages/page-2.svg",
   },
 
   // 3. หน้าที่ 2 (Spread 1 ขวา): เมนูไฮไลท์ MOTORO Signature
@@ -67,7 +67,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Matcha Taro Mochi",
     density: "soft",
     type: "product-spotlight",
-    customImage: "/menu-pages/page-3.jpg?v=hd",
+    customImage: "/menu-pages/page-3.svg",
   },
 
   // 4. หน้าที่ 3 (Spread 2 ซ้าย): เมนู SIGNATURE (Tiramisu, Ichigo, Spanner)
@@ -79,7 +79,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Tiramisu, Ichigo, Spanner",
     density: "soft",
     type: "catalog",
-    customImage: "/menu-pages/page-4.jpg?v=hd",
+    customImage: "/menu-pages/page-4.svg",
   },
 
   // 5. หน้าที่ 4 (Spread 2 ขวา): เมนู COCOA DUTCH
@@ -91,7 +91,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Crafted Dutch Cocoa",
     density: "soft",
     type: "product-spotlight",
-    customImage: "/menu-pages/page-5.jpg?v=hd",
+    customImage: "/menu-pages/page-5.svg",
   },
 
   // 6. หน้าที่ 5 (Spread 3 ซ้าย): เมนู SIGNATURE (Blue Okinawa, Motoro, Double Flow)
@@ -103,7 +103,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Blue Okinawa, Motoro, Double Flow",
     density: "soft",
     type: "catalog",
-    customImage: "/menu-pages/page-6.jpg?v=hd",
+    customImage: "/menu-pages/page-6.svg",
   },
 
   // 7. หน้าที่ 6 (Spread 3 ขวา): เมนู IWA MATCHA LATTE
@@ -115,7 +115,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Ceremonial Grade & Fresh Milk",
     density: "soft",
     type: "product-spotlight",
-    customImage: "/menu-pages/page-7.jpg?v=hd",
+    customImage: "/menu-pages/page-7.svg",
   },
 
   // 8. หน้าที่ 7 (Spread 4 ซ้าย): เมนู CLEAR / LATTE (ตารางสายพันธุ์ชา)
@@ -127,7 +127,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Single Cultivars & Blends",
     density: "soft",
     type: "catalog",
-    customImage: "/menu-pages/page-8.jpg?v=hd",
+    customImage: "/menu-pages/page-8.svg",
   },
 
   // 9. หน้าที่ 8 (Spread 4 ขวา): เมนู DAIFUKU & DESSERTS
@@ -139,7 +139,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Handcrafted Sweets & Cakes",
     density: "soft",
     type: "dessert",
-    customImage: "/menu-pages/page-9.jpg?v=hd",
+    customImage: "/menu-pages/page-9.svg",
   },
 
   // 10. ปกหลัง (Back Cover - Index 9)
@@ -151,7 +151,7 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Matchahouse Bangkok",
     density: "hard",
     type: "back-cover",
-    customImage: "/menu-pages/page-10-back.jpg",
+    customImage: "/menu-pages/page-10-back.svg",
     data: {
       brandName: "FLOURIST",
       subBrand: "抹茶ハウス",

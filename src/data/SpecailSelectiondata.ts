@@ -18,7 +18,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     eyebrow: "Flourist / Special Selection",
     title: ["Cocoa", "Dutch"],
     description:
-      "Deep Dutch cocoa, poured slowly. A rich and velvety house special for unhurried afternoons.",
+      "โกโก้ดัตช์แท้เข้มข้น รินช้าๆ อย่างพิถีพิถัน สัมผัสรสชาติอันนุ่มละมุน เมนูพิเศษประจำร้านสำหรับช่วงเวลาผ่อนคลายที่ไม่ต้องเร่งรีบ",
     price: "100 THB",
     availability: "Available at all branches",
     image: cocoaDutch,
@@ -29,7 +29,7 @@ export const specialSelections: SpecialSelectionItem[] = [
     eyebrow: "Flourist / Special Selection",
     title: ["Motoro", ""],
     description:
-      "Matcha with bean tones, taro and delicate rice mochi",
+      "มัทฉะโทนถั่วเข้มข้น ผสานความนุ่มละมุนของเผือกหอมแท้ และโมจิข้าวญี่ปุ่นหนุบหนับ",
     price: "280 THB",
     availability: "Available at all branches",
     image: motoro,
@@ -38,9 +38,9 @@ export const specialSelections: SpecialSelectionItem[] = [
   },
   {
     eyebrow: "Flourist / Selection",
-    title: ["Iwa", "Matcha", "Latte"],
+    title: ["Iwa", "Latte"],
     description:
-      "Crafted with Premium IWA Ceremonial Grade Matcha & Fresh Milk",
+      "รังสรรค์จากมัทฉะเกรดพิธีการระดับพรีเมียม IWA ผสานความกลมกล่อมละมุนของนมสดแท้",
     price: "190 THB",
     availability: "Available at all branches",
     image: iwa,
