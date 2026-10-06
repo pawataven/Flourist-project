@@ -31,6 +31,17 @@ const slideCount = specialSelections.length;
         slide.classList.toggle("pointer-events-auto", isActive);
         slide.classList.toggle("pointer-events-none", !isActive);
         slide.setAttribute("aria-hidden", String(!isActive));
+        if (isActive) {
+          slide.removeAttribute("inert");
+          slide.querySelectorAll<HTMLElement>("a, button, input").forEach((el) => {
+            el.removeAttribute("tabindex");
+          });
+        } else {
+          slide.setAttribute("inert", "");
+          slide.querySelectorAll<HTMLElement>("a, button, input").forEach((el) => {
+            el.setAttribute("tabindex", "-1");
+          });
+        }
       });
       dots.forEach((dot, dotIndex) => {
         const isActive = dotIndex === activeIndex % dots.length;
@@ -118,6 +129,7 @@ const slideCount = specialSelections.length;
                   : "opacity-0 pointer-events-none",
               ]}
               aria-hidden={index === 0 ? "false" : "true"}
+              inert={index === 0 ? undefined : true}
             >
               <div class="relative flex min-w-0 items-center aspect-[2480/3508] md:col-span-5 md:aspect-auto md:border-r md:border-[#C5A259]/60">
                 <Image
@@ -165,6 +177,7 @@ const slideCount = specialSelections.length;
                 <div class="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                   <a
                     href={selection.branchHref}
+                    tabindex={index === 0 ? undefined : -1}
                     class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                   >
                     Find a branch{" "}
@@ -188,6 +201,7 @@ const slideCount = specialSelections.length;
                   </a>
                   <button
                     type="button"
+                    tabindex={index === 0 ? undefined : -1}
                     aria-controls="delivery-options"
                     aria-expanded="false"
                     aria-haspopup="dialog"
@@ -246,6 +260,7 @@ const slideCount = specialSelections.length;
     {
       slideCount > 1 && (
         <div
+          role="group"
           class="mt-5 sm:mt-6 flex justify-center gap-2"
           aria-label="Choose special selection"
         >

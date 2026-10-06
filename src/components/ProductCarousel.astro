@@ -37,7 +37,7 @@ const { products } = Astro.props;
           type="button"
           data-carousel-prev
           aria-label="Previous products"
-          class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+          class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition-opacity duration-500 ease-in-out hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto max-lg:!opacity-100 max-lg:!pointer-events-auto"
         >
           &lsaquo;
         </button>
@@ -45,7 +45,7 @@ const { products } = Astro.props;
           type="button"
           data-carousel-next
           aria-label="Next products"
-          class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 lg:pointer-events-none lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:opacity-100"
+          class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition-opacity duration-500 ease-in-out hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto max-lg:!opacity-100 max-lg:!pointer-events-auto"
         >
           &rsaquo;
         </button>
@@ -58,6 +58,7 @@ const { products } = Astro.props;
 {
   products.length > 1 && (
     <div
+      role="group"
       class="mt-8 flex justify-center gap-2"
       data-carousel-dots
       aria-label="Choose product page"
@@ -110,8 +111,13 @@ const { products } = Astro.props;
               const clone = originalItems[i % realCount].cloneNode(true) as HTMLElement;
               if (ariaHidden) {
                 clone.setAttribute("aria-hidden", "true");
+                clone.setAttribute("inert", "");
+                clone.querySelectorAll<HTMLElement>("a, button, input, [tabindex]").forEach((el) => {
+                  el.setAttribute("tabindex", "-1");
+                });
               } else {
                 clone.removeAttribute("aria-hidden");
+                clone.removeAttribute("inert");
               }
               fragment.appendChild(clone);
             }
@@ -171,6 +177,7 @@ const { products } = Astro.props;
               dot.type = "button";
               dot.setAttribute("data-carousel-dot", String(i));
               dot.setAttribute("aria-label", `Go to product page ${i + 1}`);
+              dot.setAttribute("aria-current", i === 0 ? "true" : "false");
               dot.className = `size-2.5 rounded-full transition-colors ${
                 i === 0 ? "bg-[#333333]" : "bg-[#d1d1d1]"
               }`;
@@ -213,9 +220,11 @@ const { products } = Astro.props;
               if (i === activePage) {
                 dot.classList.add("bg-[#333333]");
                 dot.classList.remove("bg-[#d1d1d1]");
+                dot.setAttribute("aria-current", "true");
               } else {
                 dot.classList.remove("bg-[#333333]");
                 dot.classList.add("bg-[#d1d1d1]");
+                dot.setAttribute("aria-current", "false");
               }
             });
           };
@@ -243,19 +252,68 @@ const { products } = Astro.props;
             }
           };
 
+          // 5-second delay / idle visibility management for navigation buttons (Desktop only)
+          const isDesktop = () => window.innerWidth >= 1024;
+          const navButtons = [previous, next].filter(Boolean) as HTMLButtonElement[];
+          let hideTimer: number | null = null;
+
+          const showButtons = () => {
+            navButtons.forEach((btn) => {
+              btn.classList.remove("opacity-0", "pointer-events-none");
+              btn.classList.add("opacity-100", "pointer-events-auto");
+            });
+          };
+
+          const hideButtons = () => {
+            // Keep permanently visible on mobile and tablet (< 1024px)
+            if (!isDesktop()) {
+              showButtons();
+              return;
+            }
+            navButtons.forEach((btn) => {
+              btn.classList.remove("opacity-100", "pointer-events-auto");
+              btn.classList.add("opacity-0", "pointer-events-none");
+            });
+          };
+
+          const startHideTimer = () => {
+            // Only auto-hide on desktop (>= 1024px)
+            if (!isDesktop()) {
+              showButtons();
+              return;
+            }
+            if (hideTimer !== null) {
+              clearTimeout(hideTimer);
+            }
+            hideTimer = window.setTimeout(() => {
+              hideButtons();
+              hideTimer = null;
+            }, 5000);
+          };
+
+          const pokeButtons = () => {
+            showButtons();
+            if (isDesktop()) {
+              startHideTimer();
+            }
+          };
+
           const goNext = () => {
+            pokeButtons();
             const currentPage = Math.round((homeX - targetX) / pageStep);
             targetX = homeX - (currentPage + 1) * pageStep;
             startAnimation();
           };
 
           const goPrev = () => {
+            pokeButtons();
             const currentPage = Math.round((homeX - targetX) / pageStep);
             targetX = homeX - (currentPage - 1) * pageStep;
             startAnimation();
           };
 
           const goToPage = (i: number) => {
+            pokeButtons();
             const normOffset = ((homeX - targetX) % cycleWidth + cycleWidth) % cycleWidth;
             const currentTargetPage = Math.round(normOffset / pageStep) % totalPages;
             let diff = i - currentTargetPage;
@@ -270,7 +328,56 @@ const { products } = Astro.props;
           next?.addEventListener("click", goNext);
           previous?.addEventListener("click", goPrev);
 
+          // Initially show for 5 seconds on desktop, stay visible on mobile/tablet
+          pokeButtons();
+
+          // User interaction on wrapper resets the 5-second countdown on desktop
+          wrapper.addEventListener("pointerenter", () => {
+            if (isDesktop()) pokeButtons();
+            else showButtons();
+          });
+          wrapper.addEventListener("pointermove", () => {
+            if (isDesktop()) pokeButtons();
+            else showButtons();
+          }, { passive: true });
+          wrapper.addEventListener("touchstart", showButtons, { passive: true });
+          wrapper.addEventListener("pointerleave", () => {
+            if (isDesktop()) startHideTimer();
+            else showButtons();
+          });
+
+          // Prevent hiding while directly hovering/focusing the button itself
+          navButtons.forEach((btn) => {
+            btn.addEventListener("pointerenter", () => {
+              showButtons();
+              if (hideTimer !== null) {
+                clearTimeout(hideTimer);
+                hideTimer = null;
+              }
+            });
+            btn.addEventListener("pointerleave", () => {
+              startHideTimer();
+            });
+            btn.addEventListener("focus", () => {
+              showButtons();
+              if (hideTimer !== null) {
+                clearTimeout(hideTimer);
+                hideTimer = null;
+              }
+            });
+            btn.addEventListener("blur", () => {
+              startHideTimer();
+            });
+          });
+
           const handleResizeOrLoad = () => {
+            if (!isDesktop()) {
+              if (hideTimer !== null) {
+                clearTimeout(hideTimer);
+                hideTimer = null;
+              }
+              showButtons();
+            }
             let activePage = 0;
             if (pageStep > 0 && cycleWidth > 0) {
               const normOffset = ((homeX - currentX) % cycleWidth + cycleWidth) % cycleWidth;
@@ -466,4 +573,15 @@ const { products } = Astro.props;
     }
     document.addEventListener("astro:page-load", initCarousels);
 </script>
+
+<style>
+  /* On mobile and tablet (< 1024px), navigation buttons stay permanently visible */
+  @media (max-width: 1023px) {
+    [data-carousel-prev],
+    [data-carousel-next] {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+  }
+</style>
 
