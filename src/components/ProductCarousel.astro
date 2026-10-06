@@ -85,11 +85,9 @@ const { products } = Astro.props;
   const lcm = (a: number, b: number): number =>
     a === 0 || b === 0 ? 0 : Math.abs(a * b) / gcd(a, b);
 
-  const initCarousels = () => {
-    const wrappers = document.querySelectorAll<HTMLElement>("[data-carousel-wrapper]");
-    wrappers.forEach((wrapper) => {
-      if (wrapper.dataset.carouselInit) return;
-      wrapper.dataset.carouselInit = "true";
+  const setupSingleCarousel = (wrapper: HTMLElement) => {
+    if (wrapper.dataset.carouselInit) return;
+    wrapper.dataset.carouselInit = "true";
 
       const carousel = wrapper.querySelector<HTMLElement>("[data-product-carousel]");
       const track = wrapper.querySelector<HTMLElement>("[data-product-track]");
@@ -434,10 +432,38 @@ const { products } = Astro.props;
           );
         }
       }
-    });
-  };
+    };
 
-  initCarousels();
-  document.addEventListener("astro:page-load", initCarousels);
+    const initCarousels = () => {
+      const wrappers = document.querySelectorAll<HTMLElement>("[data-carousel-wrapper]");
+      if (!("IntersectionObserver" in window)) {
+        wrappers.forEach(setupSingleCarousel);
+        return;
+      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setupSingleCarousel(entry.target as HTMLElement);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "350px" }
+      );
+
+      wrappers.forEach((wrapper) => {
+        if (!wrapper.dataset.carouselInit) {
+          observer.observe(wrapper);
+        }
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initCarousels);
+    } else {
+      initCarousels();
+    }
+    document.addEventListener("astro:page-load", initCarousels);
 </script>
 

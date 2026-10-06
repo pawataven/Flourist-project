@@ -77,14 +77,15 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   </div>
 
                   <img
-                    src={page.customImage}
+                    src={index === 0 ? page.customImage : undefined}
+                    data-src={page.customImage}
                     alt={page.title}
                     class="menu-page-img relative z-10 w-full h-full object-cover select-none pointer-events-none opacity-0 transition-opacity duration-300"
-                    loading={index <= 3 ? "eager" : "lazy"}
+                    loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
-                    fetchpriority={index <= 1 ? "high" : (index <= 3 ? "auto" : "low")}
+                    fetchpriority={index === 0 ? "high" : "low"}
                     onload="this.classList.remove('opacity-0'); const sk = this.previousElementSibling; if(sk) sk.style.opacity='0';"
-                    onerror="this.onerror=null; console.warn('Retry image:', this.src); setTimeout(() => { this.src = this.src.split('?')[0] + '?r=' + Date.now(); }, 1200);"
+                    onerror="this.onerror=null; console.warn('Retry image:', this.src); setTimeout(() => { if (this.src) { this.src = this.src.split('?')[0] + '?r=' + Date.now(); } }, 1200);"
                   />
                   <!-- Click to open hint pill on Front Cover -->
                   {index === 0 && (
@@ -543,7 +544,14 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
           >
             <div class="w-full h-28 sm:h-32 bg-[#060b08] overflow-hidden relative flex items-center justify-center">
               {page.customImage ? (
-                <img src={page.customImage} alt={page.title} class="w-full h-full object-cover" />
+                <img
+                  src={index === 0 ? page.customImage : undefined}
+                  data-src={page.customImage}
+                  alt={page.title}
+                  class="thumb-img w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div class="p-2 text-center flex flex-col items-center justify-center h-full">
                   <div class="w-6 h-6 mb-1 opacity-85">
@@ -999,26 +1007,18 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
   import { PageFlip } from "page-flip";
 
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function initMenuBook() {
     const bookEl = document.getElementById("flourist-flipbook");
     const container = document.getElementById("book-centering-container");
     const bookWrapper = document.getElementById("flourist-book-wrapper");
-    if (!bookEl || !container) return;
+    if (!bookEl || !container || bookEl.dataset.flipInit) return;
+    bookEl.dataset.flipInit = "true";
 
     function getActualHeaderHeight(): number {
-      const headerEl = document.querySelector(".site-header") as HTMLElement;
-      if (headerEl) {
-        const rect = headerEl.getBoundingClientRect();
-        if (rect.height > 0) return Math.round(rect.height);
-      }
-      return window.innerWidth < 768 ? 112 : (window.innerWidth >= 1280 ? 64 : 124);
+      return window.innerWidth >= 1280 ? 64 : (window.innerWidth < 768 ? 112 : 124);
     }
 
     const actualHeaderHeight = getActualHeaderHeight();
-    const spacer = document.getElementById("menu-nav-spacer");
-    if (spacer) {
-      spacer.style.height = `${actualHeaderHeight}px`;
-    }
 
     // Available height strictly in the visible space below the navbar
     const availableHeight = window.innerHeight - actualHeaderHeight;
@@ -1080,28 +1080,57 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     const pageElements = document.querySelectorAll(".book-page-wrapper");
     pageFlip.loadFromHTML(pageElements as any);
 
-    // Pre-decode and reveal book images with zero stutter and instant cache check
-    function preDecodeBookImages() {
-      const bookImages = bookEl?.querySelectorAll<HTMLImageElement>(".menu-page-img");
-      if (!bookImages) return;
-      bookImages.forEach((img) => {
-        const reveal = () => {
-          img.classList.remove("opacity-0");
-          const sk = img.previousElementSibling as HTMLElement | null;
-          if (sk) sk.style.opacity = "0";
-        };
-        if (img.complete && img.naturalWidth > 0) {
-          reveal();
-          img.decode().catch(() => {});
-        } else {
-          img.addEventListener("load", () => {
-            reveal();
-            img.decode().catch(() => {});
-          }, { once: true });
+    function revealLoadedImage(img: HTMLImageElement) {
+      img.classList.remove("opacity-0");
+      const sk = img.previousElementSibling as HTMLElement | null;
+      if (sk) sk.style.opacity = "0";
+    }
+
+    // Progressive SVG Loader: ensures initial paint only loads Page 0,
+    // then loads spread 1 (pages 1 & 2) in idle time, and the rest on interaction
+    function loadPageImage(pageIndex: number) {
+      const pageEl = bookEl?.querySelector(`[data-page-index="${pageIndex}"] .menu-page-img`) as HTMLImageElement | null;
+      if (pageEl && pageEl.dataset.src && !pageEl.getAttribute("src")) {
+        pageEl.src = pageEl.dataset.src;
+        if (pageEl.complete) {
+          revealLoadedImage(pageEl);
+        }
+      }
+    }
+
+    let allRemainingLoaded = false;
+    function loadAllRemainingPages() {
+      if (allRemainingLoaded) return;
+      allRemainingLoaded = true;
+      bookEl?.querySelectorAll<HTMLImageElement>(".menu-page-img[data-src]").forEach((img) => {
+        if (!img.getAttribute("src") && img.dataset.src) {
+          img.src = img.dataset.src;
+          if (img.complete) {
+            revealLoadedImage(img);
+          }
         }
       });
     }
-    preDecodeBookImages();
+
+    // 1. Load spread 1 (pages 1 & 2) in idle time after initial paint so opening is instant
+    const scheduleIdle = window.requestIdleCallback || ((cb: Function) => setTimeout(cb, 300));
+    scheduleIdle(() => {
+      loadPageImage(1);
+      loadPageImage(2);
+      // Background load the remaining pages after initial load finishes
+      setTimeout(loadAllRemainingPages, 1000);
+    });
+
+    // 2. If user hovers, touches, or flips before idle time, trigger loading immediately
+    bookWrapper?.addEventListener("pointerenter", loadAllRemainingPages, { once: true });
+    bookWrapper?.addEventListener("touchstart", loadAllRemainingPages, { once: true, passive: true });
+
+    // Reveal images that are already loaded / cached
+    bookEl.querySelectorAll<HTMLImageElement>(".menu-page-img").forEach((img) => {
+      if (img.complete && (img.naturalWidth > 0 || img.width > 0)) {
+        revealLoadedImage(img);
+      }
+    });
 
     // Dom Elements
     const btnPrev = document.getElementById("btn-book-prev") as HTMLButtonElement;
@@ -1218,6 +1247,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       const upcoming = [pageIndex, pageIndex + 1, pageIndex + 2, pageIndex + 3];
       upcoming.forEach((idx) => {
         if (idx >= 0 && idx < totalPages) {
+          loadPageImage(idx);
           const wrapper = document.querySelector(`[data-page-index="${idx}"]`);
           const img = wrapper?.querySelector(".menu-page-img") as HTMLImageElement | null;
           if (img) {
@@ -1330,6 +1360,11 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
 
     // Thumbnails Drawer
     thumbsBtn?.addEventListener("click", () => {
+      thumbsDrawer?.querySelectorAll<HTMLImageElement>("img.thumb-img[data-src]").forEach((img) => {
+        if (!img.getAttribute("src") && img.dataset.src) {
+          img.src = img.dataset.src;
+        }
+      });
       thumbsDrawer?.classList.toggle("hidden");
     });
 
@@ -1373,6 +1408,13 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       const pageToZoom = currentSpreadPages[currentIndex];
       if (pageToZoom) {
         const clone = pageToZoom.cloneNode(true) as HTMLElement;
+        const cloneImg = clone.querySelector(".menu-page-img") as HTMLImageElement | null;
+        if (cloneImg && cloneImg.dataset.src && !cloneImg.getAttribute("src")) {
+          cloneImg.src = cloneImg.dataset.src;
+          cloneImg.classList.remove("opacity-0");
+          const sk = clone.querySelector(".page-skeleton") as HTMLElement | null;
+          if (sk) sk.style.opacity = "0";
+        }
         clone.style.width = "480px";
         clone.style.maxWidth = "90vw";
         clone.style.height = "680px";
@@ -1488,5 +1530,16 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => updateDimensions(), 100);
     });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      requestAnimationFrame(() => setTimeout(initMenuBook, 0));
+    });
+  } else {
+    requestAnimationFrame(() => setTimeout(initMenuBook, 0));
+  }
+  document.addEventListener("astro:page-load", () => {
+    requestAnimationFrame(() => setTimeout(initMenuBook, 0));
   });
 </script>
