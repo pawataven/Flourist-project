@@ -12,6 +12,28 @@ import BackToTop from '../components/BackToTop.astro';
 		<link rel="icon" href="/Asset_41.jpg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Flourist matchahouse</title>
+		<!-- Preload critical fonts to avoid chained requests -->
+		<link
+			rel="preload"
+			href="/fonts/Mitr-Light.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/fonts/TAN-MON-CHERI-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/fonts/ShipporiMincho-Bold.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
 		<slot name="head" />
 	</head>
 	<body class="flex flex-col min-h-screen bg-[#080a09]">

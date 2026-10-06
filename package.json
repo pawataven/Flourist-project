@@ -21,6 +21,8 @@
     "esbuild": true
   },
   "devDependencies": {
-    "sharp": "^0.35.5"
+    "fontverter": "^2.0.0",
+    "sharp": "^0.35.5",
+    "subset-font": "^2.9.0"
   }
 }

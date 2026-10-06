@@ -27,6 +27,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 <script>
     import { lockScroll, unlockScroll } from "../utils/scrollLock";
+    import "../components/delivery/deliveryModal";
 
     class FlouristNavigation extends HTMLElement {
         private cleanup?: () => void;

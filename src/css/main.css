@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Mitr";
-  src: url("../../fonts/Mitr-Light.ttf") format("truetype");
+  src: url("/fonts/Mitr-Light.woff2") format("woff2");
   font-style: normal;
   font-weight: 300;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Shippori Mincho";
-  src: url("../../fonts/ShipporiMincho-Bold.ttf") format("truetype");
+  src: url("/fonts/ShipporiMincho-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: "TAN Mon Cheri";
-  src: url("../../fonts/TAN-MON CHERI-Regular.otf") format("opentype");
+  src: url("/fonts/TAN-MON-CHERI-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
