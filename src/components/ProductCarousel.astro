@@ -37,7 +37,7 @@ const { products } = Astro.props;
           type="button"
           data-carousel-prev
           aria-label="Previous products"
-          class="pointer-events-auto absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition-opacity duration-500 ease-in-out hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto max-lg:!opacity-100 max-lg:!pointer-events-auto"
+          class="carousel-nav-btn absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto"
         >
           &lsaquo;
         </button>
@@ -45,7 +45,7 @@ const { products } = Astro.props;
           type="button"
           data-carousel-next
           aria-label="Next products"
-          class="pointer-events-auto absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white opacity-100 transition-opacity duration-500 ease-in-out hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto max-lg:!opacity-100 max-lg:!pointer-events-auto"
+          class="carousel-nav-btn absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 top-[28%] sm:top-[30%] z-10 inline-flex size-8 sm:size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm border border-white/10 text-2xl leading-none text-white hover:bg-[#c5a259] hover:text-[#12221b] focus-visible:opacity-100 focus-visible:pointer-events-auto"
         >
           &rsaquo;
         </button>
@@ -259,20 +259,14 @@ const { products } = Astro.props;
 
           const showButtons = () => {
             navButtons.forEach((btn) => {
-              btn.classList.remove("opacity-0", "pointer-events-none");
-              btn.classList.add("opacity-100", "pointer-events-auto");
+              btn.classList.add("is-active");
             });
           };
 
           const hideButtons = () => {
-            // Keep permanently visible on mobile and tablet (< 1024px)
-            if (!isDesktop()) {
-              showButtons();
-              return;
-            }
+            if (!isDesktop()) return;
             navButtons.forEach((btn) => {
-              btn.classList.remove("opacity-100", "pointer-events-auto");
-              btn.classList.add("opacity-0", "pointer-events-none");
+              btn.classList.remove("is-active");
             });
           };
 
@@ -328,10 +322,14 @@ const { products } = Astro.props;
           next?.addEventListener("click", goNext);
           previous?.addEventListener("click", goPrev);
 
-          // Initially show for 5 seconds on desktop, stay visible on mobile/tablet
-          pokeButtons();
+          // On mobile & tablet: persistent. On desktop PC: start completely hidden on initial load / refresh.
+          if (!isDesktop()) {
+            showButtons();
+          } else {
+            hideButtons();
+          }
 
-          // User interaction on wrapper resets the 5-second countdown on desktop
+          // User interaction on wrapper reveals buttons on desktop and starts 5s timer
           wrapper.addEventListener("pointerenter", () => {
             if (isDesktop()) pokeButtons();
             else showButtons();
@@ -575,13 +573,34 @@ const { products } = Astro.props;
 </script>
 
 <style>
+  .carousel-nav-btn {
+    transition: opacity 0.2s ease-in-out, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
   /* On mobile and tablet (< 1024px), navigation buttons stay permanently visible */
   @media (max-width: 1023px) {
-    [data-carousel-prev],
-    [data-carousel-next] {
+    .carousel-nav-btn {
       opacity: 1 !important;
       pointer-events: auto !important;
     }
+  }
+
+  /* On desktop PC (>= 1024px): hidden by default on fresh load / refresh.
+     Only shown when user moves mouse into the carousel cards (.is-active) */
+  @media (min-width: 1024px) {
+    .carousel-nav-btn {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .carousel-nav-btn.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .carousel-nav-btn:focus-visible {
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 </style>
 
