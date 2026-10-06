@@ -10,9 +10,12 @@
         ← ย้อนกลับ
     </button>
     <p class="mt-[22px] text-[#6b7066] text-xs leading-relaxed">ระบบจะใช้ตำแหน่งปัจจุบันของคุณเพื่อเลือกสาขาที่ใกล้ที่สุด</p>
-    <p class="min-h-[42px] mt-6 text-[#6b7066] text-xs leading-relaxed" data-nearby-status role="status">
-        กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…
-    </p>
+    <div class="flex items-center gap-2.5 min-h-[42px] mt-6">
+        <span class="inline-block size-3 rounded-full border-2 border-[#8b724b] border-t-transparent animate-spin shrink-0 [&[hidden]]:!hidden" data-nearby-spinner hidden></span>
+        <p class="text-[#6b7066] text-xs leading-relaxed m-0" data-nearby-status role="status">
+            กำลังค้นหาสาขาที่ใกล้คุณจากตำแหน่งปัจจุบัน…
+        </p>
+    </div>
     <button
         type="button"
         class="mt-2 border-0 bg-transparent p-0 text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[10px] tracking-[0.1em] uppercase [&[hidden]]:!hidden"
@@ -42,7 +45,7 @@
     <button
         type="button"
         class="block mt-4.5 border-0 bg-transparent text-[#8b724b] hover:text-[#172d23] cursor-pointer text-[10px] tracking-[0.1em] uppercase transition-colors"
-        data-delivery-back="mode"
+        data-delivery-to-manual
     >
         เลือกสาขาเอง
     </button>

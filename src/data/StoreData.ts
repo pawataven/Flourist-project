@@ -114,7 +114,7 @@ export const stores: Store[] = [
     id: 9,
     name: "สาขากรุงเทพกรีฑา (Krungthep Kreetha)",
     district: "สะพานสูง",
-    province: "bangkok",
+    province: "Bangkok",
     lat: 13.740047,
     lng: 100.687783,
     delivery: {
