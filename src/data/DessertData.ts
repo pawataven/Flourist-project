@@ -1,17 +1,17 @@
 import type { Product, ProductPrice } from "./Bestsellerdata";
 
 // Dessert Assets
-import BanoffeeBoxImg from "../assets/Dessert/Banoffee Box/Banoffee Box.png";
+import BanoffeeBoxImg from "../assets/Dessert/Banoffee Box/Banoffee BoxV2.png";
 import BanoffeeBoxDesc from "../assets/Dessert/Banoffee Box/คำอธิบาย.png";
-import ButterTteokImg from "../assets/Dessert/Butter tteok/Butter tteok.png";
+import ButterTteokImg from "../assets/Dessert/Butter tteok/Butter tteokV2.png";
 import ButterTteokDesc from "../assets/Dessert/Butter tteok/คำอธิบาย.png";
-import CheesecakeImg from "../assets/Dessert/Cheesecake/Cheesecake_v2.png";
+import CheesecakeImg from "../assets/Dessert/Cheesecake/CheesecakeV2.png";
 import CheesecakeDesc from "../assets/Dessert/Cheesecake/คำอธิบาย.png";
-import ChewyDubaiImg from "../assets/Dessert/Chewy Dubai/Chewy Dubai.png";
+import ChewyDubaiImg from "../assets/Dessert/Chewy Dubai/Chewy DubaiV2.png";
 import ChewyDubaiDesc from "../assets/Dessert/Chewy Dubai/คำอธิบาย.png";
-import EclairImg from "../assets/Dessert/Eclair/Eclair.png";
+import EclairImg from "../assets/Dessert/Eclair/EclairV2.png";
 import EclairDesc from "../assets/Dessert/Eclair/คำอธิบาย.png";
-import TiramisuBoxImg from "../assets/Dessert/Tiramisu Box/Tiramisu Box.jpg";
+import TiramisuBoxImg from "../assets/Dessert/Tiramisu Box/Tiramisu BoxV2.jpg";
 import TiramisuBoxDesc from "../assets/Dessert/Tiramisu Box/คำอธิบาย.png";
 
 export type { Product, ProductPrice };
