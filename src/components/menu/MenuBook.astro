@@ -89,7 +89,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
                   />
                   <!-- Click to open hint pill on Front Cover -->
                   {index === 0 && (
-                    <div class="absolute bottom-[13%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
+                    <div class="absolute bottom-[18%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
                       <span>คลิกหรือลากเพื่อเปิด &bull; Click to open</span>
                       <span class="text-sm">&rarr;</span>
                     </div>
@@ -131,7 +131,7 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
 
                   {/* Click to open hint pill on Back Cover (Page 9) */}
                   {index === menuBookPages.length - 1 && (
-                    <div class="absolute bottom-[13%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
+                    <div class="absolute bottom-[18%] left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-[#c5a259]/60 text-[#c5a259] text-[11px] sm:text-xs tracking-wider flex items-center gap-2 pointer-events-none shadow-xl animate-pulse z-20 whitespace-nowrap">
                       <span class="text-sm">&larr;</span>
                       <span>คลิกเพื่อเปิดสมุด &bull; Click to open</span>
                     </div>
@@ -595,12 +595,20 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
 
 <!-- Component Styles -->
 <style is:global>
-  /* Allow vertical touch gesture for scrolling on mobile/tablet */
+  /* Allow natural touch panning and pinch-zooming without restrictions */
   #flourist-book-wrapper,
   .book-stage,
   #book-centering-container,
   .flipbook-root {
-    touch-action: pan-y;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  /* Instant snap during zoom/resize to prevent lagging or drifting positions */
+  .is-resizing #book-centering-container,
+  .is-resizing .book-nav-btn,
+  .is-resizing .book-ambient-shadow,
+  .is-resizing .book-close-btn {
+    transition: none !important;
   }
 
   /* Center Transform Container: dynamic sizing with CSS variables */
@@ -648,6 +656,8 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     background: transparent;
     width: 100% !important;
     height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
     box-shadow: none !important;
   }
 
@@ -1011,44 +1021,91 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     const bookEl = document.getElementById("flourist-flipbook");
     const container = document.getElementById("book-centering-container");
     const bookWrapper = document.getElementById("flourist-book-wrapper");
+    const stageContainer = document.getElementById("menu-stage-container");
     if (!bookEl || !container || bookEl.dataset.flipInit) return;
     bookEl.dataset.flipInit = "true";
 
-    function getActualHeaderHeight(): number {
-      return window.innerWidth >= 1280 ? 64 : (window.innerWidth < 768 ? 112 : 124);
+    function calculateTargetDimensions() {
+      const header = document.querySelector(".site-header");
+      let actH = 64;
+      if (header) {
+        const rect = header.getBoundingClientRect();
+        if (rect.height > 0) actH = Math.round(rect.height);
+      } else {
+        actH = window.innerWidth >= 1280 ? 64 : (window.innerWidth < 640 ? 78 : 88);
+      }
+
+      const sp = document.getElementById("menu-nav-spacer");
+      if (sp) sp.style.height = `${actH}px`;
+
+      const stage = stageContainer || document.getElementById("menu-stage-container");
+      const isMob = window.innerWidth < 768;
+
+      const scrollIndicator = document.getElementById("scroll-to-signature");
+      const hasBottomIndicator = Boolean(
+        scrollIndicator && (window.innerWidth < 1280 || scrollIndicator.offsetParent !== null)
+      );
+
+      const reservedBottomPad = hasBottomIndicator ? 56 : 0;
+      if (stage) {
+        stage.style.paddingBottom = `${reservedBottomPad}px`;
+      }
+
+      const stageW = stage && stage.clientWidth > 0 ? stage.clientWidth : window.innerWidth;
+      const rawStageH = stage && stage.clientHeight > 0 ? stage.clientHeight : Math.max(300, window.innerHeight - actH);
+      const stageContentH = Math.max(220, rawStageH - reservedBottomPad);
+
+      const reservedTop = 16;
+      const reservedBottom = 16;
+      // On desktop, navigation buttons (52px wide) flank the book.
+      // Reserving 180-220px guarantees the buttons have plenty of margin and NEVER overlap the pages!
+      const reservedSides = isMob ? 24 : Math.min(220, Math.max(160, Math.round(stageW * 0.16)));
+
+      const safeH = Math.max(220, stageContentH - reservedTop - reservedBottom);
+      const safeW = Math.max(260, stageW - reservedSides);
+
+      let targetH = safeH;
+      let targetSW = 0;
+      let targetPW = 0;
+
+      if (isMob) {
+        targetPW = Math.round(targetH / 1.4142);
+        if (targetPW > safeW) {
+          targetPW = safeW;
+          targetH = Math.round(targetPW * 1.4142);
+        }
+        if (targetH > safeH) {
+          targetH = safeH;
+          targetPW = Math.round(targetH / 1.4142);
+        }
+        targetSW = targetPW;
+      } else {
+        targetSW = Math.round(targetH * 1.4142);
+        if (targetSW > safeW) {
+          targetSW = safeW;
+          targetH = Math.round(targetSW / 1.4142);
+        }
+        if (targetH > safeH) {
+          targetH = safeH;
+          targetSW = Math.round(targetH * 1.4142);
+        }
+        targetPW = Math.round(targetSW / 2);
+        targetSW = targetPW * 2;
+      }
+
+      return { targetH, targetSW, targetPW, isMob, actH };
     }
 
-    const actualHeaderHeight = getActualHeaderHeight();
+    const initialDims = calculateTargetDimensions();
+    const baseWidth = initialDims.targetPW;
+    const baseHeight = initialDims.targetH;
+    const spreadWidth = initialDims.targetSW;
+    const spreadHeight = initialDims.targetH;
+    const isMobile = initialDims.isMob;
 
-    // Available height strictly in the visible space below the navbar
-    const availableHeight = window.innerHeight - actualHeaderHeight;
-    const isMobile = window.innerWidth < 768;
-    
-    // Scale book height to ~94% of available space below navbar (almost touching top & bottom edges)
-    // Leaves exactly equal small ~3% margin top and bottom (~25px each on 1080p)
-    let targetHeight = isMobile
-      ? Math.min(Math.round(availableHeight * 0.92), 680)
-      : Math.min(Math.round(availableHeight * 0.94), 920);
+    bookEl.style.minWidth = "0px";
+    bookEl.style.minHeight = "0px";
 
-    let targetPageWidth = Math.round(targetHeight / 1.414);
-    let targetSpreadWidth = isMobile ? targetPageWidth : targetPageWidth * 2;
-
-    const maxAllowedSpreadWidth = isMobile
-      ? Math.round(window.innerWidth * 0.94)
-      : Math.round(window.innerWidth * 0.94);
-
-    if (targetSpreadWidth > maxAllowedSpreadWidth) {
-      targetSpreadWidth = maxAllowedSpreadWidth;
-      targetPageWidth = isMobile ? targetSpreadWidth : Math.round(targetSpreadWidth / 2);
-      targetHeight = Math.round(targetPageWidth * 1.414);
-    }
-
-    const baseWidth = targetPageWidth;
-    const baseHeight = targetHeight;
-    const spreadWidth = targetSpreadWidth;
-    const spreadHeight = targetHeight;
-
-    // Set container & wrapper CSS variables so it fits the book dimensions down to the pixel
     if (bookWrapper) {
       bookWrapper.style.setProperty("--book-spread-width", `${spreadWidth}px`);
       bookWrapper.style.setProperty("--book-spread-height", `${spreadHeight}px`);
@@ -1062,9 +1119,9 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
       width: baseWidth,
       height: baseHeight,
       size: "stretch",
-      minWidth: isMobile ? targetPageWidth : 180,
+      minWidth: isMobile ? baseWidth : 180,
       maxWidth: 900,
-      minHeight: isMobile ? Math.round(targetHeight * 0.8) : 250,
+      minHeight: isMobile ? Math.round(baseHeight * 0.8) : 250,
       maxHeight: 1200,
       drawShadow: false,
       maxShadowOpacity: 0,
@@ -1492,44 +1549,65 @@ import defaultWatermark from "../../assets/index/Logo-web.png";
     });
 
     function updateDimensions() {
-      const actH = getActualHeaderHeight();
-      const sp = document.getElementById("menu-nav-spacer");
-      if (sp) sp.style.height = `${actH}px`;
+      const dims = calculateTargetDimensions();
+      const { targetH, targetSW, targetPW, isMob } = dims;
 
-      const isMob = window.innerWidth < 768;
-      const availH = window.innerHeight - actH;
-      let tH = isMob
-        ? Math.min(Math.round(availH * 0.92), 680)
-        : Math.min(Math.round(availH * 0.94), 920);
+      bookEl.style.minWidth = "0px";
+      bookEl.style.minHeight = "0px";
 
-      let tPW = Math.round(tH / 1.414);
-      let tSW = isMob ? tPW : tPW * 2;
-
-      const maxSW = Math.round(window.innerWidth * 0.94);
-      if (tSW > maxSW) {
-        tSW = maxSW;
-        tPW = isMob ? tSW : Math.round(tSW / 2);
-        tH = Math.round(tPW * 1.414);
-      }
       if (bookWrapper) {
-        bookWrapper.style.setProperty("--book-spread-width", `${tSW}px`);
-        bookWrapper.style.setProperty("--book-spread-height", `${tH}px`);
+        bookWrapper.style.setProperty("--book-spread-width", `${targetSW}px`);
+        bookWrapper.style.setProperty("--book-spread-height", `${targetH}px`);
       }
-      container.style.setProperty("--book-spread-width", `${tSW}px`);
-      container.style.setProperty("--book-spread-height", `${tH}px`);
+      container.style.setProperty("--book-spread-width", `${targetSW}px`);
+      container.style.setProperty("--book-spread-height", `${targetH}px`);
+
+      if (pageFlip) {
+        const settings = pageFlip.getSettings();
+        if (settings) {
+          settings.width = targetPW;
+          settings.height = targetH;
+          settings.minWidth = isMob ? targetPW : Math.min(140, Math.round(targetPW * 0.7));
+          settings.maxWidth = Math.max(900, targetPW * 2);
+          settings.minHeight = Math.min(180, Math.round(targetH * 0.7));
+          settings.maxHeight = Math.max(1200, targetH * 2);
+          settings.usePortrait = isMob;
+        }
+
+        try {
+          pageFlip.update();
+        } catch (err) {}
+
+        try {
+          updateBookState(pageFlip.getCurrentPageIndex());
+        } catch (err) {}
+      }
     }
 
+    // Responsive observers & resize listeners
     const headerElement = document.querySelector(".site-header");
-    if (headerElement && typeof ResizeObserver !== "undefined") {
+    if (typeof ResizeObserver !== "undefined") {
       const ro = new ResizeObserver(() => updateDimensions());
-      ro.observe(headerElement);
+      if (headerElement) ro.observe(headerElement);
+      if (stageContainer) ro.observe(stageContainer);
     }
 
     let resizeTimer: any;
-    window.addEventListener("resize", () => {
+    let resizeEndTimer: any;
+    const handleResize = () => {
+      // Disable slow CSS transitions during zoom/resize so positions snap immediately without drifting
+      document.body.classList.add("is-resizing");
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => updateDimensions(), 100);
-    });
+      clearTimeout(resizeEndTimer);
+      resizeTimer = setTimeout(() => {
+        updateDimensions();
+      }, 16);
+      resizeEndTimer = setTimeout(() => {
+        document.body.classList.remove("is-resizing");
+      }, 150);
+    };
+
+    window.addEventListener("resize", handleResize);
   }
 
   if (document.readyState === "loading") {
