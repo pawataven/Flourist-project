@@ -145,7 +145,7 @@ const slideCount = specialSelections.length;
                 />
               </div>
 
-              <div class="min-w-0 flex flex-col justify-start border-t border-[#C5A259]/60 p-7 sm:p-9 md:col-span-7 md:justify-center md:border-t-0 md:p-10 lg:p-12 xl:p-14">
+              <div class="min-w-0 flex flex-col justify-start border-t border-[#C5A259]/60 p-7 sm:p-9 md:col-span-7 md:justify-center md:border-t-0 md:py-10 md:pr-10 md:pl-12 lg:py-12 lg:pr-12 lg:pl-[117px] xl:py-14 xl:pr-14 xl:pl-[117px]">
                 <p class="font-sans text-[11px] tracking-[0.28em] text-[#C5A259] uppercase sm:text-xs">
                   {selection.eyebrow}
                 </p>
@@ -164,68 +164,78 @@ const slideCount = specialSelections.length;
                   lang="th"
                   class="mt-5 sm:mt-6 max-w-md font-sans text-sm sm:text-base leading-relaxed text-[#FFFFFF]/90 [text-wrap:pretty]"
                 >
-                  {selection.description}
+                  {
+                    selection.descriptionLines ? (
+                      selection.descriptionLines.map((line) => (
+                        <span class="block">{line}</span>
+                      ))
+                    ) : (
+                      selection.description
+                    )
+                  }
                 </p>
-                <div class="mt-7 sm:mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 border-t border-[#C5A259]/60 pt-5 sm:pt-6">
-                  <span class="font-sans text-2xl sm:text-3xl font-light text-[#FFFFFF]">
-                    {selection.price}
-                  </span>
-                  <span class="font-sans text-xs sm:text-sm text-[#FFFFFF]/80">
-                    {selection.availability}
-                  </span>
-                </div>
-                <div class="mt-7 sm:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <a
-                    href={selection.branchHref}
-                    tabindex={index === 0 ? undefined : -1}
-                    class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
-                  >
-                    Find a branch{" "}
-                    <svg
-                      aria-hidden="true"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="inline-block"
+                <div class="mt-7 sm:mt-8 border-t border-[#C5A259]/60 pt-5 sm:pt-6">
+                  <div class="flex flex-col items-start gap-2.5 sm:grid sm:w-fit sm:max-w-full sm:grid-cols-[auto_auto] sm:items-baseline sm:gap-x-10 md:gap-x-12 sm:gap-y-4">
+                    <div class="flex w-full items-baseline justify-between gap-4 sm:contents">
+                      <span class="text-xl sm:text-2xl md:text-[1.65rem] lg:text-[1.85rem] xl:text-[2rem] uppercase font-light leading-none text-[#FFFFFF]">
+                        {selection.price}
+                      </span>
+                      <span class="text-right font-sans text-sm sm:text-base text-[#FFFFFF]/80 whitespace-nowrap shrink-0 sm:justify-self-end">
+                        {selection.availability}
+                      </span>
+                    </div>
+                    <a
+                      href={selection.branchHref}
+                      tabindex={index === 0 ? undefined : -1}
+                      class="inline-flex min-h-10 w-fit items-center gap-2.5 border-b border-[#C5A259] py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
                     >
-                      <path
-                        d="M1 9L9 1M9 1H3M9 1V7"
-                        stroke="currentColor"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </a>
-                  <button
-                    type="button"
-                    tabindex={index === 0 ? undefined : -1}
-                    aria-controls="delivery-options"
-                    aria-expanded="false"
-                    aria-haspopup="dialog"
-                    class="delivery-trigger inline-flex min-h-10 w-fit cursor-pointer items-center gap-2.5 border-b border-[#C5A259] bg-transparent py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
-                  >
-                    Order delivery{" "}
-                    <svg
-                      aria-hidden="true"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="inline-block"
+                      Find a branch{" "}
+                      <svg
+                        aria-hidden="true"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="inline-block"
+                      >
+                        <path
+                          d="M1 9L9 1M9 1H3M9 1V7"
+                          stroke="currentColor"
+                          stroke-width="1.4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                    <button
+                      type="button"
+                      tabindex={index === 0 ? undefined : -1}
+                      aria-controls="delivery-options"
+                      aria-expanded="false"
+                      aria-haspopup="dialog"
+                      class="delivery-trigger inline-flex min-h-10 w-fit cursor-pointer items-center gap-2.5 border-b border-[#C5A259] bg-transparent py-1.5 font-sans text-sm text-[#FFFFFF] transition-colors hover:text-[#C5A259] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259] sm:justify-self-end"
                     >
-                      <path
-                        d="M1 9L9 1M9 1H3M9 1V7"
-                        stroke="currentColor"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
+                      Order delivery{" "}
+                      <svg
+                        aria-hidden="true"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="inline-block"
+                      >
+                        <path
+                          d="M1 9L9 1M9 1H3M9 1V7"
+                          stroke="currentColor"
+                          stroke-width="1.4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -240,7 +250,7 @@ const slideCount = specialSelections.length;
               type="button"
               data-special-prev
               aria-label="Previous special selection"
-              class=" cursor-pointer absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
+              class="cursor-pointer absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 top-1/2 z-10 inline-flex size-9 sm:size-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#C5A259] bg-[#12221B] text-2xl text-[#FFFFFF] shadow-md transition hover:bg-[#C5A259] hover:text-[#12221B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C5A259]"
             >
               &lsaquo;
             </button>

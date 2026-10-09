@@ -9,11 +9,11 @@ async function buildFonts() {
     fs.mkdirSync(publicFontsDir, { recursive: true });
   }
 
-  console.log('1. Converting Mitr-Light to WOFF2...');
-  const mitr = fs.readFileSync('fonts/Mitr-Light.ttf');
+  console.log('1. Converting Mitr-ExtraLight to WOFF2...');
+  const mitr = fs.readFileSync('fonts/Mitr-ExtraLight.ttf');
   const mitrWoff2 = await fontverter.convert(mitr, 'woff2');
-  fs.writeFileSync(path.join(publicFontsDir, 'Mitr-Light.woff2'), mitrWoff2);
-  console.log(`✓ Mitr-Light.woff2 written (${mitrWoff2.length} bytes)`);
+  fs.writeFileSync(path.join(publicFontsDir, 'Mitr-ExtraLight.woff2'), mitrWoff2);
+  console.log(`✓ Mitr-ExtraLight.woff2 written (${mitrWoff2.length} bytes)`);
 
   console.log('2. Converting TAN-MON CHERI-Regular to WOFF2...');
   const tan = fs.readFileSync('fonts/TAN-MON CHERI-Regular.otf');

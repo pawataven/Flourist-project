@@ -24,14 +24,14 @@ import { productsDessert } from "../data/DessertData";
 
   <Navbar />
 
-  <!-- Fullscreen viewport layout containing Navbar spacer and Book stage -->
+  <!-- Viewport layout containing Book stage strictly below static Navbar -->
   <div
-    class="relative h-[100dvh] w-full flex flex-col bg-[#080a09] text-white overflow-hidden box-border"
+    class="relative h-[calc(100dvh-78px)] sm:h-[calc(100dvh-88px)] xl:h-[calc(100dvh-64px)] w-full flex flex-col bg-[#080a09] text-white overflow-hidden box-border"
   >
-    <!-- Navbar Spacer: dynamically matches the fixed header height so book is guaranteed to sit BELOW navbar -->
+    <!-- Navbar Spacer: hidden now that navbar is static in document flow -->
     <div
       id="menu-nav-spacer"
-      class="w-full shrink-0 h-[78px] sm:h-[88px] xl:h-[64px] pointer-events-none"
+      class="hidden"
     >
     </div>
 

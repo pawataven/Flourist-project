@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <flourist-navigation class="contents">
-    <header class="site-header group fixed inset-x-0 top-0 z-[100] text-white bg-[#12221b] border-b border-[#c5a259]/0 transition-all duration-300 ease-in-out data-[scrolled]:bg-[#080a09] data-[scrolled]:text-white data-[scrolled]:border-[#c5a259]/20 data-[scrolled]:shadow-lg data-[hidden]:-translate-y-full">
+    <header class="site-header w-full text-white bg-[#12221b] border-b border-[#c5a259]/20 relative z-50">
         <DesktopNav menuItems={menuItems} currentPath={currentPath} logo={logo} logohover={logohover} />
         <CompactNav logo={logo} logohover={logohover} />
     </header>
@@ -34,50 +34,21 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
         connectedCallback() {
             this.cleanup?.();
-            const header = this.querySelector<HTMLElement>(".site-header");
             const toggle = this.querySelector<HTMLButtonElement>(".menu-toggle");
             const dialog = this.querySelector<HTMLDialogElement>(".menu-dialog");
             const close = this.querySelector<HTMLButtonElement>(".close-menu");
 
-            if (!header || !toggle || !dialog || !close) return;
+            if (!toggle || !dialog || !close) return;
 
             const controller = new AbortController();
             const { signal } = controller;
             const desktop = window.matchMedia("(min-width: 1280px)");
-            let previousY = window.scrollY;
-            let frame = 0;
-            let isDeliveryOpen = false;
-
-            const updateHeader = () => {
-                frame = 0;
-                if (dialog.open || isDeliveryOpen) return;
-                const y = Math.max(0, window.scrollY);
-                header.toggleAttribute("data-scrolled", y > 16);
-
-                const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-                if (y <= 60) {
-                    header.removeAttribute("data-hidden");
-                } else if (y < maxScrollY && Math.abs(y - previousY) > 6) {
-                    const isScrollingDown = y > previousY;
-                    if (isScrollingDown) {
-                        if (header.contains(document.activeElement)) {
-                            (document.activeElement as HTMLElement)?.blur();
-                        }
-                        header.setAttribute("data-hidden", "");
-                    } else {
-                        header.removeAttribute("data-hidden");
-                    }
-                }
-                previousY = y;
-            };
 
             const closeMenu = () => {
                 if (!dialog.open) return;
                 dialog.close();
                 toggle.setAttribute("aria-expanded", "false");
                 unlockScroll();
-                previousY = Math.max(0, window.scrollY);
-                updateHeader();
             };
 
             const openMenu = () => {
@@ -85,7 +56,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 lockScroll();
                 dialog.showModal();
                 toggle.setAttribute("aria-expanded", "true");
-                header.removeAttribute("data-hidden");
             };
 
             toggle.addEventListener("click", openMenu, { signal });
@@ -134,19 +104,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             window.addEventListener(
                 "flourist:delivery-opened",
                 () => {
-                    isDeliveryOpen = true;
                     if (dialog.open) closeMenu();
-                    header.setAttribute("data-hidden", "");
-                },
-                { signal }
-            );
-
-            window.addEventListener(
-                "flourist:delivery-closed",
-                () => {
-                    isDeliveryOpen = false;
-                    previousY = Math.max(0, window.scrollY);
-                    updateHeader();
                 },
                 { signal }
             );
@@ -155,29 +113,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 "change",
                 () => {
                     if (desktop.matches) closeMenu();
-                    updateHeader();
                 },
                 { signal }
             );
 
-            header.addEventListener("focusin", () => header.removeAttribute("data-hidden"), { signal });
-
-            window.addEventListener(
-                "scroll",
-                () => {
-                    if (!frame) frame = window.requestAnimationFrame(updateHeader);
-                },
-                { passive: true, signal }
-            );
-
             window.addEventListener("pagehide", closeMenu, { signal });
             document.addEventListener("astro:before-swap", closeMenu, { signal });
-            updateHeader();
 
             this.cleanup = () => {
                 closeMenu();
                 controller.abort();
-                window.cancelAnimationFrame(frame);
             };
         }
 

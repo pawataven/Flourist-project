@@ -32,7 +32,7 @@ const [mobileBanner, desktopBanner] = await Promise.all([
   <Navbar />
   <main>
     <section
-      class="relative flex min-h-[75svh] sm:min-h-screen flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white"
+      class="relative flex min-h-[calc(75svh-78px)] sm:min-h-[calc(100vh-88px)] xl:min-h-[calc(100vh-64px)] flex-col justify-end lg:flex-row lg:items-center overflow-hidden bg-[#080a09] text-white"
     >
       <!-- Select one banner source for the current viewport. -->
       <picture>
@@ -54,14 +54,10 @@ const [mobileBanner, desktopBanner] = await Promise.all([
           loading="eager"
           fetchpriority="high"
           decoding="async"
-          class="absolute top-0 inset-x-0 w-full h-[65%] object-cover object-[50%_20%] lg:inset-0 lg:size-full lg:object-right"
+          class="absolute top-0 inset-x-0 w-full h-[65%] object-cover object-top lg:inset-0 lg:size-full lg:object-right-top"
         />
       </picture>
 
-      <div
-        class="lg:hidden absolute top-0 inset-x-0 h-28 bg-linear-to-b from-[#080a09]/80 via-[#080a09]/30 to-transparent pointer-events-none z-5"
-      >
-      </div>
       <div
         class="lg:hidden absolute inset-0 bg-linear-to-b from-transparent via-[#080a09]/40 via-40% to-[#080a09] to-70% pointer-events-none z-5"
       >
