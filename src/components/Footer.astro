@@ -9,7 +9,7 @@ import logo from "../assets/Asset 2-8.png";
 >
   <!-- Main Footer Content -->
   <div
-    class="page-container mx-auto max-w-7xl pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16"
+    class="footer-container w-full px-4 sm:px-8 md:px-14 lg:px-[120px] pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16"
   >
     <!-- Top Brand Statement -->
     <div
@@ -377,3 +377,18 @@ import logo from "../assets/Asset 2-8.png";
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 1024px) {
+    .footer-container {
+      padding-left: 120px !important;
+      padding-right: 120px !important;
+      max-width: 100% !important;
+    }
+  }
+</style>

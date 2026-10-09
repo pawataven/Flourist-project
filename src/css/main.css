@@ -66,14 +66,27 @@
 
 :root {
   background-color: #080a09;
-  --page-gutter: clamp(1.25rem, 5vw, 4rem);
+  --page-gutter: clamp(1.25rem, 5vw, 2.5rem);
 }
 
-/* Shared content gutter for every page and section. */
+@media (min-width: 1024px) {
+  :root {
+    --page-gutter: 120px;
+  }
+}
+
+/* Shared content gutter for every page and section (120px on desktop) */
 .page-container {
   width: 100%;
   margin-inline: auto;
   padding-inline: var(--page-gutter);
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    max-width: 100% !important;
+  }
 }
 
 html {

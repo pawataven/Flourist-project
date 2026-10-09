@@ -111,7 +111,7 @@ const slideCount = specialSelections.length;
   </div>
 
   <div
-    class="page-container relative z-10 mx-auto max-w-5xl py-10 sm:py-12 lg:py-16"
+    class="special-selection-container relative z-10 mx-auto w-full px-4 sm:px-8 md:px-14 lg:px-[262px] py-10 sm:py-16 lg:py-[125px]"
   >
     <div class="relative">
       <div
@@ -281,3 +281,18 @@ const slideCount = specialSelections.length;
     }
   </div>
 </section>
+
+<style>
+  .special-selection-container {
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 1024px) {
+    .special-selection-container {
+      padding-top: 125px !important;
+      padding-bottom: 125px !important;
+      padding-left: 262px !important;
+      padding-right: 262px !important;
+    }
+  }
+</style>
