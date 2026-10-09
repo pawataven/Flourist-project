@@ -49,7 +49,7 @@ import logo from "../assets/Asset 2-8.png";
 
     <!-- Navigation Columns Grid -->
     <div
-      class="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 lg:gap-8"
+      class="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-10 sm:gap-y-12 lg:gap-y-14 gap-x-8 md:gap-x-10 lg:gap-x-10 xl:gap-x-[70px]"
     >
       <!-- Col 1: Explore & Menu -->
       <div class="col-span-1">
@@ -190,87 +190,85 @@ import logo from "../assets/Asset 2-8.png";
         </ul>
       </div>
 
-      <!-- Col 4 & 5 Combined Wrapper: Customer Care, Ritual & Hours, and Social Links -->
+      <!-- Col 4: Customer Care -->
       <div
-        class="col-span-2 md:col-span-4 lg:col-span-2 pt-6 md:pt-0 border-t border-white/5 md:border-0"
+        class="col-span-1 pt-6 md:pt-0 border-t border-white/5 md:border-0"
       >
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-8">
-          <!-- Customer Care -->
-          <div>
-            <h3
-              class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5"
+        <h3
+          class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5"
+        >
+          Customer Care
+        </h3>
+        <ul
+          class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70"
+        >
+          <li>
+            <a
+              href="/contactUs"
+              class="hover:text-[#c5a259] transition-colors"
             >
-              Customer Care
-            </h3>
-            <ul
-              class="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-[13px] font-light text-white/70"
+              ศูนย์บริการลูกค้า (Contact Us)
+            </a>
+          </li>
+          <li>
+            <a
+              href="tel:0615120465"
+              class="hover:text-[#c5a259] transition-colors"
             >
-              <li>
-                <a
-                  href="/contactUs"
-                  class="hover:text-[#c5a259] transition-colors"
-                >
-                  ศูนย์บริการลูกค้า (Contact Us)
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:0615120465"
-                  class="hover:text-[#c5a259] transition-colors"
-                >
-                  061 512 0465
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:text-[#c5a259] transition-colors"
-                >
-                  LINE: @737nbfqd
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:flourist.bakehouse@gmail.com"
-                  class="hover:text-[#c5a259] transition-colors break-all"
-                >
-                  flourist.bakehouse@gmail.com
-                </a>
-              </li>
-            </ul>
-          </div>
+              061 512 0465
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#c5a259] transition-colors"
+            >
+              LINE: @737nbfqd
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:flourist.bakehouse@gmail.com"
+              class="hover:text-[#c5a259] transition-colors break-all"
+            >
+              flourist.bakehouse@gmail.com
+            </a>
+          </li>
+        </ul>
+      </div>
 
-          <!-- Ritual & Hours -->
-          <div>
-            <h3
-              class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5"
-            >
-              Ritual &amp; Hours
-            </h3>
-            <div
-              class="space-y-3 font-sans text-xs sm:text-[13px] font-light text-white"
-            >
-              <p class="leading-relaxed">
-                <span class="text-white font-normal">เปิดให้บริการ:</span><br />
-                วันจันทร์ &ndash; วันอาทิตย์<br />
-                เวลา 10:00 น. &ndash; 20:00 น.
-              </p>
-            </div>
+      <!-- Col 5: Ritual & Hours and Social Links (Docked to Right Edge) -->
+      <div
+        class="col-span-2 sm:col-span-1 md:col-span-4 lg:col-span-1 pt-6 md:pt-0 border-t border-white/5 md:border-0 flex flex-col lg:ml-auto w-full lg:w-fit"
+      >
+        <!-- Ritual & Hours -->
+        <div>
+          <h3
+            class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-4 sm:mb-5"
+          >
+            Ritual &amp; Hours
+          </h3>
+          <div
+            class="space-y-3 font-sans text-xs sm:text-[13px] font-light text-white"
+          >
+            <p class="leading-relaxed">
+              <span class="text-white font-normal">เปิดให้บริการ:</span><br />
+              วันจันทร์ &ndash; วันอาทิตย์<br />
+              เวลา 10:00 น. &ndash; 20:00 น.
+            </p>
           </div>
         </div>
 
-        <!-- Social Links: ติดตามข่าวสาร Flourist (Centered beneath Customer Care & Ritual Hours) -->
-        <div
-          class="pt-6 sm:pt-7 pb-6 sm:pb-7 lg:pb-0 flex flex-col items-center justify-center text-center"
-        >
+        <!-- Social Links: ติดตามข่าวสาร Flourist -->
+        <div class="pt-6 sm:pt-7 lg:pt-8">
           <h3
-            class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-3 sm:mb-3.5 text-center"
+            class="font-sans text-[12px] sm:text-sm tracking-[0.2em] uppercase text-[#c5a259] font-medium mb-3 sm:mb-3.5"
           >
             ติดตามข่าวสาร
           </h3>
-          <div class="flex items-center justify-center gap-3.5 sm:gap-4">
+          <div class="flex items-center gap-[8px]">
             <!-- Facebook -->
             <a
               href="https://www.facebook.com/profile.php?id=61568691261547"
@@ -298,32 +296,6 @@ import logo from "../assets/Asset 2-8.png";
                 ></path>
               </svg>
             </a>
-
-            <!-- Instagram -->
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram Flourist"
-              title="Instagram"
-              class="text-[#c5a259] hover:text-white transition-all duration-200 hover:-translate-y-0.5 inline-flex items-center justify-center"
-            >
-              <svg
-                fill="#c5a259"
-                width="38px"
-                height="38px"
-                viewBox="-2 -2 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMinYMin"
-                class="jam jam-instagram"
-                ><path
-                  d="M14.017 0h-8.07A5.954 5.954 0 0 0 0 5.948v8.07a5.954 5.954 0 0 0 5.948 5.947h8.07a5.954 5.954 0 0 0 5.947-5.948v-8.07A5.954 5.954 0 0 0 14.017 0zm3.94 14.017a3.94 3.94 0 0 1-3.94 3.94h-8.07a3.94 3.94 0 0 1-3.939-3.94v-8.07a3.94 3.94 0 0 1 3.94-3.939h8.07a3.94 3.94 0 0 1 3.939 3.94v8.07z"
-                ></path><path
-                  d="M9.982 4.819A5.17 5.17 0 0 0 4.82 9.982a5.17 5.17 0 0 0 5.163 5.164 5.17 5.17 0 0 0 5.164-5.164A5.17 5.17 0 0 0 9.982 4.82zm0 8.319a3.155 3.155 0 1 1 0-6.31 3.155 3.155 0 0 1 0 6.31z"
-                ></path><circle cx="15.156" cy="4.858" r="1.237"></circle></svg
-              >
-            </a>
-
             <!-- LINE -->
             <a
               href="https://line.me/R/ti/p/@737nbfqd?ts=10040200&oat_content=url"
