@@ -92,7 +92,7 @@ const [mobileBanner, desktopBanner] = await Promise.all([
     <SpecialSelection />
     <section
       id="best-sellers"
-      class="page-container mx-auto max-w-7xl py-12 sm:py-16 lg:py-24"
+      class="page-container mx-auto py-12 sm:py-16 lg:py-[127px]"
     >
       <h2 class="mb-6 sm:mb-8 font-display uppercase text-[clamp(15px,4.5vw,22px)] tracking-[0.1em] sm:tracking-[0.14em] text-[#c5a259] whitespace-nowrap">
         Best Sellers
@@ -127,3 +127,12 @@ const [mobileBanner, desktopBanner] = await Promise.all([
     </section>
   </main>
 </Layout>
+
+<style>
+  @media (min-width: 1024px) {
+    #best-sellers {
+      padding-top: 127px !important;
+      padding-bottom: 127px !important;
+    }
+  }
+</style>
