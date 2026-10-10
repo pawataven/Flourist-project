@@ -7,12 +7,12 @@ import { stores } from "../data/StoreData";
 <Layout>
   <Navbar />
   <main class="pt-16 sm:pt-24 min-h-screen text-white">
-    <div class="page-container mx-auto max-w-7xl">
+    <div class="page-container mx-auto w-full">
 
       <!-- Search Section -->
       <div class="border-b border-white/10 py-5">
         <label for="store-search" class="block text-sm font-medium text-white/70 mb-3">Search</label>
-        <div class="flex items-center gap-3 max-w-md w-full">
+        <div class="flex items-center gap-3 w-full lg:max-w-[380px] xl:max-w-[420px]">
           <input
             id="store-search"
             type="text"
@@ -30,11 +30,11 @@ import { stores } from "../data/StoreData";
       </div>
 
       <!-- Main Content: List + Map -->
-      <div class="flex flex-col lg:flex-row gap-6 py-6">
+      <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr] gap-6 lg:gap-8 py-6 w-full items-start">
 
         <!-- Store List Panel (Top on mobile/tablet, Left on desktop) -->
-        <div id="store-list-panel" class="w-full lg:w-[40%] lg:min-w-[320px]">
-          <ul id="store-list" class="max-h-[396px] overflow-y-auto divide-y divide-white/10 border border-white/15 rounded-md bg-[#0e1411]">
+        <div id="store-list-panel" class="w-full">
+          <ul id="store-list" class="h-[396px] overflow-y-auto divide-y divide-white/10 border border-white/15 rounded-md bg-[#0e1411]">
             {stores.map((store) => (
               <li
                 class="store-item group flex items-center justify-between gap-3 cursor-pointer px-6 py-4 transition-colors hover:bg-[#18241e]"
@@ -62,8 +62,7 @@ import { stores } from "../data/StoreData";
         </div>
 
         <!-- Leaflet Map (Bottom on mobile/tablet, Right on desktop) -->
-        <div class="w-full lg:flex-1 flex flex-col">
-          <p class="text-sm font-medium text-white/80 mb-2">Map</p>
+        <div class="w-full">
           <div id="map-container" class="relative rounded-md overflow-hidden border border-white/15 h-[396px] shadow-lg">
             <div id="leaflet-map" class="absolute inset-0 z-0"></div>
           </div>

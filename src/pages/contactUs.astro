@@ -8,7 +8,7 @@ import matchaPic from "../assets/contactUs/S__78217219.png";
 <Layout>
   <Navbar />
   <main class="min-h-screen bg-[#080a09] text-white pt-12 sm:pt-20 lg:pt-28 pb-20 sm:pb-32 selection:bg-[#c5a259] selection:text-[#080a09]">
-    <div class="page-container mx-auto max-w-6xl">
+    <div class="page-container mx-auto w-full">
       
       <!-- Top Title & Subtitle -->
       <header class="text-center max-w-3xl mx-auto">
@@ -22,7 +22,7 @@ import matchaPic from "../assets/contactUs/S__78217219.png";
       </header>
 
       <!-- Contact Channels (Grid on desktop, vertical stack on mobile) -->
-      <div class="mt-12 sm:mt-20 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-8 lg:gap-14 text-center">
+      <div class="mt-12 sm:mt-20 w-full grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-8 lg:gap-14 text-center">
         
         <!-- Phone -->
         <div class="flex flex-col items-center h-full">
@@ -104,36 +104,38 @@ import matchaPic from "../assets/contactUs/S__78217219.png";
           VISIT OUR MATCHA HOUSE
         </h2>
 
-        <p class="font-sans font-light text-sm sm:text-base text-white/70 max-w-2xl mx-auto mt-3 sm:mt-5 leading-relaxed px-2 sm:px-4">
-          <span class="inline-block">ไปที่หน้าร้าน Flourist ด้วยตนเอง</span>
-          <span class="inline-block">เพื่อรับคำแนะนำเกี่ยวกับทุกสิ่ง</span>
-          <span class="inline-block">ตั้งแต่การเลือกสายพันธุ์ชา</span>
-          <span class="inline-block">และการจัดเซ็ตของขวัญ</span>
-          <span class="inline-block">ไปจนถึงบริการแนะนำเมนูจับคู่ขนม</span>
-        </p>
+        <div class="max-w-2xl mx-auto px-2 sm:px-4">
+          <p class="font-sans font-light text-sm sm:text-base text-white/70 mt-3 sm:mt-5 leading-relaxed">
+            <span class="inline-block">ไปที่หน้าร้าน Flourist ด้วยตนเอง</span>
+            <span class="inline-block">เพื่อรับคำแนะนำเกี่ยวกับทุกสิ่ง</span>
+            <span class="inline-block">ตั้งแต่การเลือกสายพันธุ์ชา</span>
+            <span class="inline-block">และการจัดเซ็ตของขวัญ</span>
+            <span class="inline-block">ไปจนถึงบริการแนะนำเมนูจับคู่ขนม</span>
+          </p>
 
-        <!-- Centered image matching reference -->
-        <div class="mt-10 sm:mt-14 mx-auto w-full max-w-[520px] px-1 sm:px-4">
-          <div class="relative overflow-hidden rounded-lg sm:rounded-xl border border-white/10 shadow-2xl bg-[#121915]">
-            <Image
-              src={matchaPic}
-              alt="บรรยากาศหน้าร้านและขนมชาเขียว Flourist Matchahouse"
-              quality={100}
-              class="w-full h-auto object-cover max-h-[420px] sm:max-h-[640px]"
-              loading="lazy"
-            />
+          <!-- Centered image matching text width -->
+          <div class="mt-10 sm:mt-14 w-full">
+            <div class="relative overflow-hidden rounded-lg sm:rounded-xl border border-white/10 shadow-2xl bg-[#121915]">
+              <Image
+                src={matchaPic}
+                alt="บรรยากาศหน้าร้านและขนมชาเขียว Flourist Matchahouse"
+                quality={100}
+                class="w-full h-auto object-cover max-h-[460px] sm:max-h-[640px]"
+                loading="lazy"
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- Description below image -->
-        <p class="font-sans font-light text-sm sm:text-base text-white/70 max-w-xl mx-auto mt-6 sm:mt-10 leading-relaxed px-2 sm:px-4">
-          <span class="inline-block">เพลิดเพลินไปกับการเข้าใช้บริการร้านสาขาที่คุณเลือก</span>
-          <span class="inline-block">ในช่วงเวลาและวันที่คุณต้องการ</span>
-          <span class="inline-block">เมื่อคุณมาถึง</span>
-          <span class="inline-block">ผู้เชี่ยวชาญของเราจะแนะนำเกี่ยวกับ</span>
-          <span class="inline-block">ซีเล็คชั่น<span class="whitespace-nowrap">มัทฉะ</span></span>
-          <span class="inline-block">และ<span class="whitespace-nowrap">ขนมอบ</span>ที่คัดสรรมาให้คุณได้ลิ้มลอง</span>
-        </p>
+          <!-- Description below image -->
+          <p class="font-sans font-light text-sm sm:text-base text-white/70 mt-6 sm:mt-10 leading-relaxed">
+            <span class="inline-block">เพลิดเพลินไปกับการเข้าใช้บริการร้านสาขาที่คุณเลือก</span>
+            <span class="inline-block">ในช่วงเวลาและวันที่คุณต้องการ</span>
+            <span class="inline-block">เมื่อคุณมาถึง</span>
+            <span class="inline-block">ผู้เชี่ยวชาญของเราจะแนะนำเกี่ยวกับ</span>
+            <span class="inline-block">ซีเล็คชั่น<span class="whitespace-nowrap">มัทฉะ</span></span>
+            <span class="inline-block">และ<span class="whitespace-nowrap">ขนมอบ</span>ที่คัดสรรมาให้คุณได้ลิ้มลอง</span>
+          </p>
+        </div>
 
         <!-- View Map Action Link -->
         <div class="mt-6 sm:mt-8">
