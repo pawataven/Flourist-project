@@ -67,31 +67,31 @@ export const menuBookPages: MenuBookPage[] = [
     subtitle: "Matcha Taro Mochi",
     density: "soft",
     type: "product-spotlight",
-    customImage: "/menu-pages/Menu A4-03.svg",
+    customImage: "/menu-pages/Menu A4_Artboard 3.svg",
   },
 
-  // 4. หน้าที่ 3 (Spread 2 ซ้าย): เมนู SIGNATURE (Tiramisu, Ichigo, Spanner)
+  // 4. หน้าที่ 3 (Spread 2 ซ้าย): เมนู COCOA DUTCH
   {
     id: "page-4",
     pageIndex: 3,
     pageNumberLabel: "3",
-    title: "SIGNATURE CREATIONS",
-    subtitle: "Tiramisu, Ichigo, Spanner",
-    density: "soft",
-    type: "catalog",
-    customImage: "/menu-pages/Menu A4-04.svg",
-  },
-
-  // 5. หน้าที่ 4 (Spread 2 ขวา): เมนู COCOA DUTCH
-  {
-    id: "page-5",
-    pageIndex: 4,
-    pageNumberLabel: "4",
     title: "COCOA DUTCH",
     subtitle: "Crafted Dutch Cocoa",
     density: "soft",
     type: "product-spotlight",
-    customImage: "/menu-pages/Menu A4-05.svg",
+    customImage: "/menu-pages/Menu A4_Artboard 4.svg",
+  },
+
+  // 5. หน้าที่ 4 (Spread 2 ขวา): เมนู SIGNATURE CREATIONS
+  {
+    id: "page-5",
+    pageIndex: 4,
+    pageNumberLabel: "4",
+    title: "SIGNATURE CREATIONS",
+    subtitle: "Tiramisu, Ichigo, Spanner",
+    density: "soft",
+    type: "catalog",
+    customImage: "/menu-pages/Menu A4_Artboard 5.svg",
   },
 
   // 6. หน้าที่ 5 (Spread 3 ซ้าย): เมนู SIGNATURE (Blue Okinawa, Motoro, Double Flow)
